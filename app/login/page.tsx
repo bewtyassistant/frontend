@@ -22,7 +22,7 @@ export default function Login() {
           <Link
             href="/forgot-password"
             fontSize="1.6rem"
-            color={{ base: "white", lg: "brand.main" }}
+            color="brand.main"
           >
             Forgot password?
           </Link>
@@ -30,12 +30,12 @@ export default function Login() {
         <SubmitButton>Login</SubmitButton>
         <Text
           textAlign="center"
-          color={{ base: "white", lg: "gray.400" }}
+          color="gray.400"
           fontSize="1.6rem"
           mt=".8rem"
         >
           Don&apos;t have an account?{" "}
-          <Link href="/signup" color={{ base: "white", lg: "brand.main" }}>
+          <Link href="/signup" color="brand.main">
             Sign Up
           </Link>
         </Text>

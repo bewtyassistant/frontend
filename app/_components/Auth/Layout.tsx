@@ -42,25 +42,24 @@ export default function AuthLayout({
           pos={{ base: "absolute", lg: "relative" }}
         ></Box>
         <Flex
-          w={{ base: "95dvw", lg: "50%" }}
+          w={{ base: "90dvw", lg: "50%" }}
           mt={{ base: "18rem", lg: 0}}
           flexShrink="0"
           boxShadow={{ base: "0 0 20px #0000002e", lg: "none" }}
           backdropFilter={{ base: "blur(3px)", lg: "none" }}
           background="white"
           zIndex="3"
-          minH="70dvh"
-          maxW={{ base: "60rem", lg: "initial" }}
+          minH="76dvh"
+          maxW={{ base: "40rem", lg: "initial" }}
           py={{ base: "3.2rem" }}
           px="3rem"
-          rounded={{ base: "1.2rem", lg: "0" }}
           color="dark.100"
           justifyContent="center"
           alignItems="center"
           flexDir="column"
-          gap={{ base: "1rem", lg: "10rem" }}
+          gap={{ base: "3rem", lg: "10rem" }}
         >
-          <Flex gap=".8rem" flexDir="column" textAlign="center">
+          <Flex gap="2rem" flexDir="column" textAlign="center">
             <Heading fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
               {headingText}
             </Heading>
