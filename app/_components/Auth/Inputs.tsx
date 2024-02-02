@@ -1,10 +1,12 @@
 import {
   Button,
+  ButtonProps,
   InputProps,
   PinInput,
   PinInputField,
   PinInputFieldProps,
   PinInputProps,
+  Text,
 } from "@chakra-ui/react"
 import { InputGroup, FormLabel, Input } from "@chakra-ui/react"
 import { ReactNode, useMemo } from "react"
@@ -14,38 +16,39 @@ export function AuthInput({
   inputProps,
 }: {
   label: string
-  inputProps: InputProps
+  inputProps: InputProps & { hasError?: boolean, errorDescription?: string }
 }) {
+  const { hasError, errorDescription, ...otherInputProps } = inputProps
   return (
     <InputGroup flexDir="column" w="full" maxW="40rem">
       <FormLabel
         fontWeight="600"
-        color={{ base: "white", lg: "dark.100" }}
+        color="dark.100"
         fontSize="1.4rem"
         lineHeight="normal"
       >
         {label}
       </FormLabel>
       <Input
-        borderColor={{ base: "white", lg: "gray.100" }}
-        _placeholder={{ color: { base: "#ffffffa3", lg: "gray.300" } }}
+        borderColor="gray.100"
+        _placeholder={{ color: "gray.300" }}
         fontSize="1.6rem"
         lineHeight="normal"
         rounded=".2rem"
         px="1.6rem"
         py="1.1rem"
-        color={{ base: "white", lg: "dark.100" }}
-        {...inputProps}
+        color="dark.100"
+        {...otherInputProps}
       />
+      {hasError && <Text color="red.main" fontSize="1.2rem">{errorDescription}</Text>}
     </InputGroup>
   )
 }
 
 export function SubmitButton({
   children,
-}: {
-  children: ReactNode | ReactNode[]
-}) {
+  ...props
+}: ButtonProps) {
   return (
     <Button
       h="unset"
@@ -55,8 +58,9 @@ export function SubmitButton({
       px="1.6rem"
       py="2rem"
       mt={{ base: "5rem", lg: "6.4rem" }}
-      bg={{ base: "white", lg: "brand.main" }}
-      color={{ base: "brand.main", lg: "white" }}
+      bg="brand.main"
+      color="white"
+      {...props}
     >
       {children}
     </Button>
@@ -76,7 +80,7 @@ export function CustomPinInput({
   fieldsCount: number
 }) {
   const fieldsArray = useMemo(
-    () => new Array(fieldsCount).fill(Math.random()),
+    () => new Array(fieldsCount).fill(null).map((_, idx) => idx),
     [fieldsCount]
   )
   return (

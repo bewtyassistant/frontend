@@ -35,39 +35,36 @@ export default function AuthLayout({
           w={{ base: "full", lg: "50%" }}
           flexShrink="0"
           bgRepeat="no-repeat"
-          bgPos="center"
+          bgPos={{ base: "center 60px", lg: "center" }}
           bgSize={{ base: "contain", sm: "auto", lg: "56rem 66.2rem" }}
           bgImage="url(/images/auth-bg.png)"
           bgColor="brand.main"
           pos={{ base: "absolute", lg: "relative" }}
-          filter={{ base: "brightness(.4)" , lg: "none" }}
         ></Box>
         <Flex
           w={{ base: "95dvw", lg: "50%" }}
+          mt={{ base: "18rem", lg: 0}}
           flexShrink="0"
           boxShadow={{ base: "0 0 20px #0000002e", lg: "none" }}
           backdropFilter={{ base: "blur(3px)", lg: "none" }}
-          background={{
-            base: "#ffffff6e",
-            lg: "white",
-          }}
+          background="white"
           zIndex="3"
-          minH="80dvh"
+          minH="70dvh"
           maxW={{ base: "60rem", lg: "initial" }}
-          py={{ base: "4rem" }}
+          py={{ base: "3.2rem" }}
           px="3rem"
           rounded={{ base: "1.2rem", lg: "0" }}
-          color={{ base: "white", lg: "dark.100" }}
+          color="dark.100"
           justifyContent="center"
           alignItems="center"
           flexDir="column"
-          gap={{ base: "5rem", lg: "10rem" }}
+          gap={{ base: "1rem", lg: "10rem" }}
         >
           <Flex gap=".8rem" flexDir="column" textAlign="center">
             <Heading fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
               {headingText}
             </Heading>
-            {subHeadingText && <Text maxW="32.5rem" color={{ base: "white", lg: "gray.400" }} fontSize="1.6rem">{subHeadingText}</Text>}
+            {subHeadingText && <Text maxW="34rem" color="gray.400" fontSize="1.6rem">{subHeadingText}</Text>}
           </Flex>
           <Flex justifyContent="center" w="full">{children}</Flex>
         </Flex>
