@@ -2,6 +2,7 @@ import {
   Button,
   ButtonProps,
   InputProps,
+  LinkProps,
   PinInput,
   PinInputField,
   PinInputFieldProps,
@@ -16,7 +17,7 @@ export function AuthInput({
   inputProps,
 }: {
   label: string
-  inputProps: InputProps & { hasError?: boolean, errorDescription?: string }
+  inputProps: InputProps & { hasError?: boolean; errorDescription?: string }
 }) {
   const { hasError, errorDescription, ...otherInputProps } = inputProps
   return (
@@ -40,26 +41,19 @@ export function AuthInput({
         color="dark.100"
         {...otherInputProps}
       />
-      {hasError && <Text color="red.main" fontSize="1.2rem">{errorDescription}</Text>}
+      {hasError && (
+        <Text color="red.main" fontSize="1.2rem">
+          {errorDescription}
+        </Text>
+      )}
     </InputGroup>
   )
 }
 
-export function SubmitButton({
-  children,
-  ...props
-}: ButtonProps) {
+export function SubmitButton({ children, variant, ...props }: ButtonProps & LinkProps) {
   return (
     <Button
-      h="unset"
-      _hover={{ backgroundColor: "brand.300", color: "brand.main" }}
-      _active={{ backgroundColor: "brand.200", color: "brand.main" }}
-      borderRadius=".4rem"
-      px="1.6rem"
-      py="2rem"
-      mt={{ base: "5rem", lg: "6.4rem" }}
-      bg="brand.main"
-      color="white"
+      variant={variant || "filled"}
       {...props}
     >
       {children}
@@ -84,14 +78,14 @@ export function CustomPinInput({
     [fieldsCount]
   )
   return (
-    <PinInput placeholder="" focusBorderColor="brand.300">
+    <PinInput placeholder="" focusBorderColor="brand.300" {...pinInputProps}>
       {fieldsArray.map((field) => (
         <PinInputField
           key={field}
-          w={{ base: "2rem", md: "3rem", lg: "5.2rem" }}
-          h={{ base: "2rem", md: "3rem", lg: "5.2rem" }}
+          w={{ base: "3.9rem", lg: "5.2rem" }}
+          h={{ base: "3.9rem", lg: "5.2rem" }}
           rounded="none"
-          fontSize={{ base: "1.2rem", md: "1.4rem", lg: "1.6rem"}}
+          fontSize={{ base: "1.2rem", md: "1.4rem", lg: "1.6rem" }}
           {...pinInputFieldProps}
         />
       ))}
