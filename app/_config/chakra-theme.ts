@@ -31,7 +31,7 @@ const colors = {
     50: "#49C3A733",
   },
   red: {
-    main: "#FE251B",
+    main: "#D02E2E",
     50: "#FF00004D"
   },
   dark: {

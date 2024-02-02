@@ -2,10 +2,12 @@ import { defineStyleConfig } from "@chakra-ui/react"
 const Button = defineStyleConfig({
   baseStyle: {
     fontWeight: "600",
-    borderRadius: "1rem",
     cursor: "pointer",
     textAlign: "center",
     h: "unset",
+    borderRadius: ".4rem",
+    px: "1.6rem",
+    py: "2rem",
   },
   sizes: {
     sm: {
@@ -19,46 +21,27 @@ const Button = defineStyleConfig({
     filled: {
       color: "white.main",
       background: "brand.main",
-    },
-    brand: {
-      display: "flex",
-      padding: "0px 22px",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "1rem",
-      background: "brand.main",
-      textAlign: "center",
-      px: "2.2rem",
-      py: "1.045rem",
       h: "unset",
-      color: "white.main",
-      _hover: {
-        filter: "brightness(115%)",
-        textDecor: "none"
-      },
+      _hover: { backgroundColor: "brand.300", color: "brand.main" },
+      _active: { backgroundColor: "brand.200", color: "brand.main" },
+      borderRadius: ".4rem",
+      px: "1.6rem",
+      py: "2rem",
     },
-    "brand-secondary": {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "1rem",
-      background: "brand.10",
-      textAlign: "center",
-      px: "2rem",
-      py: "1.55rem",
+    transparent: {
+      h: "unset",
+      _hover: { backgroundColor: "brand.300", color: "brand.main" },
+      _active: { backgroundColor: "brand.200", color: "brand.main" },
+      borderRadius: ".4rem",
+      px: "1.6rem",
+      py: "2rem",
+      borderColor: "brand.main",
+      border: "1px solid",
       color: "brand.main",
-      textTransform: "capitalize",
-      height: "auto",
-      _hover: {
-        textDecor: "none",
-        background: "brand.main",
-        color: "white.main",
-      },
     },
-
   },
   defaultProps: {
-    size: "sm"
+    size: "sm",
   },
 })
 
