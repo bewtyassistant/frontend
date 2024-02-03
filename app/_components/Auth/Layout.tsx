@@ -36,7 +36,7 @@ export default function AuthLayout({
           flexShrink="0"
           bgRepeat="no-repeat"
           bgPos={{ base: "center 50px", lg: "center" }}
-          bgSize={{ base: "contain", sm: "33rem 44remm", lg: "56rem 66.2rem" }}
+          bgSize={{ base: "contain", sm: "33rem 44rem", lg: "56rem 66.2rem" }}
           bgImage="url(/images/auth-bg.png)"
           bgColor="brand.main"
           pos={{ base: "absolute", lg: "relative" }}
