@@ -48,6 +48,7 @@ export default function AuthLayout({
           boxShadow={{ base: "0 0 20px #0000002e", lg: "none" }}
           backdropFilter={{ base: "blur(3px)", lg: "none" }}
           background="white"
+          mb="4rem"
           zIndex="3"
           minH="76dvh"
           maxW={{ base: "40rem", lg: "initial" }}

@@ -103,7 +103,7 @@ export default function Signup() {
         >
           {errors.fetch}
         </Text>
-        <Flex flexDir="column" gap="2.4rem">
+        <Flex flexDir="column" gap="2.4rem" mb="4rem">
           <AuthInput
             label={"Signup as"}
             inputProps={{
@@ -180,9 +180,9 @@ export default function Signup() {
             {" "}
             terms of service
           </Link>{" "}
-          and{" "}
+          and privacy {" "}
           <Link href="#" color="brand.main">
-            privacy policy
+            policy
           </Link>
           .
         </Text>
