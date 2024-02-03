@@ -52,10 +52,11 @@ export default function AuthLayout({
           zIndex="3"
           minH="76dvh"
           maxW={{ base: "40rem", lg: "initial" }}
-          py={{ base: "3.2rem" }}
+          pt={{ base: "7rem" }}
+          pb={{ base: "3.2rem" }}
           px="3rem"
           color="dark.100"
-          justifyContent="center"
+          justifyContent="start"
           alignItems="center"
           flexDir="column"
           gap={{ base: "3rem", lg: "10rem" }}
@@ -66,7 +67,7 @@ export default function AuthLayout({
             </Heading>
             {subHeadingText && <Text maxW="34rem" color="gray.400" fontSize="1.6rem">{subHeadingText}</Text>}
           </Flex>
-          <Flex justifyContent="center" w="full">{children}</Flex>
+          <Flex justifyContent="center" w="full" mb="auto" mt="1rem">{children}</Flex>
         </Flex>
       </Flex>
     </>
