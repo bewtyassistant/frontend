@@ -119,9 +119,9 @@ export default function Signup() {
                   <option>vendor</option>
                 </>
               ),
-              hasError: Boolean(errors.accountType),
-              errorDescription: errors.accountType,
             }}
+            hasError={Boolean(errors.accountType)}
+            errorDescription={errors.accountType}
           />
           <AuthInput
             label={"Email"}
@@ -130,9 +130,9 @@ export default function Signup() {
               placeholder: "**********",
               name: "email",
               onChange: handleChange,
-              hasError: Boolean(errors.email),
-              errorDescription: errors.email,
             }}
+            hasError={Boolean(errors.email)}
+            errorDescription={errors.email}
           />
           <AuthInput
             label={"Password"}
@@ -141,9 +141,9 @@ export default function Signup() {
               placeholder: "**********",
               name: "password",
               onChange: handleChange,
-              hasError: Boolean(errors.password),
-              errorDescription: errors.password,
             }}
+            hasError={Boolean(errors.password)}
+            errorDescription={errors.password}
           />
           <AuthInput
             label={"Re-type Password"}
@@ -152,9 +152,9 @@ export default function Signup() {
               placeholder: "**********",
               name: "confirmPassword",
               onChange: handleChange,
-              hasError: Boolean(errors.password),
-              errorDescription: errors.password,
             }}
+            hasError={Boolean(errors.confirmPassword)}
+            errorDescription={errors.confirmPassword}
           />
         </Flex>
         <SubmitButton
@@ -180,7 +180,7 @@ export default function Signup() {
             {" "}
             terms of service
           </Link>{" "}
-          and privacy {" "}
+          and privacy{" "}
           <Link href="#" color="brand.main">
             policy
           </Link>

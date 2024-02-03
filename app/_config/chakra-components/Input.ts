@@ -24,11 +24,6 @@ const baseStyle = definePartsStyle({
       boxShadow: "none",
       outline: "none"
     },
-    _focusVisible: {
-      outline: "0px",
-      boxShadow: "none",
-      borderColor: "dark.100"
-    }
   },
   addon: {
     _hover: {
