@@ -11,17 +11,22 @@ import {
 } from "@chakra-ui/react"
 import { CustomPinInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
-import { FormEventHandler, useCallback, useEffect, useMemo, useState } from "react"
+import {
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import useAxios from "../_hooks/useAxios"
-import SuccessCheckMark from "../_assets/SuccessCheckMark"
 import { useRouter } from "next/navigation"
+import SuccessDisplay from "../_components/Auth/SuccessDisplay"
 
-const FETCH_ERROR_THRESHOLD = 3
 export default function VerifyEmail() {
   const router = useRouter()
-  
+
   useEffect(() => {
-    if(sessionStorage.getItem("BA_USER_EMAIL") === null){
+    if (sessionStorage.getItem("BA_USER_EMAIL") === null) {
       router.push("/")
     }
   }, [router])
@@ -39,7 +44,9 @@ export default function VerifyEmail() {
   const [verificationCode, setVerificationCode] = useState("")
   const [loading, setLoading] = useState(false)
   const shouldDisplayError = useMemo(
-    () => fetchError && failedAttempts >= FETCH_ERROR_THRESHOLD,
+    () =>
+      fetchError &&
+      failedAttempts >= Number(process.env.NEXT_PUBLIC_FETCH_ERROR_THRESHOLD),
     [failedAttempts, fetchError]
   )
 
@@ -88,14 +95,14 @@ export default function VerifyEmail() {
       } else {
         setFetchError(true)
         setErrorMsg(
-          failedAttempts >= FETCH_ERROR_THRESHOLD - 1
+          failedAttempts >=
+            Number(process.env.NEXT_PUBLIC_FETCH_ERROR_THRESHOLD) - 1
             ? "Invalid code, resend code or contact support if this persists"
             : res.message
         )
         setFailedAttempts((prev) => prev + 1)
       }
       setLoading(false)
-      console.log(verificationCode, "here", res)
     },
     [failedAttempts, fetchData, verificationCode]
   )
@@ -118,7 +125,11 @@ export default function VerifyEmail() {
         as={success ? "div" : "form"}
         onSubmit={handleSubmit}
       >
-        <SuccessDisplay show={success} />
+        <SuccessDisplay
+          text=" You have successfully created your account, login to begin using Bewty
+        Assistant"
+          show={success}
+        />
         <FormInput
           show={!success}
           handleChange={handleChange}
@@ -134,31 +145,31 @@ export default function VerifyEmail() {
           mt={{ base: "5rem", lg: "6.4rem" }}
           gap="1rem"
         >
-          <SubmitButton
-            isLoading={loading}
-            loadingText="Verifying code..."
-            type="submit"
-            href="/login"
-            as={success ? Link : "button"}
-          >
-            {success ? "Login" : "Verify"}
-          </SubmitButton>
+          {!success && (
+            <SubmitButton
+              isLoading={loading}
+              loadingText="Verifying code..."
+              type="submit"
+            >
+              Verify
+            </SubmitButton>
+          )}
           <ResendCodeButton
             show={shouldDisplayError}
             onClick={() => {
-                  toast.promise(handleResendVerificationCode(), {
-                    success: {
-                      description:
-                        "Please check your email for a verification code.",
-                    },
-                    error: {
-                      description: "Something went wrong. We're working on it.",
-                    },
-                    loading: {
-                      title: "Please hang on...",
-                      description: "Resending code to your email",
-                    },
-                  })
+              toast.promise(handleResendVerificationCode(), {
+                success: {
+                  description:
+                    "Please check your email for a verification code.",
+                },
+                error: {
+                  description: "Something went wrong. We're working on it.",
+                },
+                loading: {
+                  title: "Please hang on...",
+                  description: "Resending code to your email",
+                },
+              })
             }}
           />
         </Flex>
@@ -197,25 +208,25 @@ function ResendCodeButton({ show, ...rest }: ButtonProps & { show: boolean }) {
   )
 }
 
-function SuccessDisplay({ show }: { show: boolean }) {
-  if (!show) return null
-  return (
-    <Flex
-      gap={{ base: "4rem" }}
-      flexDir="column"
-      alignItems="center"
-      textAlign="center"
-    >
-      <SuccessCheckMark />
-      <Text maxW="34rem" color="gray.400" fontSize="1.6rem">
-        You have successfully created your account, login to begin using Bewty
-        Assistant
-      </Text>
-    </Flex>
-  )
-}
+// function SuccessDisplay({ show }: { show: boolean }) {
+//   if (!show) return null
+//   return (
+//     <Flex
+//       gap={{ base: "4rem" }}
+//       flexDir="column"
+//       alignItems="center"
+//       textAlign="center"
+//     >
+//       <SuccessCheckMark />
+//       <Text maxW="34rem" color="gray.400" fontSize="1.6rem">
+//         You have successfully created your account, login to begin using Bewty
+//         Assistant
+//       </Text>
+//     </Flex>
+//   )
+// }
 
-function ErrorTextDisplay({
+export function ErrorTextDisplay({
   show,
   children,
   ...rest
@@ -265,9 +276,7 @@ function FormInput({
           }}
         />
       </Flex>
-      <ErrorTextDisplay show={showErrorMsg}>
-        {errorMsg}
-      </ErrorTextDisplay>
+      <ErrorTextDisplay show={showErrorMsg}>{errorMsg}</ErrorTextDisplay>
     </Box>
   )
 }
