@@ -62,9 +62,9 @@ const fontSizes = {
   "5xl": "3.6rem",
   "6xl": "4rem",
   "7xl": "4.4rem",
-  "8xl": "5.2rem",
-  "9xl": "5.6rem",
-  "xxl": "6rem",
+  "8xl": "4.8rem",
+  "9xl": "5.2rem",
+  "xxl": "5.6rem",
 }
 
 const breakpoints = {

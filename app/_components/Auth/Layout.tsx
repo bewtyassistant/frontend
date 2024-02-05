@@ -35,8 +35,8 @@ export default function AuthLayout({
           w={{ base: "full", lg: "50%" }}
           flexShrink="0"
           bgRepeat="no-repeat"
-          bgPos={{ base: "center 60px", lg: "center" }}
-          bgSize={{ base: "contain", sm: "auto", lg: "56rem 66.2rem" }}
+          bgPos={{ base: "center 50px", lg: "center" }}
+          bgSize={{ base: "contain", sm: "33rem 44rem", lg: "56rem 66.2rem" }}
           bgImage="url(/images/auth-bg.png)"
           bgColor="brand.main"
           pos={{ base: "absolute", lg: "relative" }}
@@ -48,13 +48,15 @@ export default function AuthLayout({
           boxShadow={{ base: "0 0 20px #0000002e", lg: "none" }}
           backdropFilter={{ base: "blur(3px)", lg: "none" }}
           background="white"
+          mb="4rem"
           zIndex="3"
           minH="76dvh"
           maxW={{ base: "40rem", lg: "initial" }}
-          py={{ base: "3.2rem" }}
+          pt={{ base: "7rem" }}
+          pb={{ base: "3.2rem" }}
           px="3rem"
           color="dark.100"
-          justifyContent="center"
+          justifyContent="start"
           alignItems="center"
           flexDir="column"
           gap={{ base: "3rem", lg: "10rem" }}
@@ -65,7 +67,7 @@ export default function AuthLayout({
             </Heading>
             {subHeadingText && <Text maxW="34rem" color="gray.400" fontSize="1.6rem">{subHeadingText}</Text>}
           </Flex>
-          <Flex justifyContent="center" w="full">{children}</Flex>
+          <Flex justifyContent="center" w="full" mb="auto" mt="1rem">{children}</Flex>
         </Flex>
       </Flex>
     </>
