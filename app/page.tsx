@@ -36,7 +36,12 @@ export default function AuthLayout() {
         >
           <AppLogo />
         </Box>
-        <Heading mt={{ base: "25%",  sm: "15%", lg: "0"}} w={{ base: "100%", lg: "50%" }} fontSize={{ base: "5xl", lg: "8xl" }} color="white">
+        <Heading
+          mt={{ base: "25%", sm: "15%", lg: "0" }}
+          w={{ base: "100%", lg: "50%" }}
+          fontSize={{ base: "5xl", lg: "8xl" }}
+          color="white"
+        >
           Welcome to Bewty Assistant
         </Heading>
         <Flex
@@ -46,10 +51,30 @@ export default function AuthLayout() {
           alignItems="center"
           w={{ base: "100%", lg: "50%" }}
           gap={{ base: "1rem", lg: "1.5rem" }}
-          mb={{ base: "20%", sm: "10%", lg: "0"}}
+          mb={{ base: "20%", sm: "10%", lg: "0" }}
         >
-          <SubmitButton as={Link} href="/login" bg="white" color="brand.main" maxW="40rem" w="85dvw">Login</SubmitButton>
-          <SubmitButton as={Link} href="/signup" bg="white" color="brand.main" maxW="40rem" w="85dvw">Create an account</SubmitButton>
+          <SubmitButton
+            as={Link}
+            href="/login"
+            bg="white"
+            color="brand.main"
+            maxW="40rem"
+            w="85dvw"
+            _hover={{ textDecor: "none", bg: "brand.300" }}
+          >
+            Login
+          </SubmitButton>
+          <SubmitButton
+            as={Link}
+            href="/signup"
+            bg="white"
+            color="brand.main"
+            maxW="40rem"
+            w="85dvw"
+            _hover={{ textDecor: "none", bg: "brand.300" }}
+          >
+            Create an account
+          </SubmitButton>
         </Flex>
       </Flex>
     </>
