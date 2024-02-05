@@ -1,9 +1,9 @@
-import { ChangeEventHandler, useCallback, useEffect, useState } from "react"
+import { ChangeEventHandler, useCallback, useState } from "react"
 import {
   PasswordInput,
   SubmitButton,
 } from "../_components/Auth/Inputs"
-import { Flex, useToast } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 
 export default function NewPasswordInput({
   show,

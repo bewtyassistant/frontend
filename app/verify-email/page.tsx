@@ -21,6 +21,7 @@ import {
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
 import SuccessDisplay from "../_components/Auth/SuccessDisplay"
+import { ErrorTextDisplay } from "../_components/Auth/ErrorText"
 
 export default function VerifyEmail() {
   const router = useRouter()
@@ -205,43 +206,6 @@ function ResendCodeButton({ show, ...rest }: ButtonProps & { show: boolean }) {
     >
       Resend code
     </SubmitButton>
-  )
-}
-
-// function SuccessDisplay({ show }: { show: boolean }) {
-//   if (!show) return null
-//   return (
-//     <Flex
-//       gap={{ base: "4rem" }}
-//       flexDir="column"
-//       alignItems="center"
-//       textAlign="center"
-//     >
-//       <SuccessCheckMark />
-//       <Text maxW="34rem" color="gray.400" fontSize="1.6rem">
-//         You have successfully created your account, login to begin using Bewty
-//         Assistant
-//       </Text>
-//     </Flex>
-//   )
-// }
-
-export function ErrorTextDisplay({
-  show,
-  children,
-  ...rest
-}: TextProps & { show: boolean }) {
-  if (!show) return null
-  return (
-    <Text
-      mt=".3rem"
-      textAlign="center"
-      color="red.main"
-      fontSize="1.6rem"
-      {...rest}
-    >
-      {children}
-    </Text>
   )
 }
 

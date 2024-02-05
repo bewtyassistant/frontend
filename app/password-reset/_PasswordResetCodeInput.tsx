@@ -2,8 +2,8 @@ import { Box, Flex, Text } from "@chakra-ui/react"
 import Link from "next/link"
 import { useRef, useState, useCallback } from "react"
 import { CustomPinInput, SubmitButton } from "../_components/Auth/Inputs"
-import { ErrorTextDisplay } from "../verify-email/page"
 import SuccessCheckMark from "../_assets/SuccessCheckMark"
+import { ErrorTextDisplay } from "../_components/Auth/ErrorText"
 
 export default function PasswordResetCodeInput({
   hasError,
