@@ -8,7 +8,3 @@ body{
   font-weight: 400;
   font-style: normal;
 }
-::selection {
-  background: #BA2762;
-  color: #fff;
-}
