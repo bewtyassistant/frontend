@@ -73,7 +73,7 @@ export default function AuthLayout({
               {headingText}
             </Heading>
             {subHeadingText && (
-              <Text maxW="34rem" color="gray.400" fontSize="1.6rem">
+              <Text mx="auto" maxW="34rem" color="gray.400" fontSize="1.6rem">
                 {subHeadingText}
               </Text>
             )}
