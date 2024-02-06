@@ -26,7 +26,14 @@ export default function AuthLayout({
         justifyContent="center"
         alignItems={{ base: "center", lg: "stretch" }}
       >
-        <Box as={Link} href="/" pos="absolute" top="3.4rem" left="3.2rem" zIndex="2">
+        <Box
+          as={Link}
+          href="/"
+          pos="absolute"
+          top="3.4rem"
+          left="3.2rem"
+          zIndex="2"
+        >
           <AppLogo />
         </Box>
         <Box
@@ -43,7 +50,7 @@ export default function AuthLayout({
         ></Box>
         <Flex
           w={{ base: "90dvw", lg: "50%" }}
-          mt={{ base: "18rem", lg: 0}}
+          mt={{ base: "18rem", lg: 0 }}
           flexShrink="0"
           boxShadow={{ base: "0 0 20px #0000002e", lg: "none" }}
           backdropFilter={{ base: "blur(3px)", lg: "none" }}
@@ -56,7 +63,7 @@ export default function AuthLayout({
           pb={{ base: "3.2rem" }}
           px="3rem"
           color="dark.100"
-          justifyContent="start"
+          justifyContent="center"
           alignItems="center"
           flexDir="column"
           gap={{ base: "3rem", lg: "10rem" }}
@@ -65,9 +72,20 @@ export default function AuthLayout({
             <Heading fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
               {headingText}
             </Heading>
-            {subHeadingText && <Text maxW="34rem" color="gray.400" fontSize="1.6rem">{subHeadingText}</Text>}
+            {subHeadingText && (
+              <Text maxW="34rem" color="gray.400" fontSize="1.6rem">
+                {subHeadingText}
+              </Text>
+            )}
           </Flex>
-          <Flex justifyContent="center" w="full" mb="auto" mt="1rem">{children}</Flex>
+          <Flex
+            justifyContent="center"
+            w="full"
+            mb={{ base: "auto", lg: "0" }}
+            mt="1rem"
+          >
+            {children}
+          </Flex>
         </Flex>
       </Flex>
     </>
