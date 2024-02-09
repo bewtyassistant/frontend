@@ -1,5 +1,5 @@
 "use client"
-import { Flex, Link, Select, Text } from "@chakra-ui/react"
+import { Button, Flex, Link, Select, Text } from "@chakra-ui/react"
 import { AuthInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
 import {
@@ -10,6 +10,7 @@ import {
 } from "react"
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
+import BackIcon from "../_assets/BackIcon"
 
 export default function Signup() {
   const router = useRouter()
@@ -93,7 +94,23 @@ export default function Signup() {
         maxW="40rem"
         flexDir="column"
         as="form"
+        pos="relative"
       >
+        <Link
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap=".5rem"
+          lineHeight="1.6rem"
+          fontSize="1.4rem"
+          color="brand.main"
+          position="absolute"
+          href="/"
+          top={{ base: "-32%", lg: "-40%" }}
+          left="0"
+        >
+          <BackIcon /> Back
+        </Link>
         <Text
           color="red.main"
           fontSize="1.4rem"
