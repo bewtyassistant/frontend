@@ -49,7 +49,7 @@ export default function Login() {
       if(res.statusCode === 200){
         toast({ status: "success", description: res.message || "You are logged in"})
         await localforage.setItem("BA_TOKEN", res.token)
-        router.push("/")
+        router.push(res.accountType === "client" ? "/client" : "/vendor")
       }else if(res.statusCode === 302){
         toast({ status: "info", description: res.message || "Please verify your email",})
         sessionStorage.setItem("BA_USER_EMAIL", loginData.email)
