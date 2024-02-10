@@ -147,7 +147,7 @@ export function CustomPinInput({
     [fieldsCount]
   )
   return (
-    <PinInput placeholder="" focusBorderColor="brand.300" {...pinInputProps}>
+    <PinInput placeholder="" focusBorderColor="brand.400" {...pinInputProps}>
       {fieldsArray.map((field) => (
         <PinInputField
           key={field}

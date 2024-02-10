@@ -22,7 +22,7 @@ const Button = defineStyleConfig({
       color: "white.main",
       background: "brand.main",
       h: "unset",
-      _hover: { backgroundColor: "brand.300", color: "brand.main" },
+      _hover: { backgroundColor: "brand.400", color: "brand.main" },
       _active: { backgroundColor: "brand.200", color: "brand.main" },
       borderRadius: ".4rem",
       px: "1.6rem",
@@ -30,7 +30,7 @@ const Button = defineStyleConfig({
     },
     transparent: {
       h: "unset",
-      _hover: { backgroundColor: "brand.300", color: "brand.main" },
+      _hover: { backgroundColor: "brand.400", color: "brand.main" },
       _active: { backgroundColor: "brand.200", color: "brand.main" },
       borderRadius: ".4rem",
       px: "1.6rem",

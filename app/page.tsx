@@ -60,7 +60,7 @@ export default function AuthLayout() {
             color="brand.main"
             maxW="40rem"
             w="85dvw"
-            _hover={{ textDecor: "none", bg: "brand.300" }}
+            _hover={{ textDecor: "none", bg: "brand.400" }}
           >
             Login
           </SubmitButton>
@@ -71,7 +71,7 @@ export default function AuthLayout() {
             color="brand.main"
             maxW="40rem"
             w="85dvw"
-            _hover={{ textDecor: "none", bg: "brand.300" }}
+            _hover={{ textDecor: "none", bg: "brand.400" }}
           >
             Create an account
           </SubmitButton>
