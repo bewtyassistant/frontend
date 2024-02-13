@@ -26,7 +26,7 @@ const Button = defineStyleConfig({
       _active: { backgroundColor: "brand.200", color: "brand.main" },
       borderRadius: ".4rem",
       px: "1.6rem",
-      py: "2rem",
+      py: "1.8rem",
     },
     transparent: {
       h: "unset",

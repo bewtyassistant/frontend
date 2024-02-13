@@ -1,4 +1,3 @@
-
 import { extendTheme } from "@chakra-ui/react"
 import Button from "./chakra-components/Button"
 import * as customComponents from "./custom-chakra-components"
@@ -49,8 +48,9 @@ const colors = {
 }
 
 const fonts = {
-  body: "'Petrona', -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
-  heading: "'Petrona', -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+  body: '\'Petrona\', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+  heading:
+    '\'Petrona\', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
 }
 
 const fontSizes = {
@@ -67,7 +67,7 @@ const fontSizes = {
   "7xl": "4.4rem",
   "8xl": "4.8rem",
   "9xl": "5.2rem",
-  "xxl": "5.6rem",
+  xxl: "5.6rem",
 }
 
 const breakpoints = {
@@ -79,8 +79,8 @@ const breakpoints = {
   "2xl": "104em",
 }
 
-const theme = extendTheme({ 
-  colors, 
+const theme = extendTheme({
+  colors,
   fonts,
   fontSizes,
   breakpoints,
@@ -88,8 +88,8 @@ const theme = extendTheme({
     Heading,
     Input,
     Button,
-    ...customComponents
-  }
+    ...customComponents,
+  },
 })
 
 export default theme

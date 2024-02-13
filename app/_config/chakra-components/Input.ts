@@ -1,7 +1,6 @@
 import { createMultiStyleConfigHelpers } from "@chakra-ui/react"
 import { inputAnatomy } from "@chakra-ui/anatomy"
 
-
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(inputAnatomy.keys)
 
@@ -15,14 +14,12 @@ const baseStyle = definePartsStyle({
     color: "black",
     height: "unset",
     backgroundColor: "transparent",
-    py: { base: "1.4rem", md: "2rem" },
-    px: { base: "1.6rem", md: "2rem" },
     _placeholder: {
-      color: "gray.100"
+      color: "gray.100",
     },
     _focus: {
       boxShadow: "none",
-      outline: "none"
+      outline: "none",
     },
   },
   addon: {
@@ -47,14 +44,14 @@ const filledInput = definePartsStyle({
     py: { base: "1.4rem", md: "2rem" },
     px: { base: "2rem", md: "2.7rem" },
     _hover: {
-      background: "white.500"
+      background: "white.500",
     },
     _placeholder: {
       fontSize: "1.6rem",
-      lineHeight: "150%"
+      lineHeight: "150%",
     },
     _focus: {
-      borderColor: "brand.main"
+      borderColor: "brand.main",
     },
   },
   addon: {
@@ -71,15 +68,45 @@ const filledInput = definePartsStyle({
   },
 })
 
+const searchInput = definePartsStyle({
+  field: {
+    height: "unset",
+    width: "100%",
+    bg: "white",
+    pl: {base: 0},
+    pr: { base: "2.5rem" },
+    py: { base: "1.3rem" },
+    border:"none",
+    _placeholder: {
+      color: "gray.400",
+      textAlign: "left",
+      fontSize: "1.6rem",
+      lineHeight: "18px",
+    },
+  },
+  addon: {
+    borderRadius: "2.4rem",
+    pl: "2.5rem",
+    _hover: {
+      backgroundColor: "white",
+    },
+    height: "unset",
+    border: "0",
+    borderStyle: "none",
+    bg: "white",
+  },
+})
+
 const Input = defineMultiStyleConfig({
   baseStyle,
   variants: {
     filled: filledInput,
-    base: baseStyle
+    base: baseStyle,
+    search: searchInput,
   },
   defaultProps: {
-    variant: "base"
-  }
+    variant: "base",
+  },
 })
 
 export default Input

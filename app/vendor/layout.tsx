@@ -3,6 +3,7 @@ import "../globals.css"
 import DesktopLayout from "../_components/Layouts/_LayoutDesktop"
 import { Show } from "@chakra-ui/react"
 import MobileLayout from "../_components/Layouts/_LayoutMobile"
+import DesktopLayoutChildren from "../_components/Layouts/DesktopHeaderChildren"
 
 function SideBarChildren() {
   return (
@@ -21,7 +22,7 @@ export default function RootLayout({
     <>
       <Show above="md">
         <DesktopLayout
-          headerChildren={"header desktop"}
+          headerChildren={<DesktopLayoutChildren />}
           sidebarChildren={{
             header: "header sidebar desktop",
             body: "body sidebar desktop",
