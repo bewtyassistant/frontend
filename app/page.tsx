@@ -10,7 +10,8 @@ export default function AuthLayout() {
         textAlign="center"
         pos="relative"
         minH="100dvh"
-        w="100dvw"
+        w="`100dvw"
+        pr={{ base: "0", md: "10%"}} 
         gap="3rem"
         justifyContent={{ base: "space-between", lg: "center" }}
         alignItems="flex-end"
