@@ -4,14 +4,10 @@ import DesktopLayout from "../_components/Layouts/_LayoutDesktop"
 import { Show } from "@chakra-ui/react"
 import MobileLayout from "../_components/Layouts/_LayoutMobile"
 import DesktopLayoutChildren from "../_components/Layouts/DesktopHeaderChildren"
-
-function SideBarChildren() {
-  return (
-    <>
-      <>Sidebar Children Mobile</>
-    </>
-  )
-}
+import ImageAndNameAndLastSeen from "../_components/ImageAndNameAndLastSeen"
+import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
+import { serviceVendorNavLinks } from "../_data/navLinks"
+import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 
 export default function RootLayout({
   children,
@@ -24,8 +20,8 @@ export default function RootLayout({
         <DesktopLayout
           headerChildren={<DesktopLayoutChildren />}
           sidebarChildren={{
-            header: "header sidebar desktop",
-            body: "body sidebar desktop",
+            header: <ImageAndNameAndLastSeen />,
+            body: <NavLinksMapper links={serviceVendorNavLinks} />,
           }}
         >
           {children}
@@ -33,8 +29,10 @@ export default function RootLayout({
       </Show>
       <Show below="md">
         <MobileLayout
-          headerChildren={"Header Mobile"}
-          SidebarChildren={SideBarChildren}
+          headerChildren={<ImageAndNameAndLastSeen />}
+          SidebarChildren={({ onClose }) =>
+            MobileSideBarContent({ links: serviceVendorNavLinks, onClose })
+          }
         >
           {children}
         </MobileLayout>

@@ -27,7 +27,9 @@ export default function DesktopSideBar({
       >
         {header}
       </Box>
-      <Box>{body}</Box>
+      <Box pl={{ base: "3rem", md: "3.2rem" }} pt={{ base: "0", md: "3.2rem" }}>
+        {body}
+      </Box>
     </Flex>
   )
 }
