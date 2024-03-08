@@ -11,7 +11,7 @@ export default function AuthLayout() {
         pos="relative"
         minH="100dvh"
         w="`100dvw"
-        pr={{ base: "0", md: "10%"}} 
+        pr={{ base: "0", lg: "10%"}} 
         gap="3rem"
         justifyContent={{ base: "space-between", lg: "center" }}
         alignItems="flex-end"

@@ -1,5 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import localforage from "localforage";
+import { useRouter } from "next/navigation";
 import { ReactNode, useCallback } from "react";
 
 
@@ -8,9 +9,11 @@ export default function LogoutButton({ children, onLogout }: {
   onLogout?: () => void
 }){
 
+  const router = useRouter()
   const logout = useCallback(async () => {
     await localforage.removeItem("BA_TOKEN")
     if(typeof onLogout === "function") onLogout()
+    router.push("/")
   }, [onLogout])
 
   return (

@@ -44,7 +44,7 @@ export default function AuthLayout({
           bgRepeat="no-repeat"
           bgPos={{ base: "center 50px", lg: "center" }}
           bgSize={{ base: "contain", sm: "33rem 44rem", lg: "56rem 66.2rem" }}
-          bgImage="url(/images/auth-bg.png)"
+          bgImage={{ base: "url(/images/auth-bg-mobile.png)", md: "url(/images/auth-bg.png)" }}
           bgColor="brand.main"
           pos={{ base: "absolute", lg: "relative" }}
         ></Box>

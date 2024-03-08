@@ -8,6 +8,7 @@ import ImageAndNameAndLastSeen from "../_components/ImageAndNameAndLastSeen"
 import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
 import { serviceVendorNavLinks } from "../_data/navLinks"
 import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
+import AuthProvider from "../_providers/auth"
 
 export default function RootLayout({
   children,
@@ -15,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <>
+    <AuthProvider>
       <Show above="md">
         <DesktopLayout
           headerChildren={<DesktopLayoutChildren />}
@@ -37,6 +38,6 @@ export default function RootLayout({
           {children}
         </MobileLayout>
       </Show>
-    </>
+    </AuthProvider>
   )
 }
