@@ -1,6 +1,6 @@
 "use client"
-import { Box, Flex, Heading, Link } from "@chakra-ui/react"
-import AppLogo from "./_components/AppLogo"
+import { Box, Flex, Heading, Link, Show } from "@chakra-ui/react"
+import AppLogo, { AppLogoSmall } from "./_components/AppLogo"
 import { SubmitButton } from "./_components/Auth/Inputs"
 import Image from "next/image"
 
@@ -35,7 +35,12 @@ export default function AuthLayout() {
           left="3.2rem"
           zIndex="2"
         >
-          <AppLogo />
+          <Show below="md">
+            <AppLogoSmall />
+          </Show>
+          <Show above="md">
+            <AppLogo />
+          </Show>
         </Box>
         <Heading
           w={{ base: "100%", lg: "50%" }}
