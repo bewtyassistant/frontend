@@ -2,6 +2,7 @@
 import { Box, Flex, Heading, Link } from "@chakra-ui/react"
 import AppLogo from "./_components/AppLogo"
 import { SubmitButton } from "./_components/Auth/Inputs"
+import Image from "next/image"
 
 export default function AuthLayout() {
   return (
@@ -11,19 +12,18 @@ export default function AuthLayout() {
         pos="relative"
         minH="100dvh"
         w="`100dvw"
-        pr={{ base: "0", lg: "10%"}} 
-        gap="3rem"
-        justifyContent={{ base: "space-between", lg: "center" }}
-        alignItems="flex-end"
+        pr={{ base: "0", lg: "10%" }}
+        gap="2.5rem"
+        justifyContent="center"
+        alignItems={{ base: "center", lg: "flex-end" }}
         flexWrap="wrap"
         bgRepeat="no-repeat"
         bgPos={{ base: "center 45%", lg: "6.4%" }}
         bgSize={{
-          base: "30rem auto",
           md: "39.6rem 45rem",
           lg: "56rem 66.2rem",
         }}
-        bgImage="url(/images/auth-bg.png)"
+        bgImage={{ lg: "url(/images/auth-bg.png)" }}
         bgColor="brand.main"
         flexDir="column"
       >
@@ -38,15 +38,17 @@ export default function AuthLayout() {
           <AppLogo />
         </Box>
         <Heading
-          mt={{ base: "25%", sm: "15%", lg: "0" }}
           w={{ base: "100%", lg: "50%" }}
           fontSize={{ base: "5xl", lg: "8xl" }}
           color="white"
         >
           Welcome to Bewty Assistant
         </Heading>
+        <Box display={{ lg: "none" }}>
+          <Image alt="" src="/images/auth-bg.png" width={300} height={453} />
+        </Box>
         <Flex
-          mt={{ base: "18rem", lg: 0 }}
+          // mt={{ base: "18rem", lg: 0 }}
           flexShrink="0"
           flexDir="column"
           alignItems="center"
