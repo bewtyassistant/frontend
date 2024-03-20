@@ -61,7 +61,7 @@ export function AuthInput({
       >
         {inputLeftAddon}
         <Input
-          borderColor="gray.100"
+          borderColor="gray.300"
           _placeholder={{ color: "gray.300" }}
           fontSize="1.6rem"
           lineHeight="normal"

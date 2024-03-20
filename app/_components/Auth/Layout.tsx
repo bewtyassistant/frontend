@@ -1,21 +1,17 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Link,
-  Text,
-} from "@chakra-ui/react"
+import { Box, Flex, FlexboxProps, Heading, Link, Text } from "@chakra-ui/react"
 import AppLogo from "../AppLogo"
 import { ReactNode } from "react"
 
 export default function AuthLayout({
   headingText,
   subHeadingText,
-  children
+  children,
+  gap,
 }: {
   headingText: string
   subHeadingText?: string
   children: ReactNode | ReactNode[]
+  gap?: FlexboxProps["gap"]
 }) {
   return (
     <>
@@ -44,7 +40,10 @@ export default function AuthLayout({
           bgRepeat="no-repeat"
           bgPos={{ base: "center 50px", lg: "center" }}
           bgSize={{ base: "contain", sm: "33rem 44rem", lg: "56rem 66.2rem" }}
-          bgImage={{ base: "url(/images/auth-bg-mobile.png)", md: "url(/images/auth-bg.png)" }}
+          bgImage={{
+            base: "url(/images/auth-bg-mobile.png)",
+            md: "url(/images/auth-bg.png)",
+          }}
           bgColor="brand.main"
           pos={{ base: "absolute", lg: "relative" }}
         ></Box>
@@ -66,9 +65,9 @@ export default function AuthLayout({
           justifyContent="center"
           alignItems="center"
           flexDir="column"
-          gap={{ base: "3rem", lg: "10rem" }}
+          gap={gap || { base: "3rem", lg: "10rem" }}
         >
-          <Flex gap="2rem" flexDir="column" textAlign="center">
+          <Flex gap=".8rem" flexDir="column" textAlign="center">
             <Heading fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
               {headingText}
             </Heading>

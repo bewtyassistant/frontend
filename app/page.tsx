@@ -4,7 +4,7 @@ import AppLogo, { AppLogoSmall } from "./_components/AppLogo"
 import { SubmitButton } from "./_components/Auth/Inputs"
 import Image from "next/image"
 
-export default function AuthLayout() {
+export default function page() {
   return (
     <>
       <Flex
@@ -53,7 +53,6 @@ export default function AuthLayout() {
           <Image alt="" src="/images/auth-bg.png" width={300} height={453} />
         </Box>
         <Flex
-          // mt={{ base: "18rem", lg: 0 }}
           flexShrink="0"
           flexDir="column"
           alignItems="center"
