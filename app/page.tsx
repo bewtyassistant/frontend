@@ -26,6 +26,7 @@ export default function page() {
         bgImage={{ lg: "url(/images/auth-bg.png)" }}
         bgColor="brand.main"
         flexDir="column"
+        pt="10rem"
       >
         <Box
           as={Link}
