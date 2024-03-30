@@ -14,7 +14,7 @@ export default function Onboarding() {
         headingText={"Vendor Type"}
         subHeadingText="You can be a product or service vendor or both"
       >
-        <Flex pos="relative" ml="auto">
+        <Flex pos="relative" pl="20%">
           <Flex
             flexDir="column"
             w="full"
