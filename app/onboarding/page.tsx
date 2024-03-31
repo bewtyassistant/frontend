@@ -14,7 +14,7 @@ export default function Onboarding() {
         headingText={"Vendor Type"}
         subHeadingText="You can be a product or service vendor or both"
       >
-        <Flex pos="relative" pl="20%">
+        <Flex pos="relative" pl={{ lg: "20%" }}>
           <Flex
             flexDir="column"
             w="full"
@@ -22,7 +22,6 @@ export default function Onboarding() {
             alignItems="stretch"
             gap={{ base: "2.5rem", md: "3.5rem" }}
             maxW="49rem"
-            ml="auto"
           >
             <StoreTypeOption
               info="Choose if you only sell products"

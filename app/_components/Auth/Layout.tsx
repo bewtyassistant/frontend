@@ -68,7 +68,7 @@ export default function AuthLayout({
           gap={gap || { base: "3rem", lg: "10rem" }}
         >
           <Flex gap=".8rem" flexDir="column" textAlign="center">
-            <Heading fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
+            <Heading letterSpacing={{base: "-.5px", md: "unset"}} fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
               {headingText}
             </Heading>
             {subHeadingText && (

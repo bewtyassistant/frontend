@@ -1,5 +1,6 @@
 import Eye from "@/app/_assets/Eye"
 import {
+  As,
   Box,
   Button,
   ButtonProps,
@@ -22,6 +23,8 @@ export function AuthInput({
   inputRightAddon,
   hasError,
   errorDescription,
+  as,
+  children,
 }: {
   label: string
   inputProps: InputProps
@@ -29,6 +32,8 @@ export function AuthInput({
   inputLeftAddon?: ReactNode
   hasError?: boolean
   errorDescription?: string
+  as?: As
+  children?: ReactNode | ReactNode[]
 }) {
   const { ...otherInputProps } = inputProps
 
@@ -57,20 +62,24 @@ export function AuthInput({
       <InputGroup
         {...inputGroupProps}
         border="1px solid"
-        borderColor="transparent"
+        borderColor="gray.300"
+        alignItems="center"
+        px="1.3rem"
       >
         {inputLeftAddon}
         <Input
-          borderColor="gray.300"
+          border="0"
           _placeholder={{ color: "gray.300" }}
           fontSize="1.6rem"
           lineHeight="normal"
           rounded=".2rem"
-          px="1.6rem"
           py="1.1rem"
           color="dark.100"
+          as={as}
           {...otherInputProps}
-        />
+        >
+          {as === "select" ? children : null}
+        </Input>
         {inputRightAddon}
       </InputGroup>
       {hasError && (
@@ -98,7 +107,7 @@ export function PasswordInput({
   label,
   inputProps,
   errorDescription,
-  hasError
+  hasError,
 }: {
   label: string
   inputProps: InputProps
