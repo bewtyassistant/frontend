@@ -16,8 +16,11 @@ import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
 import localforage from "localforage"
 import STORAGE_KEYS from "../STORAGE_KEYS"
+import { useAppDispatch } from "../_redux/store"
+import { setAuth } from "../_redux/auth.slice"
 
 export default function Login() {
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const toast = useToast({
     size: "lg",
@@ -62,6 +65,9 @@ export default function Login() {
         })
         await localforage.setItem(STORAGE_KEYS.BA_TOKEN, res.token)
         await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
+        dispatch(
+          setAuth({ isLoggedIn: true, token: res.token, user: res.user })
+        )
         router.push(res.user.accountType === "client" ? "/client" : "/vendor")
       } else if (res.statusCode === 302) {
         toast({
@@ -78,7 +84,7 @@ export default function Login() {
       }
       setLoading(false)
     },
-    [loginData, fetchData, toast, router]
+    [loginData, fetchData, toast, router, dispatch]
   )
 
   return (

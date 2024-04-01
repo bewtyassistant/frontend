@@ -52,10 +52,11 @@ export default function AuthProvider({
           })
         )
       }
+      setLoading(false)
     } catch (err) {
       dispatch(logout())
+      setLoading(false)
     }
-    setLoading(false)
   }, [dispatch])
   useEffect(() => {
     checkStatus()
