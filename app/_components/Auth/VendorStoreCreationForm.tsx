@@ -124,6 +124,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         flexDir="column"
         gap="1.2rem"
         w="full"
+        maxW="40rem"
       >
         <AuthInput
           hasError={Boolean(errors.name)}

@@ -1,17 +1,20 @@
 import { Box, Flex, FlexboxProps, Heading, Link, Text } from "@chakra-ui/react"
 import AppLogo from "../AppLogo"
 import { ReactNode } from "react"
+import BackButton from "../BackButton"
 
 export default function AuthLayout({
   headingText,
   subHeadingText,
   children,
   gap,
+  showBackButton = false
 }: {
   headingText: string
   subHeadingText?: string
   children: ReactNode | ReactNode[]
   gap?: FlexboxProps["gap"]
+  showBackButton?: boolean
 }) {
   return (
     <>
@@ -71,7 +74,12 @@ export default function AuthLayout({
           flexDir="column"
           gap={gap || { base: "3rem", lg: "10rem" }}
         >
-          <Flex gap=".8rem" flexDir="column" textAlign="center">
+          <Flex gap=".8rem" flexDir="column" textAlign="center" w="full" maxW="40rem">
+          {showBackButton && (
+            <Box mr="auto" mb="4rem">
+              <BackButton />
+            </Box>
+          )}
             <Heading
               letterSpacing={{ base: "-.5px", md: "unset" }}
               fontSize={{ base: "4xl", lg: "6xl" }}

@@ -1,20 +1,20 @@
 "use client"
 import AuthLayout from "@/app/_components/Auth/Layout"
-import SubLayoutWithBackButton from "@/app/_components/Auth/SubLayoutWithBackButton"
 import VendorStoreCreationForm from "@/app/_components/Auth/VendorStoreCreationForm"
+import useRedirectToHomeIfNotLoggedIn from "@/app/_hooks/useRedirectToHomeIfNotLoggedIn"
 import { StoreType } from "@/app/_types/Store"
 
 export default function page() {
+  useRedirectToHomeIfNotLoggedIn()
   return (
     <>
       <AuthLayout
         headingText="Service Vendor"
         subHeadingText="Set up your shop and start providing beauty services"
         gap={"3rem"}
+        showBackButton
       >
-        <SubLayoutWithBackButton top={{ base: "-30%", sm: "-32%", md: "-35%" }}>
-          <VendorStoreCreationForm type={StoreType.service} />
-        </SubLayoutWithBackButton>
+        <VendorStoreCreationForm type={StoreType.service} />
       </AuthLayout>
     </>
   )

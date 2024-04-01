@@ -12,7 +12,7 @@ export default function useAxios(options?: { initialLoadingState?: boolean }) {
   const [loading, setLoading] = useState<boolean>(
     options?.initialLoadingState !== undefined
       ? options.initialLoadingState
-      : true
+      : false
   )
   // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
   const fetchData = useCallback(

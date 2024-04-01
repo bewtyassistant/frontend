@@ -1,12 +1,21 @@
+"use client"
 import localforage from "localforage"
-import { ReactNode, createContext, useEffect, useState } from "react"
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 
 export const AuthContext = createContext<{
   token: string | null
   isLoggedIn: boolean
+  loading: boolean
 }>({
   isLoggedIn: false,
   token: null,
+  loading: true
 })
 
 export default function AuthProvider({
@@ -16,6 +25,7 @@ export default function AuthProvider({
 }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [token, setToken] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     localforage
@@ -23,14 +33,16 @@ export default function AuthProvider({
       .then((val) => {
         setIsLoggedIn(true)
         setToken(val as typeof token)
+        setLoading(false)
       })
       .catch((err) => {
         setIsLoggedIn(false)
+        setLoading(false)
       })
   }, [])
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, token }}>
+    <AuthContext.Provider value={{ isLoggedIn, token, loading }}>
       {children}
     </AuthContext.Provider>
   )
