@@ -14,7 +14,7 @@ export default function LogoutButton({ children, onLogout }: {
     await localforage.removeItem("BA_TOKEN")
     if(typeof onLogout === "function") onLogout()
     router.push("/")
-  }, [onLogout])
+  }, [onLogout, router])
 
   return (
     <Button _hover={{ bg: "transparent" }} _focus={{ border:"", boxShadow: "none", outline: "0"}} flexGrow="1" w="max-content" bg="transparent" h="unset" onClick={logout}>

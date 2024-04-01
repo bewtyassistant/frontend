@@ -68,7 +68,7 @@ export default function VendorCategorySelectionForm({
         [name]: [...prev[name], value],
       }))
     },
-    [categories]
+    [categories, handleRemove]
   )
 
   const handleSubmit: FormEventHandler = useCallback((e) => {

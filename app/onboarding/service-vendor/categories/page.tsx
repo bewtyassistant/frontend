@@ -4,7 +4,7 @@ import VendorCategorySelectionForm from "@/app/_components/Auth/VendorCategorySe
 import useRedirectFromOnboardingPages from "@/app/_hooks/useRedirectFromOnboardingPages"
 import { StoreType } from "@/app/_types/Store"
 
-export default function page() {
+export default function Page() {
   useRedirectFromOnboardingPages()
   return (
     <>

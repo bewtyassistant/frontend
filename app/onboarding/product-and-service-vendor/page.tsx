@@ -4,7 +4,7 @@ import VendorStoreCreationForm from "@/app/_components/Auth/VendorStoreCreationF
 import useRedirectToHomeIfNotLoggedIn from "@/app/_hooks/useRedirectToHomeIfNotLoggedIn"
 import { StoreType } from "@/app/_types/Store"
 
-export default function page() {
+export default function Page() {
   useRedirectToHomeIfNotLoggedIn()
   return (
     <>

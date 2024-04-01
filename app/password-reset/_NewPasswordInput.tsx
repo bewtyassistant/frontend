@@ -47,7 +47,7 @@ export default function NewPasswordInput({
           inputProps={{
             placeholder: "**********",
             value: newPassword.password,
-            onChange: handleChange,
+            onChange: handleChange as any,
             name: "password",
           }}
           errorDescription={errorMsg}
@@ -59,7 +59,7 @@ export default function NewPasswordInput({
             placeholder: "**********",
             value: newPassword.confirmPassword,
             name: "confirmPassword",
-            onChange: handleChange,
+            onChange: handleChange as any,
           }}
           errorDescription={errorMsg}
           hasError={errorMsg.length > 0}

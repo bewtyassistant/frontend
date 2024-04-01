@@ -77,7 +77,7 @@ export default function ForgotPassword() {
             inputProps={{
               placeholder: "example@email.com",
               value: email,
-              onChange: handleChange,
+              onChange: handleChange as any,
               type: "email"
             }}
             errorDescription="This field is required"

@@ -51,7 +51,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
     state: "",
     city: "",
     nearestLandmark: "",
-    type
+    type,
   })
 
   const updateErrorsIfValueIsInvalid = useCallback(
@@ -71,7 +71,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
       updateErrorsIfValueIsInvalid(name, value)
       setStoreData((prev) => ({ ...prev, [name]: value }))
     },
-    [requiredFieldsByType, updateErrorsIfValueIsInvalid]
+    [updateErrorsIfValueIsInvalid]
   )
 
   const checkForAndHandleErrors = useCallback(() => {
@@ -87,16 +87,19 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
     return hasErrors
   }, [storeData, requiredFieldsByType])
 
-  const createStore = useCallback(async (data: typeof storeData) => {
-    const res = await fetchData({
-      url: STORE_URLS.create(),
-      method: "post",
-      body: data,
-    })
-    console.log(res)
-    if (res.statusCode === 201) return [true, res]
-    else return [false, res]
-  }, [])
+  const createStore = useCallback(
+    async (data: typeof storeData) => {
+      const res = await fetchData({
+        url: STORE_URLS.create(),
+        method: "post",
+        body: data,
+      })
+      console.log(res)
+      if (res.statusCode === 201) return [true, res]
+      else return [false, res]
+    },
+    [fetchData]
+  )
 
   const handleSubmit: FormEventHandler = useCallback(
     async (e) => {
@@ -113,7 +116,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         toast.error(res.message)
       }
     },
-    [storeData, checkForAndHandleErrors, pathname, router]
+    [storeData, checkForAndHandleErrors, pathname, router, createStore]
   )
 
   return (

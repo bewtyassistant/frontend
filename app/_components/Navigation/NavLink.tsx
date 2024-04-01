@@ -18,7 +18,7 @@ export default function NavLinkComponent({
 
   const isActive = useMemo(() => {
     return pathname.includes(href)
-  }, [pathname])
+  }, [pathname, href])
 
   return (
     <Link
