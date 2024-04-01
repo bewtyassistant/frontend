@@ -28,6 +28,9 @@ export const storeSlice = createSlice({
       state.needsToCreateStore = false
       state.hasFetchedStore = true
     },
+    clearStore: (state) => {
+      state = initialState
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -53,5 +56,5 @@ export const storeSlice = createSlice({
   },
 })
 
-export const { setUpStore } = storeSlice.actions
+export const { setUpStore, clearStore } = storeSlice.actions
 export const storeReducer = storeSlice.reducer

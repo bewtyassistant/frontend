@@ -1,5 +1,5 @@
 "use client"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useCallback, useEffect } from "react"
 
 export default function useRedirectToHomeIfNotLoggedIn({
@@ -10,9 +10,13 @@ export default function useRedirectToHomeIfNotLoggedIn({
   loading: boolean
 }) {
   const router = useRouter()
+  const pathname = usePathname()
+
   const redirect = useCallback(() => {
-    if (!loading && !isLoggedIn) router.push("/")
-  }, [router, isLoggedIn, loading])
+    const isProtectedRoute =
+      pathname.startsWith("/client") || pathname.startsWith("/vendor")
+    if (!loading && !isLoggedIn && isProtectedRoute) router.push("/")
+  }, [router, isLoggedIn, loading, pathname])
 
   useEffect(() => {
     redirect()
