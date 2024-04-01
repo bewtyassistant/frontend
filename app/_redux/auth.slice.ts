@@ -25,6 +25,7 @@ export const authSlice = createSlice({
     ) => {
       state.isLoggedIn = action.payload.isLoggedIn
       state.token = action.payload.token
+      state.user = action.payload.user
     },
     logout: (state) => {
       state.isLoggedIn = false

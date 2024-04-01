@@ -11,6 +11,7 @@ import User from "../_types/User"
 import { useAppDispatch, useAppSelector } from "../_redux/store"
 import { logout, setAuth } from "../_redux/auth.slice"
 import useRedirectToHomeIfNotLoggedIn from "../_hooks/useRedirectToHomeIfNotLoggedIn"
+import useRedirectToDashboardIfLoggedIn from "../_hooks/useRedirectToDashboardIfLoggedIn"
 
 export const AuthContext = createContext<{
   token: string | null
@@ -33,12 +34,12 @@ export default function AuthProvider({
   const { isLoggedIn, token, user } = useAppSelector((store) => store.auth)
   const [loading, setLoading] = useState(true)
   useRedirectToHomeIfNotLoggedIn({ loading, isLoggedIn })
+  useRedirectToDashboardIfLoggedIn({ loading, isLoggedIn, user })
 
   const checkStatus = useCallback(async () => {
     try {
       const token: string | null = await localforage.getItem("BA_TOKEN")
       const user: User | null = await localforage.getItem("BA_USER")
-      console.log(token, user)
       if (token) {
         dispatch(
           setAuth({
@@ -49,7 +50,6 @@ export default function AuthProvider({
         )
       }
     } catch (err) {
-      // setIsLoggedIn(false)
       dispatch(logout())
     }
     setLoading(false)

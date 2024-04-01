@@ -9,14 +9,12 @@ import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
 import { serviceVendorNavLinks } from "../_data/navLinks"
 import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 import AuthProvider from "../_providers/auth"
-import useRedirectToCorrectDashboardIfLoggedIn from "../_hooks/useRedirectToCorrectDashboard"
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  useRedirectToCorrectDashboardIfLoggedIn()
   return (
     <AuthProvider>
       <Show above="md">

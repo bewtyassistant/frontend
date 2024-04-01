@@ -1,6 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
-import { useCallback, useContext, useEffect } from "react"
+import { useCallback, useEffect } from "react"
 
 export default function useRedirectToHomeIfNotLoggedIn({
   isLoggedIn,
