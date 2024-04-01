@@ -1,0 +1,8 @@
+const STORAGE_KEYS = {
+  BA_USER_STORE: "BA_USER_STORE",
+  BA_TOKEN: "BA_TOKEN",
+  BA_USER_EMAIL: "BA_USER_EMAIL",
+  BA_USER: "BA_USER",
+}
+
+export default STORAGE_KEYS

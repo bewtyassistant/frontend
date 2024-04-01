@@ -1,36 +1,25 @@
 "use client"
-import citiesInNigeria from "@/app/_data/citiesInNigeria.json"
-import statesInNigeria from "@/app/_data/statesInNigeria.json"
-import { Flex, HStack, Heading, Select, Text } from "@chakra-ui/react"
-import { AuthCustomSelect, AuthInput, SubmitButton } from "./Inputs"
+import { Flex, HStack, Heading, Text } from "@chakra-ui/react"
+import { AuthCustomSelect, SubmitButton } from "./Inputs"
 import { StoreType } from "@/app/_types/Store"
-import DownChevron from "@/app/_assets/DownChevron"
-import { FormEventHandler, useCallback, useMemo, useState } from "react"
-import { getArrayOfNumbersArithimeticallyIncreasingByOne } from "@/app/_utils"
+import { FormEventHandler, useCallback, useState } from "react"
 import useAxios from "@/app/_hooks/useAxios"
 import STORE_URLS from "@/app/_urls/store"
 import toast from "react-hot-toast"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import TimesIcon from "@/app/_assets/TimesIcon"
 import useFetchCategories from "@/app/_hooks/useFetchCategories"
 import Category from "@/app/_types/Category"
-
-const requiredFields = [
-  "name",
-  "phoneNumber",
-  "address",
-  "state",
-  "city",
-  "nearestLandmark",
-]
+import { useAppDispatch } from "@/app/_redux/store"
+import { setUpStore } from "@/app/_redux/store.slice"
 
 export default function VendorCategorySelectionForm({
   type,
 }: {
   type: StoreType
 }) {
+  const dispatch = useAppDispatch()
   const router = useRouter()
-  const pathname = usePathname()
   const { fetchData, loading } = useAxios({ initialLoadingState: false })
   const { categories: categoriesToSelectFrom } = useFetchCategories({
     categoriesToFetch: {
@@ -40,7 +29,7 @@ export default function VendorCategorySelectionForm({
         type === StoreType.service || type === StoreType.productAndService,
     },
   })
-    
+
   const [categories, setCategories] = useState<{
     product: Category[]
     service: Category[]
@@ -48,7 +37,6 @@ export default function VendorCategorySelectionForm({
     product: [],
     service: [],
   })
-
 
   const handleRemove = useCallback(
     (name: keyof typeof categories, category: Category) => {
@@ -62,7 +50,8 @@ export default function VendorCategorySelectionForm({
 
   const handleChange = useCallback(
     (name: keyof typeof categories, value: Category) => {
-      if(categories[name].find(it => value._id === it._id)) return handleRemove(name, value)
+      if (categories[name].find((it) => value._id === it._id))
+        return handleRemove(name, value)
       setCategories((prev) => ({
         ...prev,
         [name]: [...prev[name], value],
@@ -71,14 +60,45 @@ export default function VendorCategorySelectionForm({
     [categories, handleRemove]
   )
 
-  const handleSubmit: FormEventHandler = useCallback((e) => {
-    e.preventDefault()
-    console.log(categories)
-  }, [categories])
+  const handleSubmit: FormEventHandler = useCallback(
+    async (e) => {
+      e.preventDefault()
+      let storeInSessionStorage = sessionStorage.getItem("BA_USER_STORE")
+      if (storeInSessionStorage) {
+        const store = JSON.parse(storeInSessionStorage)
+        const res = await fetchData({
+          url: STORE_URLS.update(store?._id as string),
+          method: "put",
+          body: {
+            productCategories: categories.product,
+            serviceCategories: categories.service,
+          },
+        })
+        if (res.statusCode === 200) {
+          console.log(res)
+          dispatch(setUpStore(res.store))
+          toast.success("Welcome aboard!")
+          router.push("/vendor")
+          sessionStorage.setItem("BA_USER_STORE", JSON.stringify(res.store))
+        } else toast.error(res.message)
+      } else {
+        toast.error("You must create a store first!")
+        router.push("/onboarding")
+      }
+    },
+    [categories, fetchData, router]
+  )
 
   return (
     <>
-      <Flex onSubmit={handleSubmit} as="form" flexDir="column" gap="4rem" w="full" maxW="40rem">
+      <Flex
+        onSubmit={handleSubmit}
+        as="form"
+        flexDir="column"
+        gap="4rem"
+        w="full"
+        maxW="40rem"
+      >
         {(type === StoreType.product ||
           type === StoreType.productAndService) && (
           <AuthCustomSelect
