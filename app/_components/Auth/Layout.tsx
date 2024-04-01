@@ -17,7 +17,8 @@ export default function AuthLayout({
     <>
       <Flex
         pos="relative"
-        minH="100dvh"
+        maxH={{ lg: "100dvh" }}
+        overflow={{ lg: "hidden" }}
         w="100dvw"
         justifyContent="center"
         alignItems={{ base: "center", lg: "stretch" }}
@@ -45,9 +46,12 @@ export default function AuthLayout({
             md: "url(/images/auth-bg.png)",
           }}
           bgColor="brand.main"
-          pos={{ base: "absolute", lg: "relative" }}
+          pos={{ base: "absolute", lg: "sticky" }}
+          maxH={{ lg: "100dvh" }}
         ></Box>
         <Flex
+          h={{ lg: "100dvh" }}
+          overflow="auto"
           w={{ base: "90dvw", lg: "50%" }}
           mt={{ base: "18rem", lg: 0 }}
           flexShrink="0"
@@ -68,7 +72,11 @@ export default function AuthLayout({
           gap={gap || { base: "3rem", lg: "10rem" }}
         >
           <Flex gap=".8rem" flexDir="column" textAlign="center">
-            <Heading letterSpacing={{base: "-.5px", md: "unset"}} fontSize={{ base: "4xl", lg: "6xl" }} color="inherit">
+            <Heading
+              letterSpacing={{ base: "-.5px", md: "unset" }}
+              fontSize={{ base: "4xl", lg: "6xl" }}
+              color="inherit"
+            >
               {headingText}
             </Heading>
             {subHeadingText && (

@@ -56,6 +56,7 @@ export function AuthInput({
         fontSize="1.4rem"
         lineHeight="normal"
         htmlFor={otherInputProps.id}
+        {...(as === "select" ? { as: "span" } : {})}
       >
         {label}
       </FormLabel>
@@ -65,6 +66,7 @@ export function AuthInput({
         borderColor="gray.300"
         alignItems="center"
         px="1.3rem"
+        pos="relative"
       >
         {inputLeftAddon}
         <Input
@@ -76,11 +78,22 @@ export function AuthInput({
           py="1.1rem"
           color="dark.100"
           as={as}
-          {...otherInputProps}
+          w="full"
+          pos="relative"
+          zIndex="2"
+          bg="transparent"
         >
           {as === "select" ? children : null}
         </Input>
-        {inputRightAddon}
+        <InputRightAddon
+          border="0"
+          bg="transparent"
+          _hover={{ bg: "transparent" }}
+          pos="absolute"
+          right="1.3rem"
+        >
+          {inputRightAddon}
+        </InputRightAddon>
       </InputGroup>
       {hasError && (
         <Text color="red.main" fontSize="1.2rem">
