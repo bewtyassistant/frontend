@@ -56,7 +56,6 @@ export function AuthInput({
         fontSize="1.4rem"
         lineHeight="normal"
         htmlFor={otherInputProps.id}
-        {...(as === "select" ? { as: "span" } : {})}
       >
         {label}
       </FormLabel>
@@ -82,6 +81,7 @@ export function AuthInput({
           pos="relative"
           zIndex="2"
           bg="transparent"
+          {...inputProps}
         >
           {as === "select" ? children : null}
         </Input>
