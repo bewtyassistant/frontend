@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonProps,
+  Flex,
   InputProps,
   InputRightAddon,
   LinkProps,
@@ -11,10 +12,13 @@ import {
   PinInputField,
   PinInputFieldProps,
   PinInputProps,
+  SelectProps,
   Text,
 } from "@chakra-ui/react"
 import { InputGroup, FormLabel, Input } from "@chakra-ui/react"
 import { ReactNode, useMemo, useState } from "react"
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
+import DownChevron from "@/app/_assets/DownChevron"
 
 export function AuthInput({
   label,
@@ -27,7 +31,7 @@ export function AuthInput({
   children,
 }: {
   label: string
-  inputProps: InputProps
+  inputProps: InputProps & SelectProps
   inputRightAddon?: ReactNode
   inputLeftAddon?: ReactNode
   hasError?: boolean
@@ -123,7 +127,7 @@ export function PasswordInput({
   hasError,
 }: {
   label: string
-  inputProps: InputProps
+  inputProps: InputProps & SelectProps
   errorDescription: string
   hasError?: boolean
 }) {
@@ -181,5 +185,81 @@ export function CustomPinInput({
         />
       ))}
     </PinInput>
+  )
+}
+
+const options = ["Option 1", "Option 2", "Option 3"]
+
+export function AuthCustomSelect({
+  options,
+  handleSelect,
+  placeholder,
+  selectedOptions = [],
+}: {
+  options: {
+    displayValue: string
+    value: any
+  }[]
+  handleSelect: (value: any) => void
+  placeholder: any
+  selectedOptions?: {
+    displayValue: string
+    value: any
+  }[]
+}) {
+  return (
+    <Flex flexDir="column" w="full" maxW="40rem">
+      <Menu closeOnSelect={false} matchWidth placement="top">
+        <MenuButton
+          type="button"
+          border="1px solid"
+          borderColor="gray.300"
+          px="1.3rem"
+          pos="relative"
+          fontSize="1.6rem"
+          lineHeight="normal"
+          rounded=".2rem"
+          py="1.1rem"
+          color="dark.100"
+        >
+          <Flex
+            as="span"
+            justifyContent="space-between"
+            alignItems="center"
+            w="full"
+          >
+            {placeholder} <DownChevron />
+          </Flex>
+        </MenuButton>
+        <MenuList
+          px="1.3rem"
+          pos="relative"
+          fontSize="1.6rem"
+          lineHeight="normal"
+          rounded=".2rem"
+          py="1.1rem"
+          color="dark.100"
+          w="full"
+          maxH="30rem"
+          overflow="auto"
+        >
+          {options.map((option) => (
+            <MenuItem
+              key={option.displayValue}
+              onClick={() => handleSelect(option.value)}
+              bg={
+                selectedOptions.some(
+                  (it) => it.displayValue === option.displayValue
+                )
+                  ? "brand.10"
+                  : ""
+              }
+            >
+              {option.displayValue}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+    </Flex>
   )
 }
