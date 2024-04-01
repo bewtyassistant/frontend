@@ -4,6 +4,7 @@ import ChakraUIProvider from "./_providers/chakra-ui"
 import LocalForageProvider from "./_providers/localforage"
 import { Toaster } from "react-hot-toast"
 import AuthProvider from "./_providers/auth"
+import ReduxProvider from "./_providers/redux"
 
 export const metadata: Metadata = {
   title: "Bewty Assistant",
@@ -20,12 +21,14 @@ export default function RootLayout({
       <body>
         <LocalForageProvider>
           <ChakraUIProvider>
-            <AuthProvider>
-              {children}
-              <Toaster
-                containerStyle={{ fontSize: "1.6rem", fontWeight: "600" }}
-              />
-            </AuthProvider>
+            <ReduxProvider>
+              <AuthProvider>
+                {children}
+                <Toaster
+                  containerStyle={{ fontSize: "1.6rem", fontWeight: "600" }}
+                />
+              </AuthProvider>
+            </ReduxProvider>
           </ChakraUIProvider>
         </LocalForageProvider>
         <script

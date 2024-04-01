@@ -8,6 +8,9 @@ import {
   useState,
 } from "react"
 import User from "../_types/User"
+import { useAppDispatch, useAppSelector } from "../_redux/store"
+import { logout, setAuth } from "../_redux/auth.slice"
+import useRedirectToHomeIfNotLoggedIn from "../_hooks/useRedirectToHomeIfNotLoggedIn"
 
 export const AuthContext = createContext<{
   token: string | null
@@ -26,23 +29,31 @@ export default function AuthProvider({
 }: {
   children: ReactNode | ReactNode[]
 }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [token, setToken] = useState<string | null>(null)
-  const [user, setUser] = useState<User | null>(null)
+  const dispatch = useAppDispatch()
+  const { isLoggedIn, token, user } = useAppSelector((store) => store.auth)
   const [loading, setLoading] = useState(true)
+  useRedirectToHomeIfNotLoggedIn({ loading, isLoggedIn })
 
   const checkStatus = useCallback(async () => {
     try {
       const token: string | null = await localforage.getItem("BA_TOKEN")
       const user: User | null = await localforage.getItem("BA_USER")
-      setUser(user)
-      setToken(token)
-      setIsLoggedIn(true)
+      console.log(token, user)
+      if (token) {
+        dispatch(
+          setAuth({
+            user: user as User,
+            token: token as string,
+            isLoggedIn: true,
+          })
+        )
+      }
     } catch (err) {
-      setIsLoggedIn(false)
+      // setIsLoggedIn(false)
+      dispatch(logout())
     }
     setLoading(false)
-  }, [])
+  }, [dispatch])
   useEffect(() => {
     checkStatus()
   }, [checkStatus])

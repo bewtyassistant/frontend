@@ -1,5 +1,5 @@
 
-
+"use client"
 import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux"
 import { authReducer } from "./auth.slice"
