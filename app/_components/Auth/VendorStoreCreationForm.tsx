@@ -13,6 +13,7 @@ import toast from "react-hot-toast"
 import { usePathname, useRouter } from "next/navigation"
 import { useAppDispatch } from "@/app/_redux/store"
 import { setUpStore } from "@/app/_redux/store.slice"
+import STORAGE_KEYS from "@/app/STORAGE_KEYS"
 
 const requiredFields = [
   "name",
@@ -111,7 +112,10 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
       const [success, res] = await createStore(storeData)
       toast.remove()
       if (success) {
-        sessionStorage.setItem("BA_USER_STORE", JSON.stringify(res.store))
+        sessionStorage.setItem(
+          STORAGE_KEYS.BA_USER_STORE,
+          JSON.stringify(res.store)
+        )
         dispatch(setUpStore(res.store))
         toast.success(res.message)
         let nextPath = `${pathname}/categories`

@@ -15,6 +15,7 @@ import useAxios from "../_hooks/useAxios"
 import PasswordResetCodeInput from "./_PasswordResetCodeInput"
 import NewPasswordInput from "./_NewPasswordInput"
 import SuccessDisplay from "../_components/Auth/SuccessDisplay"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export default function ResetPassword() {
   const router = useRouter()
@@ -28,7 +29,7 @@ export default function ResetPassword() {
     },
   })
   useEffect(() => {
-    if (sessionStorage.getItem("BA_USER_EMAIL") === null) {
+    if (sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) === null) {
       router.push("/")
     }
   }, [router])
@@ -67,7 +68,7 @@ export default function ResetPassword() {
       let res = await fetchData({
         url: `/users/reset-password?code=${value}`,
         body: {
-          email: sessionStorage.getItem("BA_USER_EMAIL"),
+          email: sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL),
         },
         method: "post",
       })
@@ -94,7 +95,7 @@ export default function ResetPassword() {
     async (value: string) => {
       setLoading(true)
       const body = {
-        email: sessionStorage.getItem("BA_USER_EMAIL"),
+        email: sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL),
         passwordResetCode,
         newPassword: value,
       }
@@ -108,7 +109,7 @@ export default function ResetPassword() {
         setSuccess(true)
         setPasswordResetCode("")
         setSuccess(true)
-        sessionStorage.removeItem("BA_USER_EMAIL")
+        sessionStorage.removeItem(STORAGE_KEYS.BA_USER_EMAIL)
       } else {
         toast({ status: "error", description: res.message })
         setFetchError(

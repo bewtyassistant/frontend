@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import Store from "../_types/User"
 import { fetchStore } from "./thunks/store.thunk"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export interface IStoreState {
   store: null | Store
@@ -39,7 +40,7 @@ export const storeSlice = createSlice({
         else {
           state.store = action.payload
           sessionStorage.setItem(
-            "BA_USER_STORE",
+            STORAGE_KEYS.BA_USER_STORE,
             JSON.stringify(action.payload)
           )
         }

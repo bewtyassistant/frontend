@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation"
 import BackIcon from "../_assets/BackIcon"
 import BackButton from "../_components/BackButton"
 import DownChevron from "../_assets/DownChevron"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export default function Signup() {
   const router = useRouter()
@@ -74,7 +75,7 @@ export default function Signup() {
       setLoading(true)
       const res = await signupUser(signupData)
       if (res?.statusCode === 201) {
-        sessionStorage.setItem("BA_USER_EMAIL", email)
+        sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, email)
         router.push("/verify-email")
       } else {
         setErrors((prev) => ({ ...prev, fetch: res.message }))

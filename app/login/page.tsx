@@ -15,6 +15,7 @@ import {
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
 import localforage from "localforage"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export default function Login() {
   const router = useRouter()
@@ -59,15 +60,15 @@ export default function Login() {
           status: "success",
           description: res.message || "You are logged in",
         })
-        await localforage.setItem("BA_TOKEN", res.token)
-        await localforage.setItem("BA_USER", res.user)
+        await localforage.setItem(STORAGE_KEYS.BA_TOKEN, res.token)
+        await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
         router.push(res.user.accountType === "client" ? "/client" : "/vendor")
       } else if (res.statusCode === 302) {
         toast({
           status: "info",
           description: res.message || "Please verify your email",
         })
-        sessionStorage.setItem("BA_USER_EMAIL", loginData.email)
+        sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, loginData.email)
         router.push("/verify-email")
       } else {
         toast({

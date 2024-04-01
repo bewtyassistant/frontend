@@ -10,6 +10,7 @@ import {
 } from "react"
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export default function ForgotPassword() {
   const toast = useToast({
@@ -42,7 +43,7 @@ export default function ForgotPassword() {
         method: "post",
       })
       if (res.statusCode === 200) {
-        sessionStorage.setItem("BA_USER_EMAIL", email)
+        sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, email)
         toast({ status: "success", description: res.message })
         router.push("/password-reset")
       } else {

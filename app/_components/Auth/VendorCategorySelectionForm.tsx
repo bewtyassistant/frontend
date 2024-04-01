@@ -12,6 +12,7 @@ import useFetchCategories from "@/app/_hooks/useFetchCategories"
 import Category from "@/app/_types/Category"
 import { useAppDispatch } from "@/app/_redux/store"
 import { setUpStore } from "@/app/_redux/store.slice"
+import STORAGE_KEYS from "@/app/STORAGE_KEYS"
 
 export default function VendorCategorySelectionForm({
   type,
@@ -63,7 +64,7 @@ export default function VendorCategorySelectionForm({
   const handleSubmit: FormEventHandler = useCallback(
     async (e) => {
       e.preventDefault()
-      let storeInSessionStorage = sessionStorage.getItem("BA_USER_STORE")
+      let storeInSessionStorage = sessionStorage.getItem(STORAGE_KEYS.BA_USER_STORE)
       if (storeInSessionStorage) {
         const store = JSON.parse(storeInSessionStorage)
         const res = await fetchData({
@@ -79,7 +80,7 @@ export default function VendorCategorySelectionForm({
           dispatch(setUpStore(res.store))
           toast.success("Welcome aboard!")
           router.push("/vendor")
-          sessionStorage.setItem("BA_USER_STORE", JSON.stringify(res.store))
+          sessionStorage.setItem(STORAGE_KEYS.BA_USER_STORE, JSON.stringify(res.store))
         } else toast.error(res.message)
       } else {
         toast.error("You must create a store first!")

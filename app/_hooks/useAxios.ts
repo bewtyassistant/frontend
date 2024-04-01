@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import axios, { AxiosHeaders, AxiosRequestConfig } from "axios"
 import localforage from "localforage"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL
 
@@ -34,7 +35,7 @@ export default function useAxios(options?: { initialLoadingState?: boolean }) {
       try {
         axios.defaults.headers.common[
           "Authorization"
-        ] = `Bearer ${await localforage.getItem("BA_TOKEN")}`
+        ] = `Bearer ${await localforage.getItem(STORAGE_KEYS.BA_TOKEN)}`
         const response = await axios[method](url, body, {
           ...headers,
           baseURL: baseURL || process.env.NEXT_PUBLIC_SERVER_URL,

@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../_redux/store"
 import { logout, setAuth } from "../_redux/auth.slice"
 import useRedirectToHomeIfNotLoggedIn from "../_hooks/useRedirectToHomeIfNotLoggedIn"
 import useRedirectToDashboardIfLoggedIn from "../_hooks/useRedirectToDashboardIfLoggedIn"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export const AuthContext = createContext<{
   token: string | null
@@ -38,8 +39,10 @@ export default function AuthProvider({
 
   const checkStatus = useCallback(async () => {
     try {
-      const token: string | null = await localforage.getItem("BA_TOKEN")
-      const user: User | null = await localforage.getItem("BA_USER")
+      const token: string | null = await localforage.getItem(
+        STORAGE_KEYS.BA_TOKEN
+      )
+      const user: User | null = await localforage.getItem(STORAGE_KEYS.BA_USER)
       if (token) {
         dispatch(
           setAuth({

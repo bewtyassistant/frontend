@@ -22,12 +22,13 @@ import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
 import SuccessDisplay from "../_components/Auth/SuccessDisplay"
 import { ErrorTextDisplay } from "../_components/Auth/ErrorText"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export default function VerifyEmail() {
   const router = useRouter()
 
   useEffect(() => {
-    if (sessionStorage.getItem("BA_USER_EMAIL") === null) {
+    if (sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) === null) {
       router.push("/")
     }
   }, [router])
@@ -64,7 +65,7 @@ export default function VerifyEmail() {
     const res = await fetchData({
       url: "/users/send-verification-email",
       method: "post",
-      body: { email: sessionStorage.getItem("BA_USER_EMAIL") },
+      body: { email: sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) },
     })
     if (res.statusCode !== 200) {
       setFetchError(true)
@@ -79,7 +80,7 @@ export default function VerifyEmail() {
         return setErrorMsg("Please input verification code")
       setLoading(true)
       const body = {
-        email: sessionStorage.getItem("BA_USER_EMAIL"),
+        email: sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL),
         emailVerificationCode: verificationCode,
       }
       let res = await fetchData({
@@ -92,7 +93,7 @@ export default function VerifyEmail() {
         setSuccess(true)
         setVerificationCode("")
         setFetchError(false)
-        sessionStorage.removeItem("BA_USER_EMAIL")
+        sessionStorage.removeItem(STORAGE_KEYS.BA_USER_EMAIL)
       } else {
         setFetchError(true)
         setErrorMsg(
