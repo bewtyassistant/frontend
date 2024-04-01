@@ -11,6 +11,8 @@ import useAxios from "@/app/_hooks/useAxios"
 import STORE_URLS from "@/app/_urls/store"
 import toast from "react-hot-toast"
 import { usePathname, useRouter } from "next/navigation"
+import { useAppDispatch } from "@/app/_redux/store"
+import { setUpStore } from "@/app/_redux/store.slice"
 
 const requiredFields = [
   "name",
@@ -22,6 +24,7 @@ const requiredFields = [
 ]
 
 export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const pathname = usePathname()
   const { fetchData, loading } = useAxios({ initialLoadingState: false })
@@ -94,8 +97,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         method: "post",
         body: data,
       })
-      console.log(res)
-      if (res.statusCode === 201) return [true, res]
+      if (res.statusCode === 201 || res.statusCode === 200) return [true, res]
       else return [false, res]
     },
     [fetchData]
@@ -110,13 +112,23 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
       toast.remove()
       if (success) {
         sessionStorage.setItem("BA_USER_STORE", JSON.stringify(res.store))
+        dispatch(setUpStore(res.store))
         toast.success(res.message)
-        router.push(`${pathname}/categories`)
+        let nextPath = `${pathname}/categories`
+        if (res.statusCode === 200) nextPath = "/vendor"
+        router.push(nextPath)
       } else {
         toast.error(res.message)
       }
     },
-    [storeData, checkForAndHandleErrors, pathname, router, createStore]
+    [
+      storeData,
+      checkForAndHandleErrors,
+      pathname,
+      router,
+      createStore,
+      dispatch,
+    ]
   )
 
   return (

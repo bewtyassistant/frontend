@@ -9,12 +9,27 @@ import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
 import { serviceVendorNavLinks } from "../_data/navLinks"
 import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 import AuthProvider from "../_providers/auth"
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../_redux/store"
+import { fetchStore } from "../_redux/thunks/store.thunk"
+import { useRouter } from "next/navigation"
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const router = useRouter()
+  const { needsToCreateStore } = useAppSelector((store) => store.store)
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchStore())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (needsToCreateStore) router.push("/onboarding")
+  }, [router, needsToCreateStore])
+
   return (
     <AuthProvider>
       <Show above="md">

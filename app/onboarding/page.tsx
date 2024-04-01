@@ -4,10 +4,8 @@ import AuthLayout from "../_components/Auth/Layout"
 import { ReactNode } from "react"
 import { SubmitButton } from "../_components/Auth/Inputs"
 import { useRouter } from "next/navigation"
-import useRedirectToHomeIfNotLoggedIn from "../_hooks/useRedirectToHomeIfNotLoggedIn"
 
 export default function Onboarding() {
-  useRedirectToHomeIfNotLoggedIn()
   const router = useRouter()
   return (
     <>

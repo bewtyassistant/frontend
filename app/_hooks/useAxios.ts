@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import axios, { AxiosHeaders, AxiosRequestConfig } from "axios"
+import localforage from "localforage"
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL
 
@@ -14,7 +15,6 @@ export default function useAxios(options?: { initialLoadingState?: boolean }) {
       ? options.initialLoadingState
       : false
   )
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
   const fetchData = useCallback(
     async ({
       url,
@@ -32,6 +32,9 @@ export default function useAxios(options?: { initialLoadingState?: boolean }) {
       if (loading) return
       setLoading(true)
       try {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${await localforage.getItem("BA_TOKEN")}`
         const response = await axios[method](url, body, {
           ...headers,
           baseURL: baseURL || process.env.NEXT_PUBLIC_SERVER_URL,

@@ -18,7 +18,11 @@ export default function useRedirectToDashboardIfLoggedIn({
     if (!loading && isLoggedIn) {
       if (user?.accountType === "client" && !pathname.startsWith("/client"))
         router.push(`/client`)
-      if (user?.accountType === "vendor" && !pathname.startsWith("/vendor"))
+      if (
+        user?.accountType === "vendor" &&
+        !pathname.startsWith("/vendor") &&
+        !pathname.startsWith("/onboarding")
+      )
         router.push(`/vendor`)
     }
   }, [router, isLoggedIn, loading, user?.accountType, pathname])
