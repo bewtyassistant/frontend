@@ -18,7 +18,11 @@ import localforage from "localforage"
 
 export default function Login() {
   const router = useRouter()
-  const toast = useToast({ size: "lg", position: "top", containerStyle: { fontSize: "1.4rem", fontWeight: "bold", color: "white" }})
+  const toast = useToast({
+    size: "lg",
+    position: "top",
+    containerStyle: { fontSize: "1.4rem", fontWeight: "bold", color: "white" },
+  })
   const { fetchData } = useAxios()
   const [errors, setErrors] = useState<{ [x: string]: string }>({})
   const [loading, setLoading] = useState(false)
@@ -45,17 +49,31 @@ export default function Login() {
         return
       }
       setLoading(true)
-      const res = await fetchData({ url: "/users/login", body: loginData, method: "post"})
-      if(res.statusCode === 200){
-        toast({ status: "success", description: res.message || "You are logged in"})
+      const res = await fetchData({
+        url: "/users/login",
+        body: loginData,
+        method: "post",
+      })
+      if (res.statusCode === 200) {
+        toast({
+          status: "success",
+          description: res.message || "You are logged in",
+        })
         await localforage.setItem("BA_TOKEN", res.token)
-        router.push(res.accountType === "client" ? "/client" : "/vendor")
-      }else if(res.statusCode === 302){
-        toast({ status: "info", description: res.message || "Please verify your email",})
+        await localforage.setItem("BA_USER", res.user)
+        router.push(res.user.accountType === "client" ? "/client" : "/vendor")
+      } else if (res.statusCode === 302) {
+        toast({
+          status: "info",
+          description: res.message || "Please verify your email",
+        })
         sessionStorage.setItem("BA_USER_EMAIL", loginData.email)
         router.push("/verify-email")
-      }else{
-        toast({ status: "error", description: res.message || "Unable to sign you in"})
+      } else {
+        toast({
+          status: "error",
+          description: res.message || "Unable to sign you in",
+        })
       }
       setLoading(false)
     },
@@ -81,7 +99,7 @@ export default function Login() {
             inputProps={{
               placeholder: "example@email.com",
               type: "email",
-              onChange: handleChange,
+              onChange: handleChange as any,
               value: loginData.email,
               name: "email",
               id: "email",
@@ -93,7 +111,7 @@ export default function Login() {
             label={"Password"}
             inputProps={{
               type: "password",
-              onChange: handleChange,
+              onChange: handleChange as any,
               value: loginData.password,
               name: "password",
               id: "password",
@@ -105,7 +123,13 @@ export default function Login() {
             Forgot password?
           </Link>
         </Flex>
-        <SubmitButton type="submit" isLoading={loading} loadingText="Please wait...">Login</SubmitButton>
+        <SubmitButton
+          type="submit"
+          isLoading={loading}
+          loadingText="Please wait..."
+        >
+          Login
+        </SubmitButton>
         <Text textAlign="center" color="gray.400" fontSize="1.6rem" mt=".8rem">
           Don&apos;t have an account?{" "}
           <Link href="/signup" color="brand.main">
