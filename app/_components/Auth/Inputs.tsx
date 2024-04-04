@@ -141,12 +141,17 @@ export function PasswordInput({
         type: showPassword ? "text" : type,
         placeholder: "**********",
         borderRight: 0,
+        w: "100%",
       }}
       hasError={hasError}
       errorDescription={errorDescription}
       inputRightAddon={
         <InputRightAddon
           borderRadius="inherit"
+          border="0"
+          _hover={{ bg: "transparent" }}
+          cursor="pointer"
+          zIndex="4"
           onClick={() => setShowPassword((prev) => !prev)}
         >
           <Eye />
