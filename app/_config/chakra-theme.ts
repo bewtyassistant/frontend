@@ -1,4 +1,3 @@
-
 import { extendTheme } from "@chakra-ui/react"
 import Button from "./chakra-components/Button"
 import * as customComponents from "./custom-chakra-components"
@@ -14,40 +13,44 @@ const colors = {
     400: "#F9F9F9",
     500: "#EEEEEE",
     600: "#E5E5E5",
-
   },
   brand: {
     main: "#BA2762",
     500: "#BA2762",
-    300: "#F4AFB4",
-    200: "#FFE3E7",
+    400: "#F4AFB4",
+    200: "#F29DBA",
+    300: "#FFE3E7",
+    320: "#FFE3E733",
+    380: "#FFE3E780",
     10: "#3A86FF1A",
     25: "#3A86FF40",
     50: "#3A86FF80",
     100: "#5DB8EA",
   },
-  green: {
-    main: "#009A49",
-    50: "#49C3A733",
+  seaBlue: {
+    main: "#62BEC1",
+    200: "#86CDCF",
+    100: "#CFEBEC",
   },
   red: {
     main: "#D02E2E",
-    50: "#FF00004D"
+    50: "#FF00004D",
   },
   dark: {
     100: "#151312",
     200: "#D9D9D9",
-    300: "#5C5F62"
+    300: "#5C5F62",
   },
   gray: {
     300: "#D6D8DC",
-    400: "#9FA3AD"
-  }
+    400: "#9FA3AD",
+  },
 }
 
 const fonts = {
-  body: "'Petrona', -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
-  heading: "'Petrona', -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+  body: '\'Petrona\', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+  heading:
+    '\'Petrona\', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
 }
 
 const fontSizes = {
@@ -64,7 +67,7 @@ const fontSizes = {
   "7xl": "4.4rem",
   "8xl": "4.8rem",
   "9xl": "5.2rem",
-  "xxl": "5.6rem",
+  xxl: "5.6rem",
 }
 
 const breakpoints = {
@@ -76,8 +79,8 @@ const breakpoints = {
   "2xl": "104em",
 }
 
-const theme = extendTheme({ 
-  colors, 
+const theme = extendTheme({
+  colors,
   fonts,
   fontSizes,
   breakpoints,
@@ -85,8 +88,8 @@ const theme = extendTheme({
     Heading,
     Input,
     Button,
-    ...customComponents
-  }
+    ...customComponents,
+  },
 })
 
 export default theme

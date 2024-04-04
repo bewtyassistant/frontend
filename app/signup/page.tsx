@@ -1,5 +1,5 @@
 "use client"
-import { Flex, Link, Select, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Link, Select, Text } from "@chakra-ui/react"
 import { AuthInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
 import {
@@ -10,6 +10,10 @@ import {
 } from "react"
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
+import BackIcon from "../_assets/BackIcon"
+import BackButton from "../_components/BackButton"
+import DownChevron from "../_assets/DownChevron"
+import STORAGE_KEYS from "../STORAGE_KEYS"
 
 export default function Signup() {
   const router = useRouter()
@@ -70,8 +74,8 @@ export default function Signup() {
       }
       setLoading(true)
       const res = await signupUser(signupData)
-      if (res.statusCode === 201) {
-        sessionStorage.setItem("BA_USER_EMAIL", email)
+      if (res?.statusCode === 201) {
+        sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, email)
         router.push("/verify-email")
       } else {
         setErrors((prev) => ({ ...prev, fetch: res.message }))
@@ -85,6 +89,7 @@ export default function Signup() {
     <AuthLayout
       headingText="Sign Up"
       subHeadingText="Create an account to start using Bewty Assistant"
+      showBackButton
     >
       <Flex
         onSubmit={handleSubmit}
@@ -93,6 +98,7 @@ export default function Signup() {
         maxW="40rem"
         flexDir="column"
         as="form"
+        pos="relative"
       >
         <Text
           color="red.main"
@@ -112,17 +118,17 @@ export default function Signup() {
               color: signupData.accountType ? "dark.100" : "gray.300",
               name: "accountType",
               onChange: handleChange,
-              as: Select,
-              children: (
-                <>
-                  <option>client</option>
-                  <option>vendor</option>
-                </>
-              ),
             }}
             hasError={Boolean(errors.accountType)}
             errorDescription={errors.accountType}
-          />
+            as="select"
+            inputRightAddon={<DownChevron />}
+          >
+            <>
+              <option>client</option>
+              <option>vendor</option>
+            </>
+          </AuthInput>
           <AuthInput
             label={"Email"}
             inputProps={{

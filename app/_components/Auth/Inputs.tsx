@@ -1,8 +1,10 @@
 import Eye from "@/app/_assets/Eye"
 import {
+  As,
   Box,
   Button,
   ButtonProps,
+  Flex,
   InputProps,
   InputRightAddon,
   LinkProps,
@@ -10,10 +12,13 @@ import {
   PinInputField,
   PinInputFieldProps,
   PinInputProps,
+  SelectProps,
   Text,
 } from "@chakra-ui/react"
 import { InputGroup, FormLabel, Input } from "@chakra-ui/react"
 import { ReactNode, useMemo, useState } from "react"
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
+import DownChevron from "@/app/_assets/DownChevron"
 
 export function AuthInput({
   label,
@@ -22,13 +27,17 @@ export function AuthInput({
   inputRightAddon,
   hasError,
   errorDescription,
+  as,
+  children,
 }: {
   label: string
-  inputProps: InputProps
+  inputProps: InputProps & SelectProps
   inputRightAddon?: ReactNode
   inputLeftAddon?: ReactNode
   hasError?: boolean
   errorDescription?: string
+  as?: As
+  children?: ReactNode | ReactNode[]
 }) {
   const { ...otherInputProps } = inputProps
 
@@ -57,21 +66,38 @@ export function AuthInput({
       <InputGroup
         {...inputGroupProps}
         border="1px solid"
-        borderColor="transparent"
+        borderColor="gray.300"
+        alignItems="center"
+        px="1.3rem"
+        pos="relative"
       >
         {inputLeftAddon}
         <Input
-          borderColor="gray.100"
+          border="0"
           _placeholder={{ color: "gray.300" }}
           fontSize="1.6rem"
           lineHeight="normal"
           rounded=".2rem"
-          px="1.6rem"
           py="1.1rem"
           color="dark.100"
-          {...otherInputProps}
-        />
-        {inputRightAddon}
+          as={as}
+          w="full"
+          pos="relative"
+          zIndex="2"
+          bg="transparent"
+          {...inputProps}
+        >
+          {as === "select" ? children : null}
+        </Input>
+        <InputRightAddon
+          border="0"
+          bg="transparent"
+          _hover={{ bg: "transparent" }}
+          pos="absolute"
+          right="1.3rem"
+        >
+          {inputRightAddon}
+        </InputRightAddon>
       </InputGroup>
       {hasError && (
         <Text color="red.main" fontSize="1.2rem">
@@ -98,10 +124,10 @@ export function PasswordInput({
   label,
   inputProps,
   errorDescription,
-  hasError
+  hasError,
 }: {
   label: string
-  inputProps: InputProps
+  inputProps: InputProps & SelectProps
   errorDescription: string
   hasError?: boolean
 }) {
@@ -115,12 +141,17 @@ export function PasswordInput({
         type: showPassword ? "text" : type,
         placeholder: "**********",
         borderRight: 0,
+        w: "100%",
       }}
       hasError={hasError}
       errorDescription={errorDescription}
       inputRightAddon={
         <InputRightAddon
           borderRadius="inherit"
+          border="0"
+          _hover={{ bg: "transparent" }}
+          cursor="pointer"
+          zIndex="4"
           onClick={() => setShowPassword((prev) => !prev)}
         >
           <Eye />
@@ -147,7 +178,7 @@ export function CustomPinInput({
     [fieldsCount]
   )
   return (
-    <PinInput placeholder="" focusBorderColor="brand.300" {...pinInputProps}>
+    <PinInput placeholder="" focusBorderColor="brand.400" {...pinInputProps}>
       {fieldsArray.map((field) => (
         <PinInputField
           key={field}
@@ -159,5 +190,81 @@ export function CustomPinInput({
         />
       ))}
     </PinInput>
+  )
+}
+
+const options = ["Option 1", "Option 2", "Option 3"]
+
+export function AuthCustomSelect({
+  options,
+  handleSelect,
+  placeholder,
+  selectedOptions = [],
+}: {
+  options: {
+    displayValue: string
+    value: any
+  }[]
+  handleSelect: (value: any) => void
+  placeholder: any
+  selectedOptions?: {
+    displayValue: string
+    value: any
+  }[]
+}) {
+  return (
+    <Flex flexDir="column" w="full" maxW="40rem">
+      <Menu closeOnSelect={false} matchWidth placement="top">
+        <MenuButton
+          type="button"
+          border="1px solid"
+          borderColor="gray.300"
+          px="1.3rem"
+          pos="relative"
+          fontSize="1.6rem"
+          lineHeight="normal"
+          rounded=".2rem"
+          py="1.1rem"
+          color="dark.100"
+        >
+          <Flex
+            as="span"
+            justifyContent="space-between"
+            alignItems="center"
+            w="full"
+          >
+            {placeholder} <DownChevron />
+          </Flex>
+        </MenuButton>
+        <MenuList
+          px="1.3rem"
+          pos="relative"
+          fontSize="1.6rem"
+          lineHeight="normal"
+          rounded=".2rem"
+          py="1.1rem"
+          color="dark.100"
+          w="full"
+          maxH="30rem"
+          overflow="auto"
+        >
+          {options.map((option) => (
+            <MenuItem
+              key={option.displayValue}
+              onClick={() => handleSelect(option.value)}
+              bg={
+                selectedOptions.some(
+                  (it) => it.displayValue === option.displayValue
+                )
+                  ? "brand.10"
+                  : ""
+              }
+            >
+              {option.displayValue}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+    </Flex>
   )
 }
