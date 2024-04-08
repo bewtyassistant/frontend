@@ -9,11 +9,13 @@ export default function SuccessDisplay({
   text,
   buttonText,
   buttonHref,
+  onButtonClick,
 }: {
   show: boolean
   text: string
   buttonText?: ReactNode
   buttonHref?: string
+  onButtonClick?: () => void
 }) {
   if (!show) return null
   return (
@@ -30,6 +32,12 @@ export default function SuccessDisplay({
       <SubmitButton
         type="button"
         href={buttonHref || "/login"}
+        onClickCapture={(e) => {
+          if (typeof onButtonClick === "function") {
+            e.preventDefault()
+            onButtonClick()
+          }
+        }}
         as={Link}
         alignSelf="stretch"
       >

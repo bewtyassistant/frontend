@@ -5,8 +5,6 @@ import {
   Flex,
   Link,
   LinkProps,
-  Text,
-  TextProps,
   useToast,
 } from "@chakra-ui/react"
 import { CustomPinInput, SubmitButton } from "../_components/Auth/Inputs"
@@ -24,9 +22,9 @@ import SuccessDisplay from "../_components/Auth/SuccessDisplay"
 import { ErrorTextDisplay } from "../_components/Auth/ErrorText"
 import STORAGE_KEYS from "../STORAGE_KEYS"
 import localforage from "localforage"
-import { AccountTypes } from "../_types/User"
-import { setAuth } from "../_redux/auth.slice"
+import User, { AccountTypes } from "../_types/User"
 import { useAppDispatch } from "../_redux/store"
+import { setAuth } from "../_redux/auth.slice"
 
 export default function VerifyEmail() {
   const router = useRouter()
@@ -45,6 +43,15 @@ export default function VerifyEmail() {
   const dispatch = useAppDispatch()
   const { fetchData } = useAxios()
   const [failedAttempts, setFailedAttempts] = useState(0)
+  const [localAuth, setLocalAuth] = useState<{
+    isLoggedIn: boolean
+    token: string
+    user: User | null
+  }>({
+    isLoggedIn: false,
+    token: "",
+    user: null,
+  })
   const [success, setSuccess] = useState(false)
   const [successText, setSuccessText] = useState("")
   const [nextPathAfterSuccess, setNextPathAfterSuccess] = useState("")
@@ -113,13 +120,11 @@ export default function VerifyEmail() {
         sessionStorage.removeItem(STORAGE_KEYS.BA_USER_EMAIL)
         await localforage.setItem(STORAGE_KEYS.BA_TOKEN, res.token)
         await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
-        dispatch(
-          setAuth({
-            isLoggedIn: true,
-            token: res.token,
-            user: res.user,
-          })
-        )
+        setLocalAuth({
+          isLoggedIn: true,
+          token: res.token,
+          user: res.user,
+        })
       } else {
         setFetchError(true)
         setErrorMsg(
@@ -132,7 +137,7 @@ export default function VerifyEmail() {
       }
       setLoading(false)
     },
-    [failedAttempts, fetchData, verificationCode, dispatch]
+    [failedAttempts, fetchData, verificationCode]
   )
 
   return (
@@ -158,6 +163,16 @@ export default function VerifyEmail() {
           show={success}
           buttonHref={nextPathAfterSuccess}
           buttonText="Let's Go!"
+          onButtonClick={() => {
+            router.push(nextPathAfterSuccess)
+            if (
+              localAuth.isLoggedIn &&
+              localAuth.token &&
+              localAuth.user !== null
+            ) {
+              dispatch(setAuth(localAuth as any))
+            }
+          }}
         />
         <FormInput
           show={!success}
