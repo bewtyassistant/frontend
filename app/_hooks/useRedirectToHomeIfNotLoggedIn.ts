@@ -14,7 +14,9 @@ export default function useRedirectToHomeIfNotLoggedIn({
 
   const redirect = useCallback(() => {
     const isProtectedRoute =
-      pathname.startsWith("/client") || pathname.startsWith("/vendor")
+      pathname.startsWith("/client") ||
+      pathname.startsWith("/vendor") ||
+      pathname.startsWith("/onboarding") 
     if (isProtectedRoute && !isLoggedIn && loading === false) {
       router.push("/")
     }

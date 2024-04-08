@@ -23,6 +23,10 @@ import { useRouter } from "next/navigation"
 import SuccessDisplay from "../_components/Auth/SuccessDisplay"
 import { ErrorTextDisplay } from "../_components/Auth/ErrorText"
 import STORAGE_KEYS from "../STORAGE_KEYS"
+import localforage from "localforage"
+import { AccountTypes } from "../_types/User"
+import { setAuth } from "../_redux/auth.slice"
+import { useAppDispatch } from "../_redux/store"
 
 export default function VerifyEmail() {
   const router = useRouter()
@@ -38,9 +42,12 @@ export default function VerifyEmail() {
     size: "lg",
     containerStyle: { color: "white", fontSize: "1.4rem", fontWeight: "bold" },
   })
+  const dispatch = useAppDispatch()
   const { fetchData } = useAxios()
   const [failedAttempts, setFailedAttempts] = useState(0)
   const [success, setSuccess] = useState(false)
+  const [successText, setSuccessText] = useState("")
+  const [nextPathAfterSuccess, setNextPathAfterSuccess] = useState("")
   const [fetchError, setFetchError] = useState(false)
   const [errorMsg, setErrorMsg] = useState("")
   const [verificationCode, setVerificationCode] = useState("")
@@ -91,9 +98,28 @@ export default function VerifyEmail() {
 
       if (res.statusCode === 200) {
         setSuccess(true)
+        setSuccessText(
+          res.user.accountType === AccountTypes.VENDOR
+            ? "You have successfully created your account, Create your store to begin using BewtyAssistant"
+            : "You have successfully created your account. Welcome using BewtyAssistant"
+        )
+        setNextPathAfterSuccess(
+          res.user.accountType === AccountTypes.VENDOR
+            ? "/onboarding"
+            : "/client"
+        )
         setVerificationCode("")
         setFetchError(false)
         sessionStorage.removeItem(STORAGE_KEYS.BA_USER_EMAIL)
+        await localforage.setItem(STORAGE_KEYS.BA_TOKEN, res.token)
+        await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
+        dispatch(
+          setAuth({
+            isLoggedIn: true,
+            token: res.token,
+            user: res.user,
+          })
+        )
       } else {
         setFetchError(true)
         setErrorMsg(
@@ -106,7 +132,7 @@ export default function VerifyEmail() {
       }
       setLoading(false)
     },
-    [failedAttempts, fetchData, verificationCode]
+    [failedAttempts, fetchData, verificationCode, dispatch]
   )
 
   return (
@@ -128,9 +154,10 @@ export default function VerifyEmail() {
         onSubmit={handleSubmit}
       >
         <SuccessDisplay
-          text=" You have successfully created your account, login to begin using Bewty
-        Assistant"
+          text={successText}
           show={success}
+          buttonHref={nextPathAfterSuccess}
+          buttonText="Let's Go!"
         />
         <FormInput
           show={!success}

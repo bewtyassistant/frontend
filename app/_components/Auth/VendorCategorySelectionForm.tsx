@@ -76,7 +76,6 @@ export default function VendorCategorySelectionForm({
           },
         })
         if (res.statusCode === 200) {
-          console.log(res)
           dispatch(setUpStore(res.store))
           toast.success("Welcome aboard!")
           router.push("/vendor")
@@ -87,7 +86,7 @@ export default function VendorCategorySelectionForm({
         router.push("/onboarding")
       }
     },
-    [categories, fetchData, router]
+    [categories, fetchData, router, dispatch]
   )
 
   return (
