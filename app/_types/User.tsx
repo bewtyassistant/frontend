@@ -1,5 +1,5 @@
 export default interface User {
-  accountType: "vendor" | "client"
+  accountType: AccountTypes
   email: string
   firstName: string
   id: string
@@ -8,4 +8,9 @@ export default interface User {
   password: string
   __v: 0
   _id: string
+}
+
+export enum AccountTypes  {
+  CLIENT = "client",
+  VENDOR = "vendor"
 }
