@@ -10,6 +10,7 @@ import NoDataDisplay from "../_components/NoDataDisplay"
 export default function VendorOverviewPage() {
   const { store, loading } = useAppSelector((store) => store.store)
 
+  console.log(store)
   if (!store && !loading) return <NoDataDisplay />
   return (
     <VStack alignItems="stretch">
