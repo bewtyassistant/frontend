@@ -4,15 +4,7 @@ import SearchBox from "../SearchBox"
 export default function MobileSearchHeader() {
   return (
     <Show below="md">
-      <Box
-        position="sticky"
-        top="0"
-        insetX="0"
-        mt="3rem"
-        w="90dvw"
-        mx="auto"
-        maxW={{lg:"43rem"}}
-      >
+      <Box position="sticky" top=".8rem" insetX="0" zIndex="100">
         <SearchBox />
       </Box>
     </Show>

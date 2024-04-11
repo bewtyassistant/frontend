@@ -1,7 +1,7 @@
 "use client"
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import Store from "../_types/User"
+import Store from "../_types/Store"
 import { fetchStore } from "./thunks/store.thunk"
 import STORAGE_KEYS from "../STORAGE_KEYS"
 
@@ -20,7 +20,7 @@ const initialState: IStoreState = {
 }
 
 export const storeSlice = createSlice({
-  name: "auth",
+  name: "store",
   initialState,
   reducers: {
     setUpStore: (state, action: PayloadAction<{ store: Store }>) => {
@@ -51,7 +51,6 @@ export const storeSlice = createSlice({
       })
       .addCase(fetchStore.rejected, (state, action) => {
         state.loading = false
-        console.log(action, "dafds")
       })
   },
 })
