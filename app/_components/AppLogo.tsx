@@ -6,15 +6,17 @@ export default function AppLogo({
   primaryColor,
   secondaryColor,
   defaultColor,
+  showText = true
 }: {
   primaryColor?: string
   secondaryColor?: string
   defaultColor?: ResponsiveValue<string>
+  showText?: boolean
 }) {
   return (
     <Flex gap=".867rem" color={defaultColor || "white"} alignItems="center">
       <Logo primaryColor={primaryColor} secondaryColor={secondaryColor} />
-      <LogoText />
+      {showText && <LogoText />}
     </Flex>
   )
 }
@@ -23,15 +25,17 @@ export function AppLogoSmall({
   primaryColor,
   secondaryColor,
   defaultColor,
+  showText = true,
 }: {
   primaryColor?: string
   secondaryColor?: string
   defaultColor?: ResponsiveValue<string>
+  showText?: boolean
 }) {
   return (
     <Flex gap=".867rem" color={defaultColor || "white"} alignItems="center">
       <LogoSmall primaryColor={primaryColor} secondaryColor={secondaryColor} />
-      <LogoTextSmall />
+      {showText && <LogoTextSmall />}
     </Flex>
   )
 }

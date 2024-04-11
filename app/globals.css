@@ -12,6 +12,7 @@ body{
   background: #BA2762;
   color: #fff;
 }
+
 .styled-scrollbar::-webkit-scrollbar {
   height: 5px; /* Width of the scrollbar */
   border-radius: 100px;
