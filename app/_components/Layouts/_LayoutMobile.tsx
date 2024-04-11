@@ -21,7 +21,7 @@ export default function MobileLayout({
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null)
   return (
     <Flex flexDir="column" position="relative">
-      <Box position="sticky" top="0" bg="white">
+      <Box position="sticky" top="0" bg="white" zIndex="100">
         <MobileHeader
           toggleSideBar={() => setShowDrawer((prev) => !prev)}
           toggleButtonRef={toggleButtonRef}
@@ -29,7 +29,7 @@ export default function MobileLayout({
           {headerChildren}
         </MobileHeader>
       </Box>
-      <Box>{children}</Box>
+      <Box px="1.5rem" py="3rem">{children}</Box>
       <MobileSideBar
         isOpen={showDrawer}
         onClose={() => setShowDrawer((prev) => !prev)}

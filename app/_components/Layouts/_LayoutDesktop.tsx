@@ -17,11 +17,12 @@ export default function DesktopLayout({
 }) {
   return (
     <Flex flexDir="column" position="relative">
-      <Box position="sticky" top="0" bg="white">
+      <Box position="sticky" top="0" bg="white" zIndex="100">
         <DesktopHeader>{headerChildren}</DesktopHeader>
       </Box>
       <Box
-        top="8rem"
+        top="9.5rem"
+        bottom=".8rem"
         position="fixed"
         w="22%"
         flexShrink="0"
@@ -29,9 +30,20 @@ export default function DesktopLayout({
         pt=".8rem"
         px=".8rem"
       >
-        <DesktopSideBar header={sidebarChildren.header} body={sidebarChildren.body} />
+        <DesktopSideBar
+          header={sidebarChildren.header}
+          body={sidebarChildren.body}
+        />
       </Box>
-      <Box flexShrink="0" flexGrow="0" ml="22%" w="78%" minH="100dvh">
+      <Box
+        flexShrink="0"
+        flexGrow="0"
+        ml="22%"
+        w="78%"
+        minH="100dvh"
+        py="6rem"
+        px="4rem"
+      >
         {children}
       </Box>
     </Flex>

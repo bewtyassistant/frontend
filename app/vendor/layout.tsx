@@ -13,6 +13,7 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../_redux/store"
 import { fetchStore } from "../_redux/thunks/store.thunk"
 import { useRouter } from "next/navigation"
+import AppFooter from "../_components/AppFooter"
 
 export default function RootLayout({
   children,
@@ -53,6 +54,7 @@ export default function RootLayout({
           {children}
         </MobileLayout>
       </Show>
+      <AppFooter />
     </AuthProvider>
   )
 }

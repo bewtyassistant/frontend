@@ -12,3 +12,22 @@ body{
   background: #BA2762;
   color: #fff;
 }
+
+.styled-scrollbar::-webkit-scrollbar {
+  height: 5px; /* Width of the scrollbar */
+  border-radius: 100px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-track {
+  background: #FFE3E780; /* Track color */
+  border-radius: 100px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  background: #BA2762; /* Thumb color */
+  border-radius: 100px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #BA2762; /* Thumb color on hover */
+}

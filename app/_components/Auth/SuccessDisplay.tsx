@@ -3,18 +3,22 @@ import { Flex, Text } from "@chakra-ui/react"
 import Link from "next/link"
 import { SubmitButton } from "./Inputs"
 import { ReactNode } from "react"
+import { useRouter } from "next/navigation"
 
 export default function SuccessDisplay({
   show,
   text,
   buttonText,
   buttonHref,
+  onButtonClick,
 }: {
   show: boolean
   text: string
   buttonText?: ReactNode
   buttonHref?: string
+  onButtonClick?: () => void
 }) {
+  const router = useRouter()
   if (!show) return null
   return (
     <Flex
@@ -30,6 +34,13 @@ export default function SuccessDisplay({
       <SubmitButton
         type="button"
         href={buttonHref || "/login"}
+        onClickCapture={(e) => {
+          if (typeof onButtonClick === "function") {
+            e.preventDefault()
+            onButtonClick()
+            if (buttonHref) router.push(buttonHref)
+          }
+        }}
         as={Link}
         alignSelf="stretch"
       >
