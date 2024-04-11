@@ -4,7 +4,11 @@ import BackIcon from "@/app/_assets/BackIcon"
 import { useRef } from "react"
 import DashboardHeading from "./DashboardHeading"
 
-export default function BestSellingProductsSection() {
+export default function BestSellingProductsSection({
+  loading,
+}: {
+  loading?: boolean
+}) {
   const listContainerRef = useRef<HTMLDivElement | null>(null)
   return (
     <Box overflowX="auto" pos="relative" zIndex="0" ref={listContainerRef}>
@@ -12,13 +16,13 @@ export default function BestSellingProductsSection() {
         Best selling products
       </DashboardHeading>
       <Flex gap={{ base: "3rem", md: "6rem" }} w="max-content" pos="relative">
-        <BestSellingProductCard loading bg="#62BEC11A" name={"Face wash"} />
-        <BestSellingProductCard loading bg="#FFE3E780" name={"Face wash"} />
+        <BestSellingProductCard loading={loading} bg="#62BEC11A" name={"Face wash"} />
+        <BestSellingProductCard loading={loading} bg="#FFE3E780" name={"Face wash"} />
 
-        <BestSellingProductCard loading bg="#62BEC11A" name={"Face wash"} />
-        <BestSellingProductCard loading bg="#FFE3E780" name={"Face wash"} />
-        <BestSellingProductCard loading bg="#62BEC11A" name={"Face wash"} />
-        <BestSellingProductCard loading bg="#FFE3E780" name={"Face wash"} />
+        <BestSellingProductCard loading={loading} bg="#62BEC11A" name={"Face wash"} />
+        <BestSellingProductCard loading={loading} bg="#FFE3E780" name={"Face wash"} />
+        <BestSellingProductCard loading={loading} bg="#62BEC11A" name={"Face wash"} />
+        <BestSellingProductCard loading={loading} bg="#FFE3E780" name={"Face wash"} />
         <Flex
           h={{ base: "13.8rem", sm: "20rem" }}
           pos="sticky"

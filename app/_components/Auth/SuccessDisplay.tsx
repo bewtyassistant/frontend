@@ -3,7 +3,7 @@ import { Flex, Text } from "@chakra-ui/react"
 import Link from "next/link"
 import { SubmitButton } from "./Inputs"
 import { ReactNode } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function SuccessDisplay({
   show,

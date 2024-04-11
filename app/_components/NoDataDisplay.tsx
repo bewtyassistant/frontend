@@ -4,7 +4,12 @@ import ErrorSvg from "../_assets/ErrorSvg"
 export default function NoDataDisplay() {
   return (
     <>
-      <VStack h="70dvh" justifyContent="center" alignItems="center">
+      <VStack
+        h="70dvh"
+        justifyContent="center"
+        alignItems="center"
+        textAlign="center"
+      >
         <Box color="brand.main" mb="2rem">
           <ErrorSvg />
         </Box>

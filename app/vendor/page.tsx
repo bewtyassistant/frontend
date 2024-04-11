@@ -6,12 +6,11 @@ import Star from "../_assets/StarIcon"
 import ProductVendorDashboard from "../_components/VendorDashboard/ProductVendorDashboard"
 import ServiceVendorDashboard from "../_components/VendorDashboard/ServiceVendorDashboard"
 import NoDataDisplay from "../_components/NoDataDisplay"
-import Loader from "../_components/Loader"
 
 export default function VendorOverviewPage() {
   const { store, loading } = useAppSelector((store) => store.store)
 
-  // if (!store && !loading) return <NoDataDisplay />
+  if (!store && !loading) return <NoDataDisplay />
   return (
     <VStack alignItems="stretch">
       <MobileSearchHeader />
@@ -34,8 +33,8 @@ export default function VendorOverviewPage() {
         </Flex>
       </Flex>
       <VStack alignItems="stretch" gap={{ base: "4rem", md: "6rem" }}>
-        <ProductVendorDashboard />
-        <ServiceVendorDashboard />
+        <ProductVendorDashboard store={store} loading={loading} />
+        <ServiceVendorDashboard store={store} loading={loading}/>
       </VStack>
     </VStack>
   )

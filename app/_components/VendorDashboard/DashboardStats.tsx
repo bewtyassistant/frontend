@@ -6,11 +6,12 @@ import DashboardHeading from "./DashboardHeading"
 export default function DashboardStats({
   heading,
   storeType,
+  loading,
 }: {
+  loading?: boolean
   heading?: string
   storeType: StoreType
 }) {
-
   return (
     <VStack alignItems="stretch">
       {heading && <DashboardHeading mb="1.2rem">{heading}</DashboardHeading>}
@@ -26,7 +27,7 @@ export default function DashboardStats({
           flexGrow="1"
           heading={"N 100,000"}
           text={"Total earnings"}
-          loading
+          loading={loading}
         />
         <StatisticCard
           bg="#62BEC11A"
@@ -39,7 +40,7 @@ export default function DashboardStats({
               ? "Total appointments"
               : "Total products sold"
           }
-          loading
+          loading={loading}
         />
         <StatisticCard
           bg="#F8F8F8"
@@ -52,7 +53,7 @@ export default function DashboardStats({
               ? "Clients serviced"
               : "Locations delivered to"
           }
-          loading
+          loading={loading}
         />
       </Flex>
     </VStack>

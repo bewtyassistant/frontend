@@ -2,7 +2,7 @@ import { Flex, Heading, Box, Text } from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import DashboardHeading from "./DashboardHeading"
 
-export default function ProductOrdersTable() {
+export default function ProductOrdersTable({ loading }: { loading?: boolean }) {
   return (
     <Box
       overflow="auto"
@@ -31,7 +31,7 @@ export default function ProductOrdersTable() {
         </Text>
       </Flex>
       <AppTable
-        loading
+        loading={loading}
         headings={[
           "Customer name",
           "Delivery date",

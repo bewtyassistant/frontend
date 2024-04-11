@@ -6,4 +6,5 @@ export enum StoreType {
 
 export default interface Store {
   name: string
-}
+  type: StoreType
+} 
