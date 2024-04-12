@@ -18,6 +18,7 @@ export default function ProductVendorDashboard({
         loading={loading}
         heading="Shop"
         storeType={StoreType.product}
+        store={store}
       />
       <BestSellingProductsSection loading={loading} />
       <ProductOrdersTable loading={loading} />

@@ -7,4 +7,10 @@ export enum StoreType {
 export default interface Store {
   name: string
   type: StoreType
+  totalEarningsOnProducts: number
+  totalEarningsOnServices: number
+  totalProductsSold?: number
+  totalAppointments?: number
+  totalLocationsDeliveredTo?: number
+  totalClientsServiced?: number
 } 
