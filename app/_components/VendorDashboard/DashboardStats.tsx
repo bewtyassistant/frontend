@@ -1,5 +1,5 @@
 import { VStack, Flex } from "@chakra-ui/react"
-import StatisticCard from "../StatisticCard"
+import StatisticCard from "../Dashboard/StatisticCard"
 import Store, { StoreType } from "@/app/_types/Store"
 import DashboardHeading from "./DashboardHeading"
 

@@ -25,6 +25,7 @@ export default function MobileHeader({
           ref={toggleButtonRef as LegacyRef<HTMLButtonElement>}
           aria-label="toggle-menu"
           color="brand.main"
+          bg="transparent"
         >
           <MenuIcon />
         </IconButton>

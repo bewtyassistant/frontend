@@ -1,5 +1,5 @@
 import { VStack } from "@chakra-ui/react"
-import BestSellingProductsSection from "./BestSellingProductsSection"
+import DashboardProductsSection from "../Dashboard/DashboardProductsSection"
 import DashboardStats from "./DashboardStats"
 import ProductOrdersTable from "./ProductOrdersTable"
 import Store, { StoreType } from "@/app/_types/Store"
@@ -56,7 +56,8 @@ export default function ProductVendorDashboard({
         storeType={StoreType.product}
         store={store}
       />
-      <BestSellingProductsSection
+      <DashboardProductsSection
+        heading="Best selling products"
         bestSellingProducts={store?.bestSellingProducts}
         loading={loading}
       />
