@@ -65,3 +65,5 @@ export default function ProductVendorDashboard({
     </VStack>
   )
 }
+//serviceSchema
+// { serviceCategory: OID, price, name, estimatedDuration,  }
