@@ -1,6 +1,6 @@
 import { BoxProps, Flex, Heading, Text } from "@chakra-ui/react"
 import { ReactNode } from "react"
-import useGetAnimation from "../_hooks/useGetAnimation"
+import useGetAnimation from "../../_hooks/useGetAnimation"
 
 export default function StatisticCard({
   heading,

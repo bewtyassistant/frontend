@@ -2,12 +2,18 @@ import { Box, Flex, Image, Text, VStack } from "@chakra-ui/react"
 import { ReactNode } from "react"
 import DashboardHeading from "./DashboardHeading"
 import useGetAnimation from "@/app/_hooks/useGetAnimation"
+import Appointment from "@/app/_types/Appointment"
 
 export default function VendorNextBookedService({
   loading,
+  nextBookedService,
+  isVendor,
 }: {
   loading?: boolean
+  nextBookedService: Appointment | null
+  isVendor: boolean
 }) {
+  if (!loading && !nextBookedService) return null
   if (loading) return <Skeleton />
   return (
     <Box>
@@ -18,18 +24,62 @@ export default function VendorNextBookedService({
         flexWrap={{ base: "wrap", sm: "nowrap" }}
       >
         <Image
+          alt=""
           src="/images/service-placeholder.png"
           w={{ base: "100%", sm: "50%" }}
           rounded=".4rem"
         />
         <VStack gap="1rem" alignItems="stretch">
-          <KeyValuePair keyName="Date" value="15 / 01 / 2024" />
-          <KeyValuePair keyName="Time" value="2:00 PM" />
-          <KeyValuePair keyName="Client's name" value="Mrs. Jane Ezumezu" />
-          <KeyValuePair keyName="Amount paid" value="N 20,000" />
           <KeyValuePair
-            keyName="Services requested"
-            value=" Retouching, fixing weavon, manicure and pedicure"
+            keyName="Date"
+            value={new Date(nextBookedService?.bookedDate || "").toDateString()}
+          />
+          <KeyValuePair
+            keyName="Time"
+            value={new Date(
+              nextBookedService?.bookedDate || ""
+            ).toLocaleTimeString("en-NG", {
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          />
+          {isVendor ? (
+            <KeyValuePair
+              keyName="Client's name"
+              value={`${nextBookedService?.client.firstName} ${nextBookedService?.client.lastName}`}
+            />
+          ) : (
+            <>
+              <KeyValuePair
+                keyName="Salon name"
+                value={`${nextBookedService?.vendor.name}`}
+              />
+              <KeyValuePair
+                keyName="Salon address"
+                value={`${nextBookedService?.vendor.address}`}
+              />
+              <KeyValuePair
+                keyName="Landmark"
+                value={`${nextBookedService?.vendor.nearestLandmark}`}
+              />
+              <KeyValuePair
+                keyName="Salon Contact nos"
+                value={`${nextBookedService?.vendor.primaryContactNumbers.join(
+                  ", "
+                )}`}
+              />
+            </>
+          )}
+          {isVendor && (
+            <KeyValuePair
+              keyName="Amount paid"
+              value={nextBookedService?.totalCost}
+            />
+          )}
+          <KeyValuePair
+            keyName={isVendor ? "Services requested" : ""}
+            value={nextBookedService?.services.join(", ")}
           />
         </VStack>
       </Flex>
@@ -41,7 +91,7 @@ export function ClientNextBookedService() {
   return (
     <>
       <Flex>
-        <Image src="/images/service-placeholder.png" />
+        <Image src="/images/service-placeholder.png" alt="" />
         <KeyValuePair keyName="Date" value="15 / 01 / 2024" />
       </Flex>
     </>
@@ -81,6 +131,7 @@ function Skeleton() {
         >
           <Image
             src="/images/service-placeholder-skeleton.png"
+            alt=""
             w={{ base: "100%", sm: "50%" }}
             rounded=".4rem"
             opacity=".4"

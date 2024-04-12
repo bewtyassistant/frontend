@@ -1,3 +1,5 @@
+import Product from "./Product"
+
 export enum StoreType {
   "product" = "product",
   "service" = "service",
@@ -7,4 +9,17 @@ export enum StoreType {
 export default interface Store {
   name: string
   type: StoreType
+  totalEarningsOnProducts: number
+  totalEarningsOnServices: number
+  totalProductsSold?: number
+  totalAppointments?: number
+  totalLocationsDeliveredTo?: number
+  totalClientsServiced?: number
+  bestSellingProducts: Product[]
+  address: string
+  city: string
+  state: string
+  nearestLandmark: string
+  primaryContactNumbers: string[]
+  secondaryContactNumbers: string[]
 } 

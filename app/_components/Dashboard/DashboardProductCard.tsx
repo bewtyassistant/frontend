@@ -1,8 +1,8 @@
 import { BoxProps, Flex, Heading, Image, Text } from "@chakra-ui/react"
 import { ReactNode } from "react"
-import useGetAnimation from "../_hooks/useGetAnimation"
+import useGetAnimation from "../../_hooks/useGetAnimation"
 
-export default function BestSellingProductCard({
+export default function DashboardProductCard({
   name,
   loading,
   ...rest
@@ -24,7 +24,7 @@ export default function BestSellingProductCard({
         alignItems="center"
         {...rest}
       >
-        <Image src="/images/face-wash.png" w="50%" h="auto" />
+        <Image src="/images/face-wash.png" w="50%" h="auto" alt="" />
         <Text
           fontSize={{ base: "1.4rem", md: "1.6rem" }}
           color="#9FA3AD"

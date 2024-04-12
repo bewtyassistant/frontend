@@ -32,7 +32,7 @@ export default function RootLayout({
         <MobileLayout
           headerChildren={<ImageAndNameAndLastSeen />}
           SidebarChildren={({ onClose }) =>
-            MobileSideBarContent({ links: serviceVendorNavLinks, onClose })
+            MobileSideBarContent({ links: serviceVendorNavLinks })
           }
         >
           {children}

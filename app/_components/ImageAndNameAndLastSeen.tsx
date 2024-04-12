@@ -1,6 +1,8 @@
 import { Avatar, Box, Flex, Text, VStack } from "@chakra-ui/react"
+import { useAppSelector } from "../_redux/store"
 
 export default function ImageAndNameAndLastSeen() {
+  const { user } = useAppSelector((store) => store.auth)
   return (
     <>
       <Flex as="figure" alignItems="center" gap="1.2rem">
@@ -9,7 +11,9 @@ export default function ImageAndNameAndLastSeen() {
           borderColor="brand.main"
           width={{ base: "3.5rem", md: "4.8rem", lg: "6.4rem" }}
           height={{ base: "3.5rem", md: "4.8rem", lg: "6.4rem" }}
-          name="Jane Ezumezu"
+          bg="#62BEC11A"
+          color="brand.main"
+          name={`${user?.firstName || "Hello"} ${user?.lastName || "there"}`}
         />
         <VStack
           alignItems="start"
@@ -22,7 +26,7 @@ export default function ImageAndNameAndLastSeen() {
             lineHeight={{ base: "1.8rem" }}
             color="dark.100"
           >
-            Jane Ezumezu
+            {user?.firstName || "Hello"} {user?.lastName || "there"}
           </Text>
           <Text
             as="span"

@@ -1,16 +1,18 @@
 import { VStack, Flex } from "@chakra-ui/react"
-import StatisticCard from "../StatisticCard"
-import { StoreType } from "@/app/_types/Store"
+import StatisticCard from "../Dashboard/StatisticCard"
+import Store, { StoreType } from "@/app/_types/Store"
 import DashboardHeading from "./DashboardHeading"
 
 export default function DashboardStats({
   heading,
   storeType,
   loading,
+  store,
 }: {
   loading?: boolean
   heading?: string
   storeType: StoreType
+  store: Store | null
 }) {
   return (
     <VStack alignItems="stretch">
@@ -25,7 +27,15 @@ export default function DashboardStats({
           w={{ base: "100%", sm: "unset" }}
           maxW={{ base: "100%", sm: "40%" }}
           flexGrow="1"
-          heading={"N 100,000"}
+          heading={(
+            (storeType === StoreType.service
+              ? store?.totalEarningsOnServices
+              : store?.totalEarningsOnProducts) || 0
+          ).toLocaleString("en-NG", {
+            style: "currency",
+            currency: "NGN",
+            maximumFractionDigits: 0,
+          })}
           text={"Total earnings"}
           loading={loading}
         />
@@ -34,7 +44,11 @@ export default function DashboardStats({
           color="#62BEC1"
           maxW={{ base: "49%", sm: "30%" }}
           flexGrow="1"
-          heading={"50"}
+          heading={
+            (storeType === StoreType.service
+              ? store?.totalAppointments
+              : store?.totalProductsSold) || 0
+          }
           text={
             storeType === StoreType.service
               ? "Total appointments"
@@ -47,7 +61,11 @@ export default function DashboardStats({
           color="#9FA3AD"
           maxW={{ base: "49%", sm: "30%" }}
           flexGrow="1"
-          heading={"40"}
+          heading={
+            (storeType === StoreType.service
+              ? store?.totalClientsServiced
+              : store?.totalLocationsDeliveredTo) || 0
+          }
           text={
             storeType === StoreType.service
               ? "Clients serviced"
