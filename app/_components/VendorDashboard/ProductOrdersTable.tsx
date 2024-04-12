@@ -1,8 +1,16 @@
-import { Flex, Heading, Box, Text } from "@chakra-ui/react"
+import { Flex, Box, Text } from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import DashboardHeading from "./DashboardHeading"
+import { ReactNode } from "react"
 
-export default function ProductOrdersTable({ loading }: { loading?: boolean }) {
+export default function ProductOrdersTable({
+  loading,
+  tableData,
+}: {
+  loading?: boolean
+  tableData: ReactNode[][]
+}) {
+  if (!loading && tableData.length === 0) return null
   return (
     <Box
       overflow="auto"
@@ -40,24 +48,7 @@ export default function ProductOrdersTable({ loading }: { loading?: boolean }) {
           "Product price",
           "",
         ]}
-        tableData={[
-          [
-            "Customer name",
-            "Delivery date",
-            "Delivery time",
-            "Product name",
-            "Product price",
-            "",
-          ],
-          [
-            "Customer name",
-            "Delivery date",
-            "Delivery time",
-            "Product name",
-            "Product price",
-            "",
-          ],
-        ]}
+        tableData={tableData}
       />
     </Box>
   )

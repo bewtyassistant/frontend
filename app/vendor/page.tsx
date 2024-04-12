@@ -34,8 +34,8 @@ export default function VendorOverviewPage() {
         </Flex>
       </Flex>
       <VStack alignItems="stretch" gap={{ base: "4rem", md: "6rem" }}>
-        <ProductVendorDashboard store={store} loading={loading} />
-        <ServiceVendorDashboard store={store} loading={loading}/>
+        <ProductVendorDashboard store={store} loading={loading} orders={[]} />
+        <ServiceVendorDashboard store={store} loading={loading} />
       </VStack>
     </VStack>
   )
