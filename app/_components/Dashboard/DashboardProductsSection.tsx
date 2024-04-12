@@ -28,6 +28,7 @@ export default function DashboardProductsSection({
       <Flex gap={{ base: "3rem", md: "6rem" }} w="max-content" pos="relative">
         {bestSellingProducts.map((product, index) => (
           <DashboardProductCard
+            key={product._id}
             name={product.name}
             bg={
               productBgColors[

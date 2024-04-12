@@ -24,6 +24,7 @@ export default function VendorNextBookedService({
         flexWrap={{ base: "wrap", sm: "nowrap" }}
       >
         <Image
+          alt=""
           src="/images/service-placeholder.png"
           w={{ base: "100%", sm: "50%" }}
           rounded=".4rem"
@@ -90,7 +91,7 @@ export function ClientNextBookedService() {
   return (
     <>
       <Flex>
-        <Image src="/images/service-placeholder.png" />
+        <Image src="/images/service-placeholder.png" alt="" />
         <KeyValuePair keyName="Date" value="15 / 01 / 2024" />
       </Flex>
     </>
@@ -130,6 +131,7 @@ function Skeleton() {
         >
           <Image
             src="/images/service-placeholder-skeleton.png"
+            alt=""
             w={{ base: "100%", sm: "50%" }}
             rounded=".4rem"
             opacity=".4"
