@@ -45,8 +45,9 @@ export default function ProductOrdersTable({
           "Delivery date",
           "Delivery time",
           "Product name",
-          "Product price",
-          "",
+          "Product quantity",
+          "Price",
+          "Status",
         ]}
         tableData={tableData}
       />

@@ -16,4 +16,10 @@ export default interface Store {
   totalLocationsDeliveredTo?: number
   totalClientsServiced?: number
   bestSellingProducts: Product[]
+  address: string
+  city: string
+  state: string
+  nearestLandmark: string
+  primaryContactNumbers: string[]
+  secondaryContactNumbers: string[]
 } 

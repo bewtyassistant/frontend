@@ -1,4 +1,5 @@
 import {
+  Flex,
   Table,
   TableContainer,
   Tbody,
@@ -57,7 +58,7 @@ export default function AppTable({
                     fontSize="1.4rem"
                     h="6.4rem"
                   >
-                    {data}
+                    <Flex justifyContent="center" w="fit-content" mx="auto" alignItems="center">{data}</Flex>
                   </Td>
                 ))}
               </Tr>
