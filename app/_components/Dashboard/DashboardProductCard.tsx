@@ -1,8 +1,8 @@
 import { BoxProps, Flex, Heading, Image, Text } from "@chakra-ui/react"
 import { ReactNode } from "react"
-import useGetAnimation from "../_hooks/useGetAnimation"
+import useGetAnimation from "../../_hooks/useGetAnimation"
 
-export default function BestSellingProductCard({
+export default function DashboardProductCard({
   name,
   loading,
   ...rest

@@ -46,6 +46,7 @@ export default function MobileSideBar({
           h="unset"
           color="brand.main"
           aria-label="close menu"
+          ml="auto"
         >
           <CloseIcon />
         </IconButton>

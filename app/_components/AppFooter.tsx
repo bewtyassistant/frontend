@@ -16,11 +16,12 @@ export default function AppFooter() {
         pos="sticky"
         top="100%"
         zIndex="100"
-        pt={{ base: "1.5rem", sm: "2rem" }}
+        pt={{ base: "1.5rem", sm: "2.8rem" }}
+        bottom="0"
       >
         <Flex
           px="4rem"
-          maxW={{ md: "80%" }}
+          maxW={{ xl: "100%" }}
           mx="auto"
           justify="space-between"
           alignItems="flex-start"

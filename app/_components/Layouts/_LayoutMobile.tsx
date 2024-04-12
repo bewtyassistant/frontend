@@ -29,7 +29,7 @@ export default function MobileLayout({
           {headerChildren}
         </MobileHeader>
       </Box>
-      <Box px="1.5rem" py="3rem">{children}</Box>
+      <Box px="1.5rem" pt="3rem" pb="22rem">{children}</Box>
       <MobileSideBar
         isOpen={showDrawer}
         onClose={() => setShowDrawer((prev) => !prev)}

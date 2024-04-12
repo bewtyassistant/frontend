@@ -7,6 +7,7 @@ body{
   font-family: "Petrona", serif;
   font-weight: 400;
   font-style: normal;
+  height: 100dvh;
 }
 ::selection {
   background: #BA2762;

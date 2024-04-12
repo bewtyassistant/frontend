@@ -1,8 +1,16 @@
 import { Flex, Box, Text } from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import DashboardHeading from "./DashboardHeading"
+import { ReactNode } from "react"
 
-export default function AppointmentsTable() {
+export default function AppointmentsTable({
+  tableData,
+  loading,
+}: {
+  loading?: boolean
+  tableData: ReactNode[][]
+}) {
+  if (!loading && tableData.length === 0) return null
   return (
     <Box
       overflow="auto"
@@ -31,7 +39,7 @@ export default function AppointmentsTable() {
         </Text>
       </Flex>
       <AppTable
-        loading
+        loading={loading}
         headings={[
           "Customer name",
           "Date",
@@ -39,27 +47,9 @@ export default function AppointmentsTable() {
           "Services booked",
           "Required products",
           "Amount",
-          "",
+          "Status",
         ]}
-        tableData={[
-          [
-            "Customer name",
-            "Delivery date",
-            "Delivery time",
-            "Product name",
-            "Product price",
-            "Amount",
-            "",
-          ],
-          [
-            "Customer name",
-            "Delivery date",
-            "Delivery time",
-            "Product name",
-            "Product price",
-            "",
-          ],
-        ]}
+        tableData={tableData}
       />
     </Box>
   )
