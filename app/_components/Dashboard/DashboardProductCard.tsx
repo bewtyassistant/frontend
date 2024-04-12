@@ -24,7 +24,7 @@ export default function DashboardProductCard({
         alignItems="center"
         {...rest}
       >
-        <Image src="/images/face-wash.png" w="50%" h="auto" />
+        <Image src="/images/face-wash.png" w="50%" h="auto" alt="" />
         <Text
           fontSize={{ base: "1.4rem", md: "1.6rem" }}
           color="#9FA3AD"
