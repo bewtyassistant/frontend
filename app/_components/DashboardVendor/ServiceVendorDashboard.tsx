@@ -1,8 +1,8 @@
 import { VStack } from "@chakra-ui/react"
-import DashboardStats from "./DashboardStats"
+import DashboardStats from "./Stats"
 
 import Store, { StoreType } from "@/app/_types/Store"
-import VendorNextBookedService from "./NextBookService"
+import VendorNextBookedService from "../Dashboard/NextBookService"
 import AppointmentsTable from "./AppointmentsTable"
 import Appointment from "@/app/_types/Appointment"
 import { ReactNode } from "react"

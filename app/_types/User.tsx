@@ -8,6 +8,11 @@ export default interface User {
   password: string
   __v: 0
   _id: string
+  salonsVisited?: number
+  vendorsPatronised?: number
+  totalAppointments?: number
+  totalProductsBought?: number
+  totalExpenses?: number
 }
 
 export enum AccountTypes  {

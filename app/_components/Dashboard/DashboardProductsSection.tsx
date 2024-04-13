@@ -2,8 +2,8 @@ import { Box, Flex } from "@chakra-ui/react"
 import DashboardProductCard from "./DashboardProductCard"
 import BackIcon from "@/app/_assets/BackIcon"
 import { ReactNode, useRef } from "react"
-import DashboardHeading from "../VendorDashboard/DashboardHeading"
-import Store from "@/app/_types/Store"
+import DashboardHeading from "./DashboardHeading"
+import Product from "@/app/_types/Product"
 
 const productBgColors = {
   0: "#62BEC11A",
@@ -11,22 +11,22 @@ const productBgColors = {
 }
 export default function DashboardProductsSection({
   loading,
-  bestSellingProducts = [],
+  products = [],
   heading,
 }: {
   loading?: boolean
-  bestSellingProducts?: Store["bestSellingProducts"]
+  products?: Product[]
   heading: ReactNode
 }) {
   const listContainerRef = useRef<HTMLDivElement | null>(null)
-  if (!loading && bestSellingProducts.length === 0) return null
+  if (!loading && products.length === 0) return null
   return (
     <Box overflowX="auto" pos="relative" zIndex="0" ref={listContainerRef}>
       <DashboardHeading mb="1.5rem" pos="sticky" left="0">
         {heading}
       </DashboardHeading>
       <Flex gap={{ base: "3rem", md: "6rem" }} w="max-content" pos="relative">
-        {bestSellingProducts.map((product, index) => (
+        {products.map((product, index) => (
           <DashboardProductCard
             key={product._id}
             name={product.name}
