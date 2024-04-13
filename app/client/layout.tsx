@@ -9,6 +9,7 @@ import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
 import { serviceVendorNavLinks } from "../_data/navLinks"
 import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 import AuthProvider from "../_providers/auth"
+import AppFooter from "../_components/AppFooter"
 
 export default function RootLayout({
   children,
@@ -31,13 +32,14 @@ export default function RootLayout({
       <Show below="md">
         <MobileLayout
           headerChildren={<ImageAndNameAndLastSeen />}
-          SidebarChildren={({ onClose }) =>
+          SidebarChildren={() =>
             MobileSideBarContent({ links: serviceVendorNavLinks })
           }
         >
           {children}
         </MobileLayout>
       </Show>
+      <AppFooter />
     </AuthProvider>
   )
 }

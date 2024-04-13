@@ -4,7 +4,7 @@ import DashboardHeading from "./DashboardHeading"
 import useGetAnimation from "@/app/_hooks/useGetAnimation"
 import Appointment from "@/app/_types/Appointment"
 
-export default function VendorNextBookedService({
+export default function NextBookedService({
   loading,
   nextBookedService,
   isVendor,
@@ -47,25 +47,25 @@ export default function VendorNextBookedService({
           {isVendor ? (
             <KeyValuePair
               keyName="Client's name"
-              value={`${nextBookedService?.client.firstName} ${nextBookedService?.client.lastName}`}
+              value={`${nextBookedService?.client?.firstName} ${nextBookedService?.client?.lastName}`}
             />
           ) : (
             <>
               <KeyValuePair
                 keyName="Salon name"
-                value={`${nextBookedService?.vendor.name}`}
+                value={`${nextBookedService?.vendor?.name}`}
               />
               <KeyValuePair
                 keyName="Salon address"
-                value={`${nextBookedService?.vendor.address}`}
+                value={`${nextBookedService?.vendor?.address}`}
               />
               <KeyValuePair
                 keyName="Landmark"
-                value={`${nextBookedService?.vendor.nearestLandmark}`}
+                value={`${nextBookedService?.vendor?.nearestLandmark}`}
               />
               <KeyValuePair
                 keyName="Salon Contact nos"
-                value={`${nextBookedService?.vendor.primaryContactNumbers.join(
+                value={`${nextBookedService?.vendor?.primaryContactNumbers?.join(
                   ", "
                 )}`}
               />
@@ -78,23 +78,12 @@ export default function VendorNextBookedService({
             />
           )}
           <KeyValuePair
-            keyName={isVendor ? "Services requested" : ""}
-            value={nextBookedService?.services.join(", ")}
+            keyName={"Services requested"}
+            value={nextBookedService?.services?.join(", ")}
           />
         </VStack>
       </Flex>
     </Box>
-  )
-}
-
-export function ClientNextBookedService() {
-  return (
-    <>
-      <Flex>
-        <Image src="/images/service-placeholder.png" alt="" />
-        <KeyValuePair keyName="Date" value="15 / 01 / 2024" />
-      </Flex>
-    </>
   )
 }
 

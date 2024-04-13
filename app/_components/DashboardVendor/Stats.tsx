@@ -1,7 +1,7 @@
 import { VStack, Flex } from "@chakra-ui/react"
 import StatisticCard from "../Dashboard/StatisticCard"
 import Store, { StoreType } from "@/app/_types/Store"
-import DashboardHeading from "./DashboardHeading"
+import DashboardHeading from "../Dashboard/DashboardHeading"
 
 export default function DashboardStats({
   heading,

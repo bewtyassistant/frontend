@@ -1,14 +1,16 @@
 import { Flex, Box, Text } from "@chakra-ui/react"
 import AppTable from "../AppTable"
-import DashboardHeading from "./DashboardHeading"
+import DashboardHeading from "../Dashboard/DashboardHeading"
 import { ReactNode } from "react"
 
-export default function ProductOrdersTable({
-  loading,
+export default function AppointmentsTable({
   tableData,
+  loading,
+  isClient
 }: {
   loading?: boolean
   tableData: ReactNode[][]
+  isClient?: boolean
 }) {
   if (!loading && tableData.length === 0) return null
   return (
@@ -28,7 +30,7 @@ export default function ProductOrdersTable({
         mb="1.5rem"
         zIndex="0"
       >
-        <DashboardHeading>Product orders</DashboardHeading>
+        <DashboardHeading>Appointments</DashboardHeading>
         <Text
           as="button"
           color="brand.main"
@@ -41,12 +43,12 @@ export default function ProductOrdersTable({
       <AppTable
         loading={loading}
         headings={[
-          "Customer name",
-          "Delivery date",
-          "Delivery time",
-          "Product name",
-          "Product quantity",
-          "Price",
+          isClient ? "Vendor name" : "Customer name",
+          "Date",
+          "Time",
+          "Services booked",
+          "Required products",
+          "Amount",
           "Status",
         ]}
         tableData={tableData}

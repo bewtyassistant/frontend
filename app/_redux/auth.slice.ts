@@ -7,12 +7,14 @@ export interface IAuthState {
   isLoggedIn: boolean
   token: null | string
   user: null | User
+  loading: boolean
 }
 
 const initialState: IAuthState = {
   isLoggedIn: false,
   token: null,
   user: null,
+  loading: true
 }
 
 export const authSlice = createSlice({
@@ -26,6 +28,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn
       state.token = action.payload.token
       state.user = action.payload.user
+      state.loading = false
     },
     logout: (state) => {
       state.isLoggedIn = false
