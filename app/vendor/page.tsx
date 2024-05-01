@@ -12,6 +12,7 @@ export default function VendorOverviewPage() {
     (store) => store.store
   )
   const { appointments } = useAppSelector((store) => store.appointments)
+  const { orders } = useAppSelector((store) => store.orders)
   
   if (!store && !loading) return <NoDataDisplay />
   return (
@@ -23,7 +24,7 @@ export default function VendorOverviewPage() {
           metrics={{ ...restOfStoreState }}
           store={store}
           loading={loading}
-          orders={[]}
+          orders={orders}
         />
         <ServiceVendorDashboard
           nextBookedService={null}

@@ -10,7 +10,10 @@ import { IStoreMetrics } from "@/app/_types/IStoreState"
 
 function formatOrderListAsTableData(orderList: Order[]) {
   return orderList.map((order) => {
-    const customerName = `${order.placedBy?.firstName} ${order.placedBy?.lastName}`
+    const customerName =
+      order.placedBy?.firstName && order.placedBy?.lastName
+        ? `${order.placedBy?.firstName} ${order.placedBy?.lastName}`
+        : order.placedBy?.email
     const deliveryDate = new Date(order.deliveryDate).toDateString()
     const deliveryTime = new Date(order.deliveryDate).toLocaleTimeString(
       "en-us",
@@ -20,7 +23,7 @@ function formatOrderListAsTableData(orderList: Order[]) {
         minute: "2-digit",
       }
     )
-    const orderPrice = (0 || 0).toLocaleString("en-NG", {
+    const orderPrice = (order.product.price || 0).toLocaleString("en-NG", {
       style: "currency",
       currency: "NGN",
       maximumFractionDigits: 0,
@@ -29,8 +32,8 @@ function formatOrderListAsTableData(orderList: Order[]) {
       customerName,
       deliveryDate,
       deliveryTime,
-      "order.product?.name",
-      "order.productQuantity",
+      order.product?.name,
+      order.quantity,
       orderPrice,
       getStatusRepresentation(order.status),
     ]
@@ -43,7 +46,7 @@ export default function ProductVendorDashboard({
   loading,
   metrics,
   orders,
-  store
+  store,
 }: {
   loading?: boolean
   metrics: IStoreMetrics
@@ -66,7 +69,7 @@ export default function ProductVendorDashboard({
       />
       <ProductOrdersTable
         loading={loading}
-        tableData={formatOrderListAsTableData(orders)}
+        tableData={formatOrderListAsTableData(orders).slice(0, 5)}
       />
     </VStack>
   )

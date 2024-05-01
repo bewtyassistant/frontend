@@ -15,6 +15,7 @@ import { fetchStore, fetchStoreStats } from "../_redux/thunks/store.thunk"
 import { useRouter } from "next/navigation"
 import AppFooter from "../_components/AppFooter"
 import { fetchAppointments } from "../_redux/thunks/appoinments.thunk"
+import { fetchOrders } from "../_redux/thunks/orders.thunk"
 
 export default function RootLayout({
   children,
@@ -30,6 +31,10 @@ export default function RootLayout({
 
   useEffect(() => {
     if (store) dispatch(fetchAppointments(store._id))
+  }, [dispatch, store])
+
+  useEffect(() => {
+    if (store) dispatch(fetchOrders(store._id))
   }, [dispatch, store])
 
   useEffect(() => {

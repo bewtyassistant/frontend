@@ -2,16 +2,18 @@ import { Flex, Box, Text } from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import DashboardHeading from "../Dashboard/DashboardHeading"
 import { ReactNode } from "react"
+import { useRouter } from "next/navigation"
 
 export default function ProductOrdersTable({
   loading,
   tableData,
-  isClient
+  isClient,
 }: {
   loading?: boolean
   tableData: ReactNode[][]
   isClient?: boolean
 }) {
+  const router = useRouter()
   if (!loading && tableData.length === 0) return null
   return (
     <Box
@@ -36,6 +38,9 @@ export default function ProductOrdersTable({
           color="brand.main"
           fontSize="1.6rem"
           lineHeight="1.8rem"
+          onClick={() =>
+            router.push(isClient ? "/client/orders" : "/vendor/orders")
+          }
         >
           View all
         </Text>
@@ -51,7 +56,7 @@ export default function ProductOrdersTable({
           "Price",
           "Status",
         ]}
-        tableData={tableData}
+        tableData={tableData.slice(0)}
       />
     </Box>
   )
