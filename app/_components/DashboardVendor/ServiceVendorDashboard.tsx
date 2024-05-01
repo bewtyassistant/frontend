@@ -7,6 +7,7 @@ import AppointmentsTable from "./AppointmentsTable"
 import Appointment from "@/app/_types/Appointment"
 import { ReactNode } from "react"
 import { getStatusRepresentation } from "@/app/_utils"
+import { IStoreMetrics } from "@/app/_types/IStoreState"
 
 function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
   return appointmentsList.map((appointment) => {
@@ -49,19 +50,21 @@ export default function ServiceVendorDashboard({
   store,
   nextBookedService,
   appointments,
+  metrics
 }: {
   loading?: boolean
   store: Store | null
   nextBookedService: Appointment | null
   appointments: Appointment[]
+  metrics: IStoreMetrics
 }) {
   if (store && store.type === StoreType.product) return null
   return (
     <VStack alignItems="stretch" gap={{ base: "3rem", md: "5rem" }}>
       <DashboardStats
-        store={store}
         heading="Saloon"
         storeType={StoreType.service}
+        {...metrics}
       />
       <VendorNextBookedService
         isVendor

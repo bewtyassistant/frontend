@@ -2,21 +2,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import Store from "../_types/Store"
-import { fetchStore } from "./thunks/store.thunk"
+import { fetchStore, fetchStoreStats } from "./thunks/store.thunk"
 import STORAGE_KEYS from "../STORAGE_KEYS"
-
-export interface IStoreState {
-  store: null | Store
-  loading: boolean
-  hasFetchedStore: boolean
-  needsToCreateStore: boolean
-}
+import { IStoreState } from "../_types/IStoreState"
+import { FetchStoreCaseHandlers, FetchStoreStatisticsCaseHandlers } from "./builders.case.handlers/store.cases"
 
 const initialState: IStoreState = {
   store: null,
   loading: true,
   hasFetchedStore: false,
   needsToCreateStore: false,
+  totalSaloonEarnings: 0,
+  totalNumberOfFulfilledAppointments: 0,
+  totalNumberOfClientsServiced: 0,
+  totalNumberOfProductsSold: 0,
+  totalEarningsOnProducts: 0,
+  totalNumberOfLocationsDeliveredTo: 0,
 }
 
 export const storeSlice = createSlice({
@@ -34,24 +35,12 @@ export const storeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchStore.pending, (state) => {
-        state.loading = true
-      })
-      .addCase(fetchStore.fulfilled, (state, action) => {
-        state.loading = false
-        if (action.payload === null) state.needsToCreateStore = true
-        else {
-          state.store = action.payload
-          sessionStorage.setItem(
-            STORAGE_KEYS.BA_USER_STORE,
-            JSON.stringify(action.payload)
-          )
-        }
-        state.hasFetchedStore = true
-      })
-      .addCase(fetchStore.rejected, (state, action) => {
-        state.loading = false
-      })
+      .addCase(fetchStore.pending, FetchStoreCaseHandlers.pending)
+      .addCase(fetchStore.fulfilled, FetchStoreCaseHandlers.fulfilled)
+      .addCase(fetchStore.rejected, FetchStoreCaseHandlers.rejected)
+      .addCase(fetchStoreStats.pending, FetchStoreStatisticsCaseHandlers.pending)
+      .addCase(fetchStoreStats.fulfilled, FetchStoreStatisticsCaseHandlers.fulfilled)
+      .addCase(fetchStoreStats.rejected, FetchStoreStatisticsCaseHandlers.rejected)
   },
 })
 
