@@ -1,6 +1,6 @@
 "use client"
 import { Link, Text } from "@chakra-ui/react"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { ReactNode, useMemo } from "react"
 
 export default function NavLinkComponent({
@@ -15,14 +15,18 @@ export default function NavLinkComponent({
   onClick?: () => void
 }) {
   const pathname = usePathname()
-
+  const router = useRouter()
   const isActive = useMemo(() => {
-    return pathname.includes(href)
+    return pathname === href
   }, [pathname, href])
 
   return (
     <Link
-      onClick={onClick}
+      onClick={() => {
+        router.push(href)
+        typeof onClick === "function" && onClick()
+      }}
+      as="button"
       display="flex"
       color={isActive ? "brand.main" : "gray.400"}
       fontSize={{ base: "2rem" }}
