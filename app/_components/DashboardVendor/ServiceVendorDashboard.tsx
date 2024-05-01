@@ -11,7 +11,10 @@ import { IStoreMetrics } from "@/app/_types/IStoreState"
 
 function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
   return appointmentsList.map((appointment) => {
-    const customerName = `${appointment.client?.firstName} ${appointment.client?.lastName}`
+    const customerName =
+      appointment.client?.firstName && appointment.client?.lastName
+        ? `${appointment.client?.firstName} ${appointment.client?.lastName}`
+        : appointment.client?.email
     const appointmentDate = new Date(appointment.bookedDate).toDateString()
     const appointmentTime = new Date(appointment.bookedDate).toLocaleTimeString(
       "en-us",
@@ -22,9 +25,14 @@ function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
       }
     )
     const requiredProducts = appointment.services
-      ?.map((service) => service.requiredProducts?.join(", "))
-      .join(", ")
-    const appointmentPrice = (appointment.totalCost || 0)?.toLocaleString(
+      ?.map((service) =>
+        service.requiredProducts?.reduce(
+          (acc, it) => acc + (acc ? ", " : "") + it.name,
+          ""
+        )
+      )
+      .reduce((acc, it) => acc + (acc ? ", " : "") + it, "")
+    const appointmentPrice = (appointment.totalPrice || 0)?.toLocaleString(
       "en-NG",
       {
         style: "currency",
@@ -36,8 +44,11 @@ function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
       customerName,
       appointmentDate,
       appointmentTime,
-      appointment.services?.join(", "),
-      requiredProducts,
+      appointment.services?.reduce(
+        (acc, it) => acc + (acc ? ", " : "") + it.name,
+        ""
+      ),
+      requiredProducts || "---",
       appointmentPrice,
       getStatusRepresentation(appointment.status),
     ]
@@ -50,7 +61,7 @@ export default function ServiceVendorDashboard({
   store,
   nextBookedService,
   appointments,
-  metrics
+  metrics,
 }: {
   loading?: boolean
   store: Store | null

@@ -4,9 +4,14 @@ import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux"
 import { authReducer } from "./auth.slice"
 import { storeReducer } from "./store.slice"
+import { appointmentsReducer } from "./appointments.slice"
 
 export const store = configureStore({
-  reducer: { auth: authReducer, store: storeReducer },
+  reducer: {
+    auth: authReducer,
+    store: storeReducer,
+    appointments: appointmentsReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 })

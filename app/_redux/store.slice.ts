@@ -1,11 +1,13 @@
 "use client"
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import Store from "../_types/Store"
 import { fetchStore, fetchStoreStats } from "./thunks/store.thunk"
-import STORAGE_KEYS from "../STORAGE_KEYS"
 import { IStoreState } from "../_types/IStoreState"
-import { FetchStoreCaseHandlers, FetchStoreStatisticsCaseHandlers } from "./builders.case.handlers/store.cases"
+import {
+  FetchStoreCaseHandlers,
+  FetchStoreStatisticsCaseHandlers,
+} from "./builders.case.handlers/store.cases"
 
 const initialState: IStoreState = {
   store: null,
@@ -38,9 +40,18 @@ export const storeSlice = createSlice({
       .addCase(fetchStore.pending, FetchStoreCaseHandlers.pending)
       .addCase(fetchStore.fulfilled, FetchStoreCaseHandlers.fulfilled)
       .addCase(fetchStore.rejected, FetchStoreCaseHandlers.rejected)
-      .addCase(fetchStoreStats.pending, FetchStoreStatisticsCaseHandlers.pending)
-      .addCase(fetchStoreStats.fulfilled, FetchStoreStatisticsCaseHandlers.fulfilled)
-      .addCase(fetchStoreStats.rejected, FetchStoreStatisticsCaseHandlers.rejected)
+      .addCase(
+        fetchStoreStats.pending,
+        FetchStoreStatisticsCaseHandlers.pending
+      )
+      .addCase(
+        fetchStoreStats.fulfilled,
+        FetchStoreStatisticsCaseHandlers.fulfilled
+      )
+      .addCase(
+        fetchStoreStats.rejected,
+        FetchStoreStatisticsCaseHandlers.rejected
+      )
   },
 })
 

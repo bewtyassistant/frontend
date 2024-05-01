@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../_redux/store"
 import { fetchStore, fetchStoreStats } from "../_redux/thunks/store.thunk"
 import { useRouter } from "next/navigation"
 import AppFooter from "../_components/AppFooter"
+import { fetchAppointments } from "../_redux/thunks/appoinments.thunk"
 
 export default function RootLayout({
   children,
@@ -28,8 +29,12 @@ export default function RootLayout({
   }, [dispatch])
 
   useEffect(() => {
+    if (store) dispatch(fetchAppointments(store._id))
+  }, [dispatch, store])
+
+  useEffect(() => {
     if (needsToCreateStore) router.push("/onboarding")
-    else if(store) dispatch(fetchStoreStats())
+    else if (store) dispatch(fetchStoreStats())
   }, [router, needsToCreateStore, store])
 
   return (

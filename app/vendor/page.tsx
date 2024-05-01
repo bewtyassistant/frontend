@@ -11,6 +11,8 @@ export default function VendorOverviewPage() {
   const { store, loading, ...restOfStoreState } = useAppSelector(
     (store) => store.store
   )
+  const { appointments } = useAppSelector((store) => store.appointments)
+  
   if (!store && !loading) return <NoDataDisplay />
   return (
     <VStack alignItems="stretch">
@@ -28,7 +30,7 @@ export default function VendorOverviewPage() {
           store={store}
           metrics={{ ...restOfStoreState }}
           loading={loading}
-          appointments={[]}
+          appointments={appointments}
         />
       </VStack>
     </VStack>
