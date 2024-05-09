@@ -11,9 +11,11 @@ import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 import AuthProvider from "../_providers/auth"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../_redux/store"
-import { fetchStore } from "../_redux/thunks/store.thunk"
+import { fetchStore, fetchStoreStats } from "../_redux/thunks/store.thunk"
 import { useRouter } from "next/navigation"
 import AppFooter from "../_components/AppFooter"
+import { fetchAppointments } from "../_redux/thunks/appoinments.thunk"
+import { fetchOrders } from "../_redux/thunks/orders.thunk"
 
 export default function RootLayout({
   children,
@@ -21,15 +23,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const router = useRouter()
-  const { needsToCreateStore } = useAppSelector((store) => store.store)
+  const { needsToCreateStore, store } = useAppSelector((store) => store.store)
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fetchStore())
   }, [dispatch])
 
   useEffect(() => {
+    if (store) dispatch(fetchAppointments(store._id))
+  }, [dispatch, store])
+
+  useEffect(() => {
+    if (store) dispatch(fetchOrders(store._id))
+  }, [dispatch, store])
+
+  useEffect(() => {
     if (needsToCreateStore) router.push("/onboarding")
-  }, [router, needsToCreateStore])
+    else if (store) dispatch(fetchStoreStats())
+  }, [router, needsToCreateStore, store])
 
   return (
     <AuthProvider>

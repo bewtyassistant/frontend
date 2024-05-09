@@ -12,3 +12,15 @@ export const fetchStore = createAsyncThunk(
     return res.store
   }
 )
+
+export const fetchStoreStats = createAsyncThunk(
+  "store/fetchStoreStats",
+  async () => {
+    const res = await axiosFetcher({
+      url: STORE_URLS.getStats(),
+      method: "get",
+    })
+    return res
+  }
+)
+

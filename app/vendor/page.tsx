@@ -8,20 +8,30 @@ import NoDataDisplay from "../_components/NoDataDisplay"
 import WelcomeBackHeading from "../_components/Dashboard/WelcomeBackHeading"
 
 export default function VendorOverviewPage() {
-  const { store, loading } = useAppSelector((store) => store.store)
-
+  const { store, loading, ...restOfStoreState } = useAppSelector(
+    (store) => store.store
+  )
+  const { appointments } = useAppSelector((store) => store.appointments)
+  const { orders } = useAppSelector((store) => store.orders)
+  
   if (!store && !loading) return <NoDataDisplay />
   return (
     <VStack alignItems="stretch">
       <MobileSearchHeader />
       <WelcomeBackHeading name={store?.name} />
       <VStack alignItems="stretch" gap={{ base: "4rem", md: "6rem" }}>
-        <ProductVendorDashboard store={store} loading={loading} orders={[]} />
+        <ProductVendorDashboard
+          metrics={{ ...restOfStoreState }}
+          store={store}
+          loading={loading}
+          orders={orders}
+        />
         <ServiceVendorDashboard
           nextBookedService={null}
           store={store}
+          metrics={{ ...restOfStoreState }}
           loading={loading}
-          appointments={[]}
+          appointments={appointments}
         />
       </VStack>
     </VStack>

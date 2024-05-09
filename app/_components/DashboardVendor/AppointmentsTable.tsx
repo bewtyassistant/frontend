@@ -2,16 +2,18 @@ import { Flex, Box, Text } from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import DashboardHeading from "../Dashboard/DashboardHeading"
 import { ReactNode } from "react"
+import { useRouter } from "next/navigation"
 
 export default function AppointmentsTable({
   tableData,
   loading,
-  isClient
+  isClient,
 }: {
   loading?: boolean
   tableData: ReactNode[][]
   isClient?: boolean
 }) {
+  const router = useRouter()
   if (!loading && tableData.length === 0) return null
   return (
     <Box
@@ -36,6 +38,11 @@ export default function AppointmentsTable({
           color="brand.main"
           fontSize="1.6rem"
           lineHeight="1.8rem"
+          onClick={() =>
+            router.push(
+              isClient ? "/client/appointments" : "/vendor/appointments"
+            )
+          }
         >
           View all
         </Text>
@@ -51,7 +58,7 @@ export default function AppointmentsTable({
           "Amount",
           "Status",
         ]}
-        tableData={tableData}
+        tableData={tableData.slice(0, 5)}
       />
     </Box>
   )

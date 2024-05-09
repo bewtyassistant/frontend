@@ -7,10 +7,14 @@ import AppointmentsTable from "./AppointmentsTable"
 import Appointment from "@/app/_types/Appointment"
 import { ReactNode } from "react"
 import { getStatusRepresentation } from "@/app/_utils"
+import { IStoreMetrics } from "@/app/_types/IStoreState"
 
 function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
   return appointmentsList.map((appointment) => {
-    const customerName = `${appointment.client?.firstName} ${appointment.client?.lastName}`
+    const customerName =
+      appointment.client?.firstName && appointment.client?.lastName
+        ? `${appointment.client?.firstName} ${appointment.client?.lastName}`
+        : appointment.client?.email
     const appointmentDate = new Date(appointment.bookedDate).toDateString()
     const appointmentTime = new Date(appointment.bookedDate).toLocaleTimeString(
       "en-us",
@@ -21,9 +25,14 @@ function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
       }
     )
     const requiredProducts = appointment.services
-      ?.map((service) => service.requiredProducts?.join(", "))
-      .join(", ")
-    const appointmentPrice = (appointment.totalCost || 0)?.toLocaleString(
+      ?.map((service) =>
+        service.requiredProducts?.reduce(
+          (acc, it) => acc + (acc ? ", " : "") + it.name,
+          ""
+        )
+      )
+      .reduce((acc, it) => acc + (acc ? ", " : "") + it, "")
+    const appointmentPrice = (appointment.totalPrice || 0)?.toLocaleString(
       "en-NG",
       {
         style: "currency",
@@ -35,8 +44,11 @@ function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
       customerName,
       appointmentDate,
       appointmentTime,
-      appointment.services?.join(", "),
-      requiredProducts,
+      appointment.services?.reduce(
+        (acc, it) => acc + (acc ? ", " : "") + it.name,
+        ""
+      ),
+      requiredProducts || "---",
       appointmentPrice,
       getStatusRepresentation(appointment.status),
     ]
@@ -49,19 +61,21 @@ export default function ServiceVendorDashboard({
   store,
   nextBookedService,
   appointments,
+  metrics,
 }: {
   loading?: boolean
   store: Store | null
   nextBookedService: Appointment | null
   appointments: Appointment[]
+  metrics: IStoreMetrics
 }) {
   if (store && store.type === StoreType.product) return null
   return (
     <VStack alignItems="stretch" gap={{ base: "3rem", md: "5rem" }}>
       <DashboardStats
-        store={store}
         heading="Saloon"
         storeType={StoreType.service}
+        {...metrics}
       />
       <VendorNextBookedService
         isVendor

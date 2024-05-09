@@ -8,6 +8,6 @@ export default interface Appointment {
   bookedDate: string
   client: User
   vendor: Store
-  totalCost: number
+  totalPrice: number
   status: Status
 }

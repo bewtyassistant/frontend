@@ -2,18 +2,23 @@ import { VStack, Flex } from "@chakra-ui/react"
 import StatisticCard from "../Dashboard/StatisticCard"
 import Store, { StoreType } from "@/app/_types/Store"
 import DashboardHeading from "../Dashboard/DashboardHeading"
+import { IStoreMetrics } from "@/app/_types/IStoreState"
 
 export default function DashboardStats({
   heading,
   storeType,
   loading,
-  store,
+  totalEarningsOnProducts,
+  totalNumberOfFulfilledAppointments,
+  totalNumberOfClientsServiced,
+  totalNumberOfLocationsDeliveredTo,
+  totalNumberOfProductsSold,
+  totalSaloonEarnings,
 }: {
   loading?: boolean
   heading?: string
   storeType: StoreType
-  store: Store | null
-}) {
+} & IStoreMetrics) {
   return (
     <VStack alignItems="stretch">
       {heading && <DashboardHeading mb="1.2rem">{heading}</DashboardHeading>}
@@ -29,8 +34,8 @@ export default function DashboardStats({
           flexGrow="1"
           heading={(
             (storeType === StoreType.service
-              ? store?.totalEarningsOnServices
-              : store?.totalEarningsOnProducts) || 0
+              ? totalSaloonEarnings
+              : totalEarningsOnProducts) || 0
           ).toLocaleString("en-NG", {
             style: "currency",
             currency: "NGN",
@@ -46,8 +51,8 @@ export default function DashboardStats({
           flexGrow="1"
           heading={
             (storeType === StoreType.service
-              ? store?.totalAppointments
-              : store?.totalProductsSold) || 0
+              ? totalNumberOfFulfilledAppointments
+              : totalNumberOfProductsSold) || 0
           }
           text={
             storeType === StoreType.service
@@ -63,8 +68,8 @@ export default function DashboardStats({
           flexGrow="1"
           heading={
             (storeType === StoreType.service
-              ? store?.totalClientsServiced
-              : store?.totalLocationsDeliveredTo) || 0
+              ? totalNumberOfClientsServiced
+              : totalNumberOfLocationsDeliveredTo) || 0
           }
           text={
             storeType === StoreType.service
