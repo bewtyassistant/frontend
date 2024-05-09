@@ -118,9 +118,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         )
         dispatch(setUpStore(res.store))
         toast.success(res.message)
-        let nextPath = `${pathname}/categories`
-        if (res.statusCode === 200) nextPath = "/vendor"
-        router.push(nextPath)
+        router.push("/vendor")
       } else {
         toast.error(res.message)
       }
