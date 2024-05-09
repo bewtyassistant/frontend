@@ -74,7 +74,7 @@ export default function NextBookedService({
           {isVendor && (
             <KeyValuePair
               keyName="Amount paid"
-              value={nextBookedService?.totalCost}
+              value={nextBookedService?.totalPrice}
             />
           )}
           <KeyValuePair
