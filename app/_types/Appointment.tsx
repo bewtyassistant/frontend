@@ -10,4 +10,5 @@ export default interface Appointment {
   vendor: Store
   totalPrice: number
   status: Status
+  isRescheduled: boolean
 }
