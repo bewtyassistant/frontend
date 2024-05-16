@@ -8,9 +8,9 @@ export default function VendorOverviewPage() {
     <BasicPageLayout>
       <MobileSearchHeader />
       <AppointmentsPageView
-        showNewAppointmentButton={false}
+        showNewAppointmentButton={true}
         showManageButton
-        useClientName
+        useClientName={false}
       />
     </BasicPageLayout>
   )

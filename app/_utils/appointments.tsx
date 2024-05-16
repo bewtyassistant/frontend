@@ -4,13 +4,17 @@ import Appointment from "../_types/Appointment"
 import User from "../_types/User"
 import ManageAppointmentTriggerAndModal from "../_components/ManageAppointmentTriggerAndModal"
 import Status from "../_types/Status"
+import Store from "../_types/Store"
 
 export default function formatAppointmentsListAsTableData(
   appointmentsList: Appointment[],
-  enableManageAppointment?: boolean
+  enableManageAppointment = false,
+  useClientName = false
 ) {
   return appointmentsList.map((appointment, idx) => {
-    const manageButton = <ManageAppointmentTriggerAndModal appointment={appointment} />
+    const manageButton = (
+      <ManageAppointmentTriggerAndModal appointment={appointment} />
+    )
     let statusAndManagement = [
       appointment.status === Status.FULFILLED
         ? getStatusRepresentation(appointment.status)
@@ -27,7 +31,9 @@ export default function formatAppointmentsListAsTableData(
       )
     )
     const tableData: ReactNode[] = [
-      getCustomerName(appointment.client),
+      useClientName
+        ? getCustomerName(appointment.client)
+        : getVendorName(appointment.vendor),
       new Date(appointment.bookedDate).toDateString(),
       formatTime(appointment.bookedDate),
       joinListOfObjectsWithStringValueAtKey(appointment.services, "name"),
@@ -43,6 +49,9 @@ function getCustomerName(user: User) {
   return user?.firstName && user?.lastName
     ? `${user?.firstName} ${user?.lastName}`
     : user?.email
+}
+function getVendorName(vendor: Store) {
+  return vendor.name
 }
 
 function formatTime(date: string) {

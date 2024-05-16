@@ -1,9 +1,15 @@
 import appointmentsFilters, {
   AppointmentFilterKey,
-  AppointmentFilter,
 } from "@/app/_data/appointmentsFilter"
 import formatAppointmentsListAsTableData from "@/app/_utils/appointments"
-import { VStack, Heading, Flex, Button, Text, Box } from "@chakra-ui/react"
+import {
+  VStack,
+  Heading,
+  Flex,
+  Button,
+  Text,
+  Box,
+} from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import { pageHeadingStyles } from "../Dashboard/WelcomeBackHeading"
 import { useAppSelector } from "@/app/_redux/store"
@@ -16,11 +22,16 @@ import NewAppointmentButtonClickHandler from "./NewAppointmentButtonClickHandler
 
 export default function AppointmentsPageView({
   showNewAppointmentButton,
+  showManageButton,
+  useClientName,
 }: {
   showNewAppointmentButton?: boolean
+  showManageButton: boolean
+  useClientName: boolean
 }) {
-  const { loading } = useAppSelector((store) => store.store)
-  const { appointments } = useAppSelector((store) => store.appointments)
+  const { appointments, loading } = useAppSelector(
+    (store) => store.appointments
+  )
   const [currentFilter, setCurrentFilter] = useState(appointmentsFilters[0])
 
   const filteredAppointments = useMemo(() => {
@@ -105,11 +116,12 @@ export default function AppointmentsPageView({
               showHeaderRow={false}
               tableData={formatAppointmentsListAsTableData(
                 filteredAppointments,
-                true
+                showManageButton,
+                useClientName
               )}
             />
           )}
-          {filteredAppointments.length <= 0 && (
+          {filteredAppointments.length <= 0 && !loading && (
             <Flex
               justifyContent="center"
               alignItems="center"
