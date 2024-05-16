@@ -9,11 +9,12 @@ import NextBookedService from "../_components/Dashboard/NextBookService"
 import DashboardProductsSection from "../_components/Dashboard/DashboardProductsSection"
 import AppointmentsTable from "../_components/DashboardVendor/AppointmentsTable"
 import ProductOrdersTable from "../_components/DashboardVendor/ProductOrdersTable"
+import BasicPageLayout from "../_components/Layouts/BasicPageLayout"
 
 export default function ClientHome() {
   const { user, loading } = useAppSelector((store) => store.auth)
   return (
-    <Box>
+    <BasicPageLayout>
       <MobileSearchHeader />
       <WelcomeBackHeading name={user?.firstName} />
       <VStack alignItems="stretch" gap="8rem">
@@ -49,6 +50,6 @@ export default function ClientHome() {
           />
         </VStack>
       </VStack>
-    </Box>
+    </BasicPageLayout>
   )
 }

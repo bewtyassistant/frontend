@@ -1,61 +1,12 @@
 import { VStack } from "@chakra-ui/react"
 import DashboardStats from "./Stats"
-
 import Store, { StoreType } from "@/app/_types/Store"
 import VendorNextBookedService from "../Dashboard/NextBookService"
 import AppointmentsTable from "./AppointmentsTable"
 import Appointment from "@/app/_types/Appointment"
-import { ReactNode } from "react"
-import { getStatusRepresentation } from "@/app/_utils"
 import { IStoreMetrics } from "@/app/_types/IStoreState"
+import formatAppointmentsListAsTableData from "@/app/_utils/appointments"
 
-function formatAppointmentsListAsTableData(appointmentsList: Appointment[]) {
-  return appointmentsList.map((appointment) => {
-    const customerName =
-      appointment.client?.firstName && appointment.client?.lastName
-        ? `${appointment.client?.firstName} ${appointment.client?.lastName}`
-        : appointment.client?.email
-    const appointmentDate = new Date(appointment.bookedDate).toDateString()
-    const appointmentTime = new Date(appointment.bookedDate).toLocaleTimeString(
-      "en-us",
-      {
-        hour12: true,
-        hour: "2-digit",
-        minute: "2-digit",
-      }
-    )
-    const requiredProducts = appointment.services
-      ?.map((service) =>
-        service.requiredProducts?.reduce(
-          (acc, it) => acc + (acc ? ", " : "") + it.name,
-          ""
-        )
-      )
-      .reduce((acc, it) => acc + (acc ? ", " : "") + it, "")
-    const appointmentPrice = (appointment.totalPrice || 0)?.toLocaleString(
-      "en-NG",
-      {
-        style: "currency",
-        currency: "NGN",
-        maximumFractionDigits: 0,
-      }
-    )
-    const tableData: ReactNode[] = [
-      customerName,
-      appointmentDate,
-      appointmentTime,
-      appointment.services?.reduce(
-        (acc, it) => acc + (acc ? ", " : "") + it.name,
-        ""
-      ),
-      requiredProducts || "---",
-      appointmentPrice,
-      getStatusRepresentation(appointment.status),
-    ]
-
-    return tableData
-  })
-}
 export default function ServiceVendorDashboard({
   loading,
   store,
@@ -83,8 +34,8 @@ export default function ServiceVendorDashboard({
         loading={loading}
       />
       <AppointmentsTable
-        tableData={formatAppointmentsListAsTableData(appointments)}
-        loading={loading}
+        tableData={formatAppointmentsListAsTableData(appointments, false)}
+        loading={loading}  
       />
     </VStack>
   )

@@ -6,6 +6,7 @@ import ProductVendorDashboard from "../_components/DashboardVendor/ProductVendor
 import ServiceVendorDashboard from "../_components/DashboardVendor/ServiceVendorDashboard"
 import NoDataDisplay from "../_components/NoDataDisplay"
 import WelcomeBackHeading from "../_components/Dashboard/WelcomeBackHeading"
+import BasicPageLayout from "../_components/Layouts/BasicPageLayout"
 
 export default function VendorOverviewPage() {
   const { store, loading, ...restOfStoreState } = useAppSelector(
@@ -16,7 +17,7 @@ export default function VendorOverviewPage() {
   
   if (!store && !loading) return <NoDataDisplay />
   return (
-    <VStack alignItems="stretch">
+    <BasicPageLayout>
       <MobileSearchHeader />
       <WelcomeBackHeading name={store?.name} />
       <VStack alignItems="stretch" gap={{ base: "4rem", md: "6rem" }}>
@@ -34,6 +35,6 @@ export default function VendorOverviewPage() {
           appointments={appointments}
         />
       </VStack>
-    </VStack>
+    </BasicPageLayout>
   )
 }
