@@ -7,35 +7,6 @@ const Heading = defineStyleConfig({
     fontStyle: "normal",
     lineHeight: "normal",
   },
-  variants: {
-    100: {
-      fontWeight: 100,
-    },
-    200: {
-      fontWeight: 100,
-    },
-    300: {
-      fontWeight: 100,
-    },
-    400: {
-      fontWeight: 100,
-    },
-    500: {
-      fontWeight: 100,
-    },
-    600: {
-      fontWeight: 600,
-    },
-    700: {
-      fontWeight: 700,
-    },
-    800: {
-      fontWeight: 800,
-    },
-    900: {
-      fontWeight: 800,
-    },
-  },
   sizes: {
     base: {
       fontSize: {
@@ -46,7 +17,8 @@ const Heading = defineStyleConfig({
     },
     md: { 
       fontSize: { 
-        base: "2.6rem",
+        base: "2.4rem",
+        sm: "2.6rem",
         md: "3.2rem"
       },
       lineHeight: "normal"
@@ -69,7 +41,6 @@ const Heading = defineStyleConfig({
   defaultProps: {
     colorScheme: "brand",
     size: "base",
-    variant: 700,
   },
 })
 

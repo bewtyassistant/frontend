@@ -2,6 +2,7 @@ import Eye from "@/app/_assets/Eye"
 import {
   As,
   Box,
+  BoxProps,
   Button,
   ButtonProps,
   Flex,
@@ -193,13 +194,12 @@ export function CustomPinInput({
   )
 }
 
-const options = ["Option 1", "Option 2", "Option 3"]
-
 export function AuthCustomSelect({
   options,
   handleSelect,
   placeholder,
   selectedOptions = [],
+  placeholderProps,
 }: {
   options: {
     displayValue: string
@@ -211,6 +211,7 @@ export function AuthCustomSelect({
     displayValue: string
     value: any
   }[]
+  placeholderProps?: BoxProps
 }) {
   return (
     <Flex flexDir="column" w="full" maxW="40rem">
@@ -232,6 +233,7 @@ export function AuthCustomSelect({
             justifyContent="space-between"
             alignItems="center"
             w="full"
+            {...(placeholderProps || {})}
           >
             {placeholder} <DownChevron />
           </Flex>
@@ -259,6 +261,78 @@ export function AuthCustomSelect({
                   ? "brand.10"
                   : ""
               }
+            >
+              {option.displayValue}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
+    </Flex>
+  )
+}
+
+export function CustomSelect({
+  options,
+  handleSelect,
+  placeholder,
+  placeholderProps,
+  selectedOption,
+}: {
+  options: {
+    displayValue: string
+    value: any
+  }[]
+  handleSelect: (value: any) => void
+  placeholder: any
+  selectedOption?: {
+    displayValue: string
+    value: any
+  }
+  placeholderProps?: BoxProps
+}) {
+  return (
+    <Flex flexDir="column" w="full" maxW="40rem">
+      <Menu closeOnSelect={false} matchWidth placement="top">
+        <MenuButton
+          type="button"
+          border="1px solid"
+          borderColor="gray.300"
+          px="1.3rem"
+          pos="relative"
+          fontSize="1.6rem"
+          lineHeight="normal"
+          rounded=".2rem"
+          py="1.1rem"
+          color="dark.100"
+        >
+          <Flex
+            as="span"
+            justifyContent="space-between"
+            alignItems="center"
+            w="full"
+            {...(placeholderProps || {})}
+          >
+            {selectedOption?.value ? selectedOption.displayValue : placeholder}{" "}
+            <DownChevron />
+          </Flex>
+        </MenuButton>
+        <MenuList
+          px="1.3rem"
+          pos="relative"
+          fontSize="1.6rem"
+          lineHeight="normal"
+          rounded=".2rem"
+          py="1.1rem"
+          color="dark.100"
+          w="full"
+          maxH="30rem"
+          overflow="auto"
+        >
+          {options.map((option) => (
+            <MenuItem
+              key={option.displayValue}
+              onClick={() => handleSelect(option)}
+              bg={option.displayValue === selectedOption?.displayValue ? "brand.10" : ""}
             >
               {option.displayValue}
             </MenuItem>
