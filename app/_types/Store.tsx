@@ -7,6 +7,7 @@ export enum StoreType {
 }
 
 export default interface Store {
+  _id: string
   name: string
   type: StoreType
   totalEarningsOnProducts: number

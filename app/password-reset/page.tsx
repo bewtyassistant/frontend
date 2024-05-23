@@ -76,7 +76,6 @@ export default function ResetPassword() {
         setPasswordResetCode(value)
         setIsValidPasswordResetCode(true)
       } else {
-        console.log(res)
         setIsValidPasswordResetCode(false)
         setFetchError(
           failedAttempts >=
@@ -104,7 +103,6 @@ export default function ResetPassword() {
         body,
         method: "post",
       })
-      console.log(res)
       if (res.statusCode === 200) {
         setSuccess(true)
         setPasswordResetCode("")

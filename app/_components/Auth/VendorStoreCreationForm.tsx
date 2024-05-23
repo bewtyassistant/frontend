@@ -6,7 +6,6 @@ import { AuthInput, SubmitButton } from "./Inputs"
 import { StoreType } from "@/app/_types/Store"
 import DownChevron from "@/app/_assets/DownChevron"
 import { FormEventHandler, useCallback, useMemo, useState } from "react"
-import { getArrayOfNumbersArithimeticallyIncreasingByOne } from "@/app/_utils"
 import useAxios from "@/app/_hooks/useAxios"
 import STORE_URLS from "@/app/_urls/store"
 import toast from "react-hot-toast"
@@ -30,26 +29,8 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
   const pathname = usePathname()
   const { fetchData, loading } = useAxios({ initialLoadingState: false })
   const [errors, setErrors] = useState<{ [x: string]: string }>({})
-  const requiredFieldsByType = useMemo(() => {
-    if (type === StoreType.product)
-      return [...requiredFields, "numberOfProductCategories"]
-    else if (type === StoreType.service)
-      return [...requiredFields, "numberOfServiceCategories"]
-    else
-      return [
-        ...requiredFields,
-        "numberOfProductCategories",
-        "numberOfServiceCategories",
-      ]
-  }, [type])
-  const numberOfCategoriesOptionsList = useMemo(
-    () => getArrayOfNumbersArithimeticallyIncreasingByOne({ length: 9 }),
-    []
-  )
   const [storeData, setStoreData] = useState({
     name: "",
-    numberOfProductCategories: 0,
-    numberOfServiceCategories: 0,
     phoneNumber: "",
     address: "",
     state: "",
@@ -60,14 +41,14 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
 
   const updateErrorsIfValueIsInvalid = useCallback(
     (name: string, value: string) => {
-      if (requiredFieldsByType.includes(name)) {
+      if (requiredFields.includes(name)) {
         if (Boolean(value.toString().trim()))
           setErrors((prev) => ({ ...prev, [name]: "" }))
         else
           setErrors((prev) => ({ ...prev, [name]: "This field is required" }))
       }
     },
-    [requiredFieldsByType]
+    [requiredFields]
   )
 
   const handleChange = useCallback(
@@ -81,7 +62,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
   const checkForAndHandleErrors = useCallback(() => {
     let hasErrors = false
     Object.keys(storeData).forEach((key) => {
-      if (requiredFieldsByType.includes(key)) {
+      if (requiredFields.includes(key)) {
         if (Boolean(storeData[key as keyof typeof storeData]) === false) {
           if (hasErrors === false) hasErrors = true
           setErrors((prev) => ({ ...prev, [key]: "This field is required" }))
@@ -89,7 +70,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
       }
     })
     return hasErrors
-  }, [storeData, requiredFieldsByType])
+  }, [storeData])
 
   const createStore = useCallback(
     async (data: typeof storeData) => {
@@ -118,9 +99,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         )
         dispatch(setUpStore(res.store))
         toast.success(res.message)
-        let nextPath = `${pathname}/categories`
-        if (res.statusCode === 200) nextPath = "/vendor"
-        router.push(nextPath)
+        router.push("/vendor")
       } else {
         toast.error(res.message)
       }
@@ -141,7 +120,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         onSubmit={handleSubmit}
         as="form"
         flexDir="column"
-        gap="1.2rem"
+        gap="2.4rem"
         w="full"
         maxW="40rem"
       >
@@ -156,51 +135,6 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
             onChange: (e) => handleChange("name", e.target.value),
           }}
         />
-        {(type === StoreType.product ||
-          type === StoreType.productAndService) && (
-          <AuthInput
-            hasError={Boolean(errors.numberOfProductCategories)}
-            errorDescription={errors.numberOfProductCategories}
-            label={"Number of categories of products"}
-            inputProps={{
-              type: "number",
-              value: storeData.numberOfProductCategories,
-              name: "numberOfProductCategories",
-              onChange: (e) =>
-                handleChange("numberOfProductCategories", e.target.value),
-            }}
-            as="select"
-            inputRightAddon={<DownChevron />}
-          >
-            <option value=""></option>
-            {numberOfCategoriesOptionsList.map((num) => (
-              <option key={num}>{num}</option>
-            ))}
-            <option value="10">10+</option>
-          </AuthInput>
-        )}
-        {(type === StoreType.service ||
-          type === StoreType.productAndService) && (
-          <AuthInput
-            hasError={Boolean(errors.numberOfServiceCategories)}
-            errorDescription={errors.numberOfServiceCategories}
-            label={"Number of categories of services"}
-            inputProps={{
-              value: storeData.numberOfServiceCategories,
-              name: "numberOfServiceCategories",
-              onChange: (e) =>
-                handleChange("numberOfServiceCategories", e.target.value),
-            }}
-            as="select"
-            inputRightAddon={<DownChevron />}
-          >
-            <option value=""></option>
-            {numberOfCategoriesOptionsList.map((num) => (
-              <option key={num}>{num}</option>
-            ))}
-            <option value="10">10+</option>
-          </AuthInput>
-        )}
         <AuthInput
           hasError={Boolean(errors.phoneNumber)}
           errorDescription={errors.phoneNumber}

@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text, VStack } from "@chakra-ui/react"
+import { Box, BoxProps, Flex, Image, Text, VStack } from "@chakra-ui/react"
 import { ReactNode } from "react"
 import DashboardHeading from "./DashboardHeading"
 import useGetAnimation from "@/app/_hooks/useGetAnimation"
@@ -74,7 +74,7 @@ export default function NextBookedService({
           {isVendor && (
             <KeyValuePair
               keyName="Amount paid"
-              value={nextBookedService?.totalCost}
+              value={nextBookedService?.totalPrice}
             />
           )}
           <KeyValuePair
@@ -87,19 +87,27 @@ export default function NextBookedService({
   )
 }
 
-function KeyValuePair({
+export function KeyValuePair({
   keyName,
   value,
+  keyProps = {},
+  valueProps = {},
 }: {
   keyName: string
   value: ReactNode
+  keyProps?: BoxProps
+  valueProps?: BoxProps
 }) {
   return (
     <Text color="#9FA3AD" alignItems="center">
-      <Text as="span" fontSize={{ base: "1.4rem", md: "2rem" }}>
+      <Text as="span" fontSize={{ base: "1.4rem", md: "2rem" }} {...keyProps}>
         {keyName}: &nbsp;
       </Text>
-      <Text as="span" fontSize={{ base: "1.4rem", md: "1.6rem" }}>
+      <Text
+        as="span"
+        fontSize={{ base: "1.4rem", md: "1.6rem" }}
+        {...valueProps}
+      >
         {value}
       </Text>
     </Text>

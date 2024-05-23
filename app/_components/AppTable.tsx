@@ -16,17 +16,25 @@ export default function AppTable({
   headings,
   tableData,
   loading,
+  showHeaderRow = true,
 }: {
   headings: ReactNode[]
   tableData: ReactNode[][]
   loading?: boolean
+  showHeaderRow?: boolean
 }) {
   if (loading) return <Skeleton tableData={tableData} headings={headings} />
   return (
     <>
       <TableContainer minW="100%" overflowY="unset" overflowX="unset">
         <Table variant="simple" border="1px solid" borderColor="#FFE3E7">
-          <Thead border="1px solid" borderColor="#FFE3E7">
+          <Thead
+            display={showHeaderRow ? "" : "none"}
+            visibility={showHeaderRow ? "visible" : "hidden"}
+            opacity={showHeaderRow ? 1 : 0}
+            border="1px solid"
+            borderColor="#FFE3E7"
+          >
             <Tr border="1px solid" borderColor="#FFE3E7">
               {headings.map((heading, idx) => (
                 <Th
@@ -58,7 +66,14 @@ export default function AppTable({
                     fontSize="1.4rem"
                     h="6.4rem"
                   >
-                    <Flex justifyContent="center" w="fit-content" mx="auto" alignItems="center">{data}</Flex>
+                    <Flex
+                      justifyContent="center"
+                      w="fit-content"
+                      mx="auto"
+                      alignItems="center"
+                    >
+                      {data}
+                    </Flex>
                   </Td>
                 ))}
               </Tr>
