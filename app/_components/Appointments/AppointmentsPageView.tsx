@@ -9,6 +9,8 @@ import {
   Button,
   Text,
   Box,
+  Hide,
+  Show,
 } from "@chakra-ui/react"
 import AppTable from "../AppTable"
 import { pageHeadingStyles } from "../Dashboard/WelcomeBackHeading"
@@ -18,7 +20,7 @@ import PlusIcon from "@/app/_assets/PlusIcon"
 import Status from "@/app/_types/Status"
 import { ErrorTextDisplay } from "../Auth/ErrorText"
 import AppointmentFilterButton from "./AppointmentFilterButton"
-import NewAppointmentButtonClickHandler from "./NewAppointmentButtonClickHandler"
+import useToggleShowNewAppointmentModal from "@/app/_hooks/useToggleShowNewAppointmentModal"
 
 export default function AppointmentsPageView({
   showNewAppointmentButton,
@@ -29,6 +31,7 @@ export default function AppointmentsPageView({
   showManageButton: boolean
   useClientName: boolean
 }) {
+  const toggleShowNewAppointmentModal = useToggleShowNewAppointmentModal()
   const { appointments, loading } = useAppSelector(
     (store) => store.appointments
   )
@@ -57,19 +60,24 @@ export default function AppointmentsPageView({
           <Button
             variant="filled"
             pos="absolute"
-            top="0%"
+            top={{ base: "25px", md: "0" }}
             right="0"
-            px="1.6rem"
-            py="2rem"
+            px={{ base: "1rem", md: "1.6rem" }}
+            py={{ base: "1rem", md: "1.4rem" }}
             gap="1rem"
             rounded="2.4rem"
+            alignItems="center"
+            display="flex"
+            onClick={() => toggleShowNewAppointmentModal(true)}
           >
-            <NewAppointmentButtonClickHandler
-              display={{ base: "none", md: "flex" }}
-              alignItems="center"
-            >
-              New Appointment <PlusIcon />
-            </NewAppointmentButtonClickHandler>
+            <>
+              <Hide below="md">
+                New Appointment <PlusIcon />
+              </Hide>
+              <Show below="md">
+                <PlusIcon />
+              </Show>
+            </>
           </Button>
         )}
         <Heading
@@ -79,7 +87,11 @@ export default function AppointmentsPageView({
         >
           Appointment Schedules
         </Heading>
-        <Text fontSize={{ base: "1.6rem", md: "2rem" }} mb="1.2rem">
+        <Text
+          fontSize={{ base: "1.6rem", md: "2rem" }}
+          maxW={{ base: "80%", md: "unset" }}
+          mb="1.2rem"
+        >
           {currentFilter.description}
         </Text>
         <Text fontSize="1.6rem" mb="1.2rem" color="gray.400">

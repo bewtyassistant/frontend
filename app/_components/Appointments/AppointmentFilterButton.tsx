@@ -18,6 +18,7 @@ export default function AppointmentFilterButton({
       px={{ base: "1.5rem", md: "2.4rem" }}
       py={{ base: "1.2rem", md: "1.9rem" }}
       height="unset"
+      rounded="0"
       variant={filter.heading === currentFilter.heading ? "" : "filled"}
       background={
         filter.heading === currentFilter.heading ? "brand.main" : "transparent"
