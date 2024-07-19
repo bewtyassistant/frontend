@@ -154,10 +154,10 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         as="select"
         inputRightAddon={<DownChevron />}
       >
-        <option>Select products to be used</option>
-        <option>Salon products</option>
-        <option>Own products</option>
-        <option>Own & Salon products</option>
+        <option value="">Select products to be used</option>
+        <option value="salon">Salon products</option>
+        <option value="own">Own products</option>
+        <option value="salon-and-own">Own & Salon products</option>
       </AppInput>
       <AppInput
         label="Note of importance"
