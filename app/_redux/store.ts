@@ -6,13 +6,15 @@ import { authReducer } from "./auth.slice"
 import { storeReducer } from "./store.slice"
 import { appointmentsReducer } from "./appointments.slice"
 import { ordersReducer } from "./orders.slice"
+import { uiReducer } from "./ui.slice"
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     store: storeReducer,
     appointments: appointmentsReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    ui: uiReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

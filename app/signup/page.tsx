@@ -1,6 +1,6 @@
 "use client"
 import { Box, Button, Flex, Link, Select, Text } from "@chakra-ui/react"
-import { AuthInput, SubmitButton } from "../_components/Auth/Inputs"
+import { AppInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
 import {
   ChangeEventHandler,
@@ -110,7 +110,7 @@ export default function Signup() {
           {errors.fetch}
         </Text>
         <Flex flexDir="column" gap="2.4rem" mb="4rem">
-          <AuthInput
+          <AppInput
             label={"Signup as"}
             inputProps={{
               placeholder: "Select account type",
@@ -128,8 +128,8 @@ export default function Signup() {
               <option>client</option>
               <option>vendor</option>
             </>
-          </AuthInput>
-          <AuthInput
+          </AppInput>
+          <AppInput
             label={"Email"}
             inputProps={{
               type: "email",
@@ -140,7 +140,7 @@ export default function Signup() {
             hasError={Boolean(errors.email)}
             errorDescription={errors.email}
           />
-          <AuthInput
+          <AppInput
             label={"Password"}
             inputProps={{
               type: "password",
@@ -151,7 +151,7 @@ export default function Signup() {
             hasError={Boolean(errors.password)}
             errorDescription={errors.password}
           />
-          <AuthInput
+          <AppInput
             label={"Re-type Password"}
             inputProps={{
               type: "password",

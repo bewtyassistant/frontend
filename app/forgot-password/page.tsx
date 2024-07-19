@@ -1,6 +1,6 @@
 "use client"
 import { Flex, useToast } from "@chakra-ui/react"
-import { AuthInput, SubmitButton } from "../_components/Auth/Inputs"
+import { AppInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
 import {
   ChangeEventHandler,
@@ -73,13 +73,13 @@ export default function ForgotPassword() {
         onSubmit={handleSubmit}
       >
         <Flex flexDir="column" gap="2.4rem">
-          <AuthInput
+          <AppInput
             label={"Email"}
             inputProps={{
               placeholder: "example@email.com",
               value: email,
               onChange: handleChange as any,
-              type: "email"
+              type: "email",
             }}
             errorDescription="This field is required"
             hasError={error}

@@ -14,3 +14,13 @@ export const fetchAppointments = createAsyncThunk(
     return res.appointments
   }
 )
+export const fetchPreviouslyUsedStylists = createAsyncThunk(
+  "store/fetchPreviouslyUsedStylists",
+  async () => {
+    const res = await axiosFetcher({
+      url: APPOINTMENT_URLS.getPreviouslyUsedStylists(),
+      method: "get",
+    })
+    return res.results
+  }
+)

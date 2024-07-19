@@ -1,7 +1,7 @@
 "use client"
 import { Flex, Link, Text, useToast } from "@chakra-ui/react"
 import {
-  AuthInput,
+  AppInput,
   PasswordInput,
   SubmitButton,
 } from "../_components/Auth/Inputs"
@@ -101,7 +101,7 @@ export default function Login() {
         onSubmit={handleSubmit}
       >
         <Flex flexDir="column" gap="2.4rem" mb="10rem">
-          <AuthInput
+          <AppInput
             label={"Email"}
             inputProps={{
               placeholder: "example@email.com",
