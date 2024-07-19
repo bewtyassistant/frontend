@@ -6,6 +6,7 @@ import {
   Button,
   ButtonProps,
   Flex,
+  FormLabelProps,
   InputProps,
   InputRightAddon,
   LinkProps,
@@ -21,24 +22,28 @@ import { ReactNode, useMemo, useState } from "react"
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import DownChevron from "@/app/_assets/DownChevron"
 
-export function AuthInput({
+export function AppInput({
   label,
   inputProps,
+  labelProps = {},
   inputLeftAddon,
   inputRightAddon,
   hasError,
   errorDescription,
   as,
   children,
+  helperText,
 }: {
   label: string
   inputProps: InputProps & SelectProps
+  labelProps?: FormLabelProps
   inputRightAddon?: ReactNode
   inputLeftAddon?: ReactNode
   hasError?: boolean
   errorDescription?: string
   as?: As
   children?: ReactNode | ReactNode[]
+  helperText?: string
 }) {
   const { ...otherInputProps } = inputProps
 
@@ -60,6 +65,7 @@ export function AuthInput({
         color="dark.100"
         fontSize="1.4rem"
         lineHeight="normal"
+        {...labelProps}
         htmlFor={otherInputProps.id}
       >
         {label}
@@ -80,7 +86,7 @@ export function AuthInput({
           lineHeight="normal"
           rounded=".2rem"
           py="1.1rem"
-          color="dark.100"
+          color={inputProps.value ? "dark.100" : "gray.300"}
           as={as}
           w="full"
           pos="relative"
@@ -100,6 +106,11 @@ export function AuthInput({
           {inputRightAddon}
         </InputRightAddon>
       </InputGroup>
+      {helperText && (
+        <Text mt=".8rem" color="#BABEC4" fontWeight="500">
+          {helperText}
+        </Text>
+      )}
       {hasError && (
         <Text color="red.main" fontSize="1.2rem">
           {errorDescription}
@@ -135,7 +146,7 @@ export function PasswordInput({
   const { type, ...rest } = inputProps
   const [showPassword, setShowPassword] = useState(false)
   return (
-    <AuthInput
+    <AppInput
       label={label}
       inputProps={{
         ...rest,
@@ -332,7 +343,11 @@ export function CustomSelect({
             <MenuItem
               key={option.displayValue}
               onClick={() => handleSelect(option)}
-              bg={option.displayValue === selectedOption?.displayValue ? "brand.10" : ""}
+              bg={
+                option.displayValue === selectedOption?.displayValue
+                  ? "brand.10"
+                  : ""
+              }
             >
               {option.displayValue}
             </MenuItem>

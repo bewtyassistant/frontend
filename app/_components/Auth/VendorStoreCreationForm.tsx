@@ -2,7 +2,7 @@
 import citiesInNigeria from "@/app/_data/citiesInNigeria.json"
 import statesInNigeria from "@/app/_data/statesInNigeria.json"
 import { Flex } from "@chakra-ui/react"
-import { AuthInput, SubmitButton } from "./Inputs"
+import { AppInput, SubmitButton } from "./Inputs"
 import { StoreType } from "@/app/_types/Store"
 import DownChevron from "@/app/_assets/DownChevron"
 import { FormEventHandler, useCallback, useMemo, useState } from "react"
@@ -124,7 +124,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         w="full"
         maxW="40rem"
       >
-        <AuthInput
+        <AppInput
           hasError={Boolean(errors.name)}
           errorDescription={errors.name}
           label={"Store name"}
@@ -135,7 +135,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
             onChange: (e) => handleChange("name", e.target.value),
           }}
         />
-        <AuthInput
+        <AppInput
           hasError={Boolean(errors.phoneNumber)}
           errorDescription={errors.phoneNumber}
           label={"Phone number"}
@@ -146,7 +146,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
             onChange: (e) => handleChange("phoneNumber", e.target.value),
           }}
         />
-        <AuthInput
+        <AppInput
           hasError={Boolean(errors.address)}
           errorDescription={errors.address}
           label={"Shop address"}
@@ -158,7 +158,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
           }}
         />
         <Flex gap="1rem" flexWrap={{ base: "wrap", sm: "nowrap" }}>
-          <AuthInput
+          <AppInput
             hasError={Boolean(errors.state)}
             errorDescription={errors.state}
             label={"State"}
@@ -180,8 +180,8 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
                 {state.name}
               </option>
             ))}
-          </AuthInput>
-          <AuthInput
+          </AppInput>
+          <AppInput
             hasError={Boolean(errors.city)}
             errorDescription={errors.city}
             label={"City"}
@@ -204,9 +204,9 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
                 {city}
               </option>
             ))}
-          </AuthInput>
+          </AppInput>
         </Flex>
-        <AuthInput
+        <AppInput
           hasError={Boolean(errors.nearestLandmark)}
           errorDescription={errors.nearestLandmark}
           label={"Landmark closest to store"}

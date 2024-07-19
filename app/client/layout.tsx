@@ -11,10 +11,12 @@ import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 import AuthProvider from "../_providers/auth"
 import AppFooter from "../_components/AppFooter"
 import { useEffect } from "react"
-import { fetchAppointments } from "../_redux/thunks/appoinments.thunk"
+import {
+  fetchAppointments,
+  fetchPreviouslyUsedStylists,
+} from "../_redux/thunks/appoinments.thunk"
 import { fetchOrders } from "../_redux/thunks/orders.thunk"
-import store from "../_urls/store"
-import { useAppDispatch } from "../_redux/store"
+import { useAppDispatch, useAppSelector } from "../_redux/store"
 
 export default function RootLayout({
   children,
@@ -22,13 +24,19 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    if (store) dispatch(fetchAppointments())
-  }, [dispatch, store])
+  const { user } = useAppSelector((store) => store.auth)
 
   useEffect(() => {
-    if (store) dispatch(fetchOrders())
-  }, [dispatch, store])
+    if (user) dispatch(fetchAppointments())
+  }, [dispatch, user])
+
+  useEffect(() => {
+    if (user) dispatch(fetchOrders())
+  }, [dispatch, user])
+
+  useEffect(() => {
+    if (user) dispatch(fetchPreviouslyUsedStylists())
+  }, [dispatch, user])
 
   return (
     <AuthProvider>
