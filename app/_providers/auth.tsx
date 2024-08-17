@@ -13,6 +13,8 @@ import { logout, setAuth } from "../_redux/auth.slice"
 import useRedirectToHomeIfNotLoggedIn from "../_hooks/useRedirectToHomeIfNotLoggedIn"
 import useRedirectToDashboardIfLoggedIn from "../_hooks/useRedirectToDashboardIfLoggedIn"
 import STORAGE_KEYS from "../STORAGE_KEYS"
+import useAxios from "../_hooks/useAxios"
+import toast from "react-hot-toast"
 
 export const AuthContext = createContext<{
   token: string | null
@@ -36,28 +38,38 @@ export default function AuthProvider({
   const [loading, setLoading] = useState(true)
   useRedirectToHomeIfNotLoggedIn({ loading, isLoggedIn })
   useRedirectToDashboardIfLoggedIn({ loading, isLoggedIn, user })
-
+  const { fetchData } = useAxios()
   const checkStatus = useCallback(async () => {
     try {
       const token: string | null = await localforage.getItem(
         STORAGE_KEYS.BA_TOKEN
       )
-      const user: User | null = await localforage.getItem(STORAGE_KEYS.BA_USER)
-      if (token) {
+      if (!token || isLoggedIn) return
+      const res = await fetchData({
+        url: `/me`,
+        method: "get",
+      })
+      if (res.statusCode === 200) {
+        await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
         dispatch(
           setAuth({
-            user: user as User,
+            user: res.user as User,
             token: token as string,
             isLoggedIn: true,
           })
         )
+      } else {
+        toast.error("Your session has expired. Please login.")
+        await localforage.removeItem(STORAGE_KEYS.BA_TOKEN)
+        dispatch(logout())
       }
       setLoading(false)
     } catch (err) {
       dispatch(logout())
+      await localforage.removeItem(STORAGE_KEYS.BA_TOKEN)
       setLoading(false)
     }
-  }, [dispatch])
+  }, [dispatch, isLoggedIn])
   useEffect(() => {
     checkStatus()
   }, [checkStatus])

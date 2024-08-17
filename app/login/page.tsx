@@ -1,5 +1,5 @@
 "use client"
-import { Flex, Link, Text, useToast } from "@chakra-ui/react"
+import { Flex, Link, Text } from "@chakra-ui/react"
 import {
   AppInput,
   PasswordInput,
@@ -18,15 +18,11 @@ import localforage from "localforage"
 import STORAGE_KEYS from "../STORAGE_KEYS"
 import { useAppDispatch } from "../_redux/store"
 import { setAuth } from "../_redux/auth.slice"
+import toast from "react-hot-toast"
 
 export default function Login() {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const toast = useToast({
-    size: "lg",
-    position: "top",
-    containerStyle: { fontSize: "1.4rem", fontWeight: "bold", color: "white" },
-  })
   const { fetchData } = useAxios()
   const [errors, setErrors] = useState<{ [x: string]: string }>({})
   const [loading, setLoading] = useState(false)
@@ -59,10 +55,7 @@ export default function Login() {
         method: "post",
       })
       if (res.statusCode === 200) {
-        toast({
-          status: "success",
-          description: res.message || "You are logged in",
-        })
+        toast.success(res.message || "You are logged in")
         await localforage.setItem(STORAGE_KEYS.BA_TOKEN, res.token)
         await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
         dispatch(
@@ -70,21 +63,15 @@ export default function Login() {
         )
         router.push(res.user.accountType === "client" ? "/client" : "/vendor")
       } else if (res.statusCode === 302) {
-        toast({
-          status: "info",
-          description: res.message || "Please verify your email",
-        })
+        toast(res.message || "Please verify your email")
         sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, loginData.email)
         router.push("/verify-email")
       } else {
-        toast({
-          status: "error",
-          description: res.message || "Unable to sign you in",
-        })
+        toast.error(res.message || "Unable to sign you in")
       }
       setLoading(false)
     },
-    [loginData, fetchData, toast, router, dispatch]
+    [loginData, fetchData, router, dispatch]
   )
 
   return (
