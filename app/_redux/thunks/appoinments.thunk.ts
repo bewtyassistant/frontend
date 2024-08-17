@@ -4,14 +4,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 export const fetchAppointments = createAsyncThunk(
   "store/fetchAppointments",
-  async (storeId?: string) => {
+  async (storeId: string, thunkAPI) => {
     const res = await axiosFetcher({
       url: storeId
         ? APPOINTMENT_URLS.getStoreAppointments(storeId)
         : APPOINTMENT_URLS.getUserAppointments(),
       method: "get",
     })
-    return res.appointments
+    if (res.statusCode === 200) return res.appointments
+    else thunkAPI.rejectWithValue(res)
   }
 )
 export const fetchPreviouslyUsedStylists = createAsyncThunk(
