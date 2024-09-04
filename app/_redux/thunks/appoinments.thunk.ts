@@ -4,7 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 export const fetchAppointments = createAsyncThunk(
   "store/fetchAppointments",
-  async (storeId: "" | boolean, thunkAPI) => {
+  async (storeId: string | boolean, thunkAPI) => {
     const res = await axiosFetcher({
       url:
         storeId && typeof storeId === "string"
