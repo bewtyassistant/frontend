@@ -22,6 +22,19 @@ import { ReactNode, useMemo, useState } from "react"
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import DownChevron from "@/app/_assets/DownChevron"
 
+export function AppFormLabel({ children, ...otherProps }: FormLabelProps) {
+  return (
+    <FormLabel
+      fontWeight="600"
+      color="dark.100"
+      fontSize="1.4rem"
+      lineHeight="normal"
+      {...otherProps}
+    >
+      {children}
+    </FormLabel>
+  )
+}
 export function AppInput({
   label,
   inputProps,
@@ -60,20 +73,13 @@ export function AppInput({
   }
   return (
     <Box flexDir="column" w="full" maxW="40rem">
-      <FormLabel
-        fontWeight="600"
-        color="dark.100"
-        fontSize="1.4rem"
-        lineHeight="normal"
-        {...labelProps}
-        htmlFor={otherInputProps.id}
-      >
+      <AppFormLabel {...labelProps} htmlFor={otherInputProps.id}>
         {label}
-      </FormLabel>
+      </AppFormLabel>
       <InputGroup
         {...inputGroupProps}
         border="1px solid"
-        borderColor="gray.300"
+        borderColor={hasError ? "red" : "gray.300"}
         alignItems="center"
         px="1.3rem"
         pos="relative"
