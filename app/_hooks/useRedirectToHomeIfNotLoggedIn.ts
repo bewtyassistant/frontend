@@ -1,6 +1,7 @@
 "use client"
 import { usePathname, useRouter } from "next/navigation"
 import { useCallback, useEffect } from "react"
+import toast from "react-hot-toast"
 
 export default function useRedirectToHomeIfNotLoggedIn({
   isLoggedIn,
@@ -16,9 +17,10 @@ export default function useRedirectToHomeIfNotLoggedIn({
     const isProtectedRoute =
       pathname.startsWith("/client") ||
       pathname.startsWith("/vendor") ||
-      pathname.startsWith("/onboarding") 
+      pathname.startsWith("/onboarding")
     if (isProtectedRoute && !isLoggedIn && loading === false) {
       router.push("/")
+      toast.error("Please sign in again")
     }
   }, [router, isLoggedIn, loading, pathname])
 
