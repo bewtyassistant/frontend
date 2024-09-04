@@ -44,7 +44,7 @@ export default function AuthProvider({
       const token: string | null = await localforage.getItem(
         STORAGE_KEYS.BA_TOKEN
       )
-      if (!token || isLoggedIn) return
+      if (!token || isLoggedIn) return setLoading(false)
       const res = await fetchData({
         url: `/me`,
         method: "get",
