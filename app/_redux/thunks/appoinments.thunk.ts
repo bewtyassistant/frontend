@@ -4,11 +4,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 export const fetchAppointments = createAsyncThunk(
   "store/fetchAppointments",
-  async (storeId: string, thunkAPI) => {
+  async (storeId: "" | boolean, thunkAPI) => {
     const res = await axiosFetcher({
-      url: storeId
-        ? APPOINTMENT_URLS.getStoreAppointments(storeId)
-        : APPOINTMENT_URLS.getUserAppointments(),
+      url:
+        storeId && typeof storeId === "string"
+          ? APPOINTMENT_URLS.getStoreAppointments(storeId)
+          : APPOINTMENT_URLS.getUserAppointments(),
       method: "get",
     })
     if (res.statusCode === 200) return res.appointments

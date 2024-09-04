@@ -27,7 +27,7 @@ export default function RootLayout({
   const { user } = useAppSelector((store) => store.auth)
 
   useEffect(() => {
-    if (user) dispatch(fetchAppointments())
+    if (user) dispatch(fetchAppointments(false))
   }, [dispatch, user])
 
   useEffect(() => {
