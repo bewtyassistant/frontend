@@ -18,7 +18,19 @@ import {
 import AppModal from "./AppModal"
 import { AppFormLabel, AppInput } from "../Auth/Inputs"
 import DownChevron from "@/app/_assets/DownChevron"
-import { ChangeEvent, FormEventHandler, useCallback, useState } from "react"
+import {
+  ChangeEvent,
+  FormEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
+import Store from "@/app/_types/Store"
+import useAxios from "@/app/_hooks/useAxios"
+import toast from "react-hot-toast"
+import { debounce } from "@/app/_utils"
 
 export default function NewAppointmentModal() {
   const { showNewAppointmentModal } = useAppSelector((store) => store.ui)
@@ -67,16 +79,18 @@ const services = [
 
 function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
   const { appointmentHistory } = useAppSelector((store) => store.appointments)
-  const [previouslyUsedStylist, setPreviouslyUsedStylist] = useState({
-    name: "",
-    _id: "",
-    type: "",
-  })
+  const [servicesRequired, setServicesRequired] = useState<string[]>([])
+  const [newVendors, setNewVendors] = useState<Store[]>([])
+  const [supplementaryVendorsList, setSupplementaryVendorsList] = useState<
+    Store[]
+  >([])
   const [formData, setFormData] = useState({
     location: "",
     appointmentDateAndTime: "",
     note: "",
     productsToBeUsed: "",
+    previouslyUsedVendor: "",
+    newVendor: "",
   })
   const [vendorToUse, setVendorToUse] = useState<
     "previously-used-vendor" | "new-vendor" | ""
@@ -84,19 +98,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      if (e.target.name === "previouslyUsedStylist") {
-        if (e.target.value) {
-          const update = JSON.parse(e.target.value)
-          setPreviouslyUsedStylist(update as any)
-        } else {
-          setPreviouslyUsedStylist({
-            name: "",
-            _id: "",
-            type: "",
-          })
-        }
-      } else
-        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+      setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     },
     []
   )
@@ -104,10 +106,45 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
   const handleSubmit: FormEventHandler = useCallback(
     (e) => {
       e.preventDefault()
-      console.log(formData, previouslyUsedStylist)
+      console.log(formData)
     },
     [formData]
   )
+
+  const { fetchData, loading } = useAxios()
+  const [searchCache, setSearchCache] = useState<{ [x: string]: Store[] }>({})
+  const fetchNewVendors = useCallback(async () => {
+    const cacheKey = formData.location + vendorToUse
+    if (loading) return
+    if (searchCache[cacheKey])
+      return setNewVendors(searchCache[cacheKey] as any)
+    if (vendorToUse === "new-vendor" && formData.location) {
+      console.log("searching", cacheKey)
+      const res = await fetchData({
+        url: `/stores/search?location=${formData.location}`,
+        method: "get",
+      })
+      if (res.statusCode === 200) {
+        setNewVendors(res.results)
+        setSearchCache((prev) => ({
+          ...prev,
+          [cacheKey]: res.results,
+        }))
+      } else
+        toast.error(
+          "Something went wrong with getting new vendors! Please try again"
+        )
+    }
+  }, [formData.location, vendorToUse, loading, searchCache])
+
+  const debouncedFetchNewVendors = useMemo(
+    () => debounce(fetchNewVendors, 800),
+    [fetchNewVendors]
+  )
+
+  useEffect(() => {
+    debouncedFetchNewVendors()
+  }, [debouncedFetchNewVendors])
 
   return (
     <VStack
@@ -131,7 +168,20 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         helperText="(Enter the name of your prefered area, e.g GRA phase 1.)"
       />
       <Box w="full" mx="auto" maxW="40rem">
-        <ServicesInput />
+        <ServicesInput value={servicesRequired.join(", ")}>
+          <ServicesDropdownList
+            selectedValues={servicesRequired}
+            handleChange={(isChecked: boolean, value: string) => {
+              if (isChecked)
+                setServicesRequired((prev) => {
+                  return prev.includes(value) ? prev : [...prev, value]
+                })
+              else {
+                setServicesRequired((prev) => prev.filter((it) => it === value))
+              }
+            }}
+          />
+        </ServicesInput>
       </Box>
       <AppInput
         label="Appointment date & time"
@@ -198,8 +248,12 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         <AppInput
           label="Previously used vendor"
           inputProps={{
-            value: formData.productsToBeUsed,
-            onChange,
+            value: formData.previouslyUsedVendor,
+            onChange: (e) =>
+              setFormData((prev) => ({
+                ...prev,
+                [e.target.name]: e.target.value,
+              })),
             name: "previouslyUsedVendor",
             isRequired: true,
           }}
@@ -209,7 +263,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         >
           <option value="">Select previously used vendor</option>
           {appointmentHistory.map((history) => (
-            <option key={history._id} value="salon">
+            <option key={history._id} value={history.vendor.name}>
               {history.vendor.name}
             </option>
           ))}
@@ -219,9 +273,9 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         <AppInput
           label="New vendor"
           inputProps={{
-            value: formData.productsToBeUsed,
+            value: formData.newVendor,
             onChange,
-            name: "vendors",
+            name: "newVendor",
             isRequired: true,
           }}
           labelProps={{ fontWeight: "400" }}
@@ -235,9 +289,11 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
           }
         >
           <option value="">Select new vendor</option>
-          <option value="salon">Salon products</option>
-          <option value="own">Own products</option>
-          <option value="salon-and-own">Own & Salon products</option>
+          {newVendors.map((vendor) => (
+            <option key={vendor._id} value={vendor.name}>
+              {vendor.name}
+            </option>
+          ))}
         </AppInput>
       )}
       <AppInput
@@ -277,7 +333,13 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
   )
 }
 
-function ServicesInput() {
+function ServicesInput({
+  children,
+  value,
+}: {
+  value: string
+  children: ReactNode
+}) {
   return (
     <Popover placement="bottom" matchWidth>
       <PopoverTrigger>
@@ -294,6 +356,7 @@ function ServicesInput() {
           <AppInput
             label="Services Required"
             inputProps={{
+              value: value,
               placeholder: "Select services required",
               type: "text",
               name: "servicesRequired",
@@ -308,14 +371,20 @@ function ServicesInput() {
       </PopoverTrigger>
       <PopoverContent w="full">
         <PopoverBody bg="white" w="full" boxShadow="1px 1px 10px #00000017">
-          <ServicesDropdownList />
+          {children}
         </PopoverBody>
       </PopoverContent>
     </Popover>
   )
 }
 
-function ServicesDropdownList() {
+function ServicesDropdownList({
+  selectedValues,
+  handleChange,
+}: {
+  selectedValues: string[]
+  handleChange: (isChecked: boolean, value: string) => void
+}) {
   return (
     <>
       <Flex
@@ -340,7 +409,12 @@ function ServicesDropdownList() {
               cursor="pointer"
             >
               <span>{service.name}</span>
-              <Checkbox size="lg" />
+              <Checkbox
+                size="lg"
+                name={service.name}
+                onChange={(e) => handleChange(e.target.checked, e.target.name)}
+                isChecked={selectedValues.includes(service.name)}
+              />
             </AppFormLabel>
           ))}
         </CheckboxGroup>

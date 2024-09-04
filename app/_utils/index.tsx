@@ -22,3 +22,13 @@ export function getStatusRepresentation(status: Status) {
     return <Text color="red">Cancelled</Text>
   else return
 }
+
+export function debounce(this: any, func: (...args: any) => void, timeout = 300) {
+  let timer: NodeJS.Timeout
+  return (...args: any[]) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args as any)
+    }, timeout)
+  }
+}
