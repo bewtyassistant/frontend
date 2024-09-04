@@ -48,7 +48,7 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
           setErrors((prev) => ({ ...prev, [name]: "This field is required" }))
       }
     },
-    [requiredFields]
+    []
   )
 
   const handleChange = useCallback(
@@ -107,7 +107,6 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
     [
       storeData,
       checkForAndHandleErrors,
-      pathname,
       router,
       createStore,
       dispatch,

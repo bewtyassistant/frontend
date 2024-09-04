@@ -40,7 +40,7 @@ export default function RootLayout({
   useEffect(() => {
     if (needsToCreateStore) router.push("/onboarding")
     else if (store) dispatch(fetchStoreStats())
-  }, [router, needsToCreateStore, store])
+  }, [dispatch, router, needsToCreateStore, store])
 
   return (
     <AuthProvider>
