@@ -135,7 +135,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
           "Something went wrong with getting new vendors! Please try again"
         )
     }
-  }, [formData.location, vendorToUse, loading, searchCache])
+  }, [formData.location, vendorToUse, loading, searchCache, fetchData])
 
   const debouncedFetchNewVendors = useMemo(
     () => debounce(fetchNewVendors, 800),

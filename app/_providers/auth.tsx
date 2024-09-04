@@ -69,7 +69,7 @@ export default function AuthProvider({
       await localforage.removeItem(STORAGE_KEYS.BA_TOKEN)
       setLoading(false)
     }
-  }, [dispatch, isLoggedIn])
+  }, [dispatch, isLoggedIn, fetchData])
   useEffect(() => {
     checkStatus()
   }, [checkStatus])
