@@ -23,4 +23,8 @@ export default interface Store {
   nearestLandmark: string
   primaryContactNumbers: string[]
   secondaryContactNumbers: string[]
-} 
+  rating: number
+  logo: {
+    secure_url: string
+  }
+}
