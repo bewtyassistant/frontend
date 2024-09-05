@@ -20,7 +20,7 @@ export default function useRedirectToHomeIfNotLoggedIn({
       pathname.startsWith("/onboarding")
     if (isProtectedRoute && !isLoggedIn && loading === false) {
       router.push("/")
-      toast.error("Please sign in again")
+      toast.error("You are logged out!")
     }
   }, [router, isLoggedIn, loading, pathname])
 

@@ -45,7 +45,6 @@ export default function AuthProvider({
       const tokenInStorage: string | null = await localforage.getItem(
         STORAGE_KEYS.BA_TOKEN
       )
-      console.log(tokenInStorage, "tis")
       if (!tokenInStorage) {
         toast.success("tis")
         setLoading(false)
