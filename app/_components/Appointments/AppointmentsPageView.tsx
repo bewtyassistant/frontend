@@ -121,7 +121,7 @@ export default function AppointmentsPageView({
               />
             ))}
           </Flex>
-          {filteredAppointments.length > 0 && (
+          {filteredAppointments?.length > 0 && (
             <AppTable
               loading={loading}
               headings={["", "", "", "", "", "", "", ""]}
@@ -133,14 +133,14 @@ export default function AppointmentsPageView({
               )}
             />
           )}
-          {filteredAppointments.length <= 0 && !loading && (
+          {filteredAppointments?.length <= 0 && !loading && (
             <Flex
               justifyContent="center"
               alignItems="center"
               w="full"
               py="4rem"
             >
-              <ErrorTextDisplay show={filteredAppointments.length <= 0}>
+              <ErrorTextDisplay show={filteredAppointments?.length <= 0}>
                 No appointments match your selected filter
               </ErrorTextDisplay>
             </Flex>
