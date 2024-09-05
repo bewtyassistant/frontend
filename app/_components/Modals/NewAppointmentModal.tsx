@@ -80,6 +80,7 @@ const services = [
 function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
   const { appointmentHistory } = useAppSelector((store) => store.appointments)
   const [servicesRequired, setServicesRequired] = useState<string[]>([])
+  const [selectedVendor, setSelectedVendor] = useState<Store | null>(null)
   const [newVendors, setNewVendors] = useState<Store[]>([])
   const [supplementaryVendorsList, setSupplementaryVendorsList] = useState<
     Store[]
@@ -168,7 +169,10 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         helperText="(Enter the name of your prefered area, e.g GRA phase 1.)"
       />
       <Box w="full" mx="auto" maxW="40rem">
-        <ServicesInput value={servicesRequired.join(", ")}>
+        <DropDownInput
+          label="Services required"
+          value={servicesRequired.join(", ")}
+        >
           <ServicesDropdownList
             selectedValues={servicesRequired}
             handleChange={(isChecked: boolean, value: string) => {
@@ -181,7 +185,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
               }
             }}
           />
-        </ServicesInput>
+        </DropDownInput>
       </Box>
       <AppInput
         label="Appointment date & time"
@@ -270,31 +274,21 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         </AppInput>
       )}
       {vendorToUse === "new-vendor" && (
-        <AppInput
-          label="New vendor"
-          inputProps={{
-            value: formData.newVendor,
-            onChange,
-            name: "newVendor",
-            isRequired: true,
-          }}
-          labelProps={{ fontWeight: "400" }}
-          as="select"
-          inputRightAddon={<DownChevron />}
-          hasError={!formData.location}
-          errorDescription={
-            !formData.location
-              ? "Please enter a location above to see vendors"
-              : ""
-          }
-        >
-          <option value="">Select new vendor</option>
-          {newVendors.map((vendor) => (
-            <option key={vendor._id} value={vendor.name}>
-              {vendor.name}
-            </option>
-          ))}
-        </AppInput>
+        <>
+          <Box w="full" mx="auto" maxW="40rem">
+            <DropDownInput
+              label="New vendor"
+              value={selectedVendor?.name || ""}
+            >
+              <NewVendorsDropdownList
+                vendors={newVendors}
+                handleSelect={(store: Store) => {
+                  setSelectedVendor(store)
+                }}
+              />
+            </DropDownInput>
+          </Box>
+        </>
       )}
       <AppInput
         label="Note of importance"
@@ -333,12 +327,14 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
   )
 }
 
-function ServicesInput({
+function DropDownInput({
   children,
   value,
+  label,
 }: {
   value: string
   children: ReactNode
+  label: string
 }) {
   return (
     <Popover placement="bottom" matchWidth>
@@ -354,7 +350,7 @@ function ServicesInput({
           w="full"
         >
           <AppInput
-            label="Services Required"
+            label={label}
             inputProps={{
               value: value,
               placeholder: "Select services required",
@@ -415,6 +411,47 @@ function ServicesDropdownList({
                 onChange={(e) => handleChange(e.target.checked, e.target.name)}
                 isChecked={selectedValues.includes(service.name)}
               />
+            </AppFormLabel>
+          ))}
+        </CheckboxGroup>
+      </Flex>
+    </>
+  )
+}
+
+function NewVendorsDropdownList({
+  vendors,
+  handleSelect,
+}: {
+  vendors: Store[]
+  handleSelect: (store: Store) => void
+}) {
+  return (
+    <>
+      <Flex
+        flexDir="column"
+        gap=".8rem"
+        justifyContent="start"
+        w="full"
+        alignItems="start"
+        className="styled-scrollbar"
+      >
+        <CheckboxGroup>
+          {vendors.map((vendor) => (
+            <AppFormLabel
+              key={vendor._id}
+              fontSize="1.6rem"
+              fontWeight="normal"
+              display="flex"
+              m="0"
+              w="full"
+              justifyContent="space-between"
+              pl="1.5rem"
+              pr="2rem"
+              cursor="pointer"
+            >
+              <span>{vendor.name}</span>
+              <Checkbox size="lg" name={vendor.name} />
             </AppFormLabel>
           ))}
         </CheckboxGroup>
