@@ -6,6 +6,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Flex,
+  Image,
   Popover,
   PopoverBody,
   PopoverContent,
@@ -31,6 +32,7 @@ import Store from "@/app/_types/Store"
 import useAxios from "@/app/_hooks/useAxios"
 import toast from "react-hot-toast"
 import { debounce } from "@/app/_utils"
+import StarRating from "@/app/_assets/StarRating"
 
 export default function NewAppointmentModal() {
   const { showNewAppointmentModal } = useAppSelector((store) => store.ui)
@@ -279,6 +281,8 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
             <DropDownInput
               label="New vendor"
               value={selectedVendor?.name || ""}
+              hasError={!formData.location}
+              errorText="Please select a location above to see vendors"
             >
               <NewVendorsDropdownList
                 vendors={newVendors}
@@ -331,10 +335,14 @@ function DropDownInput({
   children,
   value,
   label,
+  hasError,
+  errorText,
 }: {
   value: string
   children: ReactNode
   label: string
+  hasError?: boolean
+  errorText?: string
 }) {
   return (
     <Popover placement="bottom" matchWidth>
@@ -348,6 +356,7 @@ function DropDownInput({
           border="none"
           type="button"
           w="full"
+          textAlign="left"
         >
           <AppInput
             label={label}
@@ -360,13 +369,20 @@ function DropDownInput({
               cursor: "default",
             }}
             // as="span"
+            hasError={hasError}
+            errorDescription={errorText}
             inputRightAddon={<DownChevron />}
             labelProps={{ fontWeight: "400" }}
           />
         </Button>
       </PopoverTrigger>
       <PopoverContent w="full">
-        <PopoverBody bg="white" w="full" boxShadow="1px 1px 10px #00000017">
+        <PopoverBody
+          py="1.4rem"
+          bg="white"
+          w="full"
+          boxShadow="1px 1px 10px #00000017"
+        >
           {children}
         </PopoverBody>
       </PopoverContent>
@@ -426,6 +442,11 @@ function NewVendorsDropdownList({
   vendors: Store[]
   handleSelect: (store: Store) => void
 }) {
+  const getStars = useCallback((rating: number) => {
+    const stars = new Array(rating)
+    stars.fill(1)
+    return stars.map((star, idx) => <StarRating key={star + idx} />)
+  }, [])
   return (
     <>
       <Flex
@@ -437,8 +458,9 @@ function NewVendorsDropdownList({
         className="styled-scrollbar"
       >
         <CheckboxGroup>
-          {vendors.map((vendor) => (
+          {vendors.map((vendor, idx) => (
             <AppFormLabel
+              onClick={() => handleSelect(vendor)}
               key={vendor._id}
               fontSize="1.6rem"
               fontWeight="normal"
@@ -449,9 +471,25 @@ function NewVendorsDropdownList({
               pl="1.5rem"
               pr="2rem"
               cursor="pointer"
+              gap={{ md: "2.7rem" }}
             >
-              <span>{vendor.name}</span>
-              <Checkbox size="lg" name={vendor.name} />
+              <Flex alignItems="center" gap=".5rem">
+                <Image
+                  src={
+                    vendor.logo?.secure_url ||
+                    "http://acmelogos.com/images/logo-3.svg"
+                  }
+                  width={{ base: "2.5rem", md: "4rem" }}
+                  height={{ base: "2.5rem", md: "4rem" }}
+                  rounded="50%"
+                  overflow="hidden"
+                  objectFit="cover"
+                />
+                {vendor.name}
+              </Flex>
+              <Flex gap=".4rem" alignItems="center" minW="6.4rem">
+                {getStars(vendor.rating || idx + 1)}
+              </Flex>
             </AppFormLabel>
           ))}
         </CheckboxGroup>
