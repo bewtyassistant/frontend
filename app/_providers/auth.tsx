@@ -38,18 +38,25 @@ export default function AuthProvider({
   const [loading, setLoading] = useState(true)
   useRedirectToHomeIfNotLoggedIn({ loading, isLoggedIn })
   useRedirectToDashboardIfLoggedIn({ loading, isLoggedIn, user })
-  const { fetchData } = useAxios()
+  const { fetchData, loading: isFetching } = useAxios()
   const checkStatus = useCallback(async () => {
     try {
-      const token: string | null = await localforage.getItem(
+      if (token || user || isLoggedIn) return setLoading(false)
+      const tokenInStorage: string | null = await localforage.getItem(
         STORAGE_KEYS.BA_TOKEN
       )
-      if (!token || isLoggedIn) return setLoading(false)
+      console.log(tokenInStorage, "tis")
+      if (!tokenInStorage) {
+        toast.success("tis")
+        setLoading(false)
+        return dispatch(logout())
+      }
+      if (isFetching) return
       const res = await fetchData({
         url: `/me`,
         method: "get",
       })
-      if (res.statusCode === 200) {
+      if (res?.statusCode === 200) {
         await localforage.setItem(STORAGE_KEYS.BA_USER, res.user)
         dispatch(
           setAuth({
@@ -69,7 +76,7 @@ export default function AuthProvider({
       await localforage.removeItem(STORAGE_KEYS.BA_TOKEN)
       setLoading(false)
     }
-  }, [dispatch, isLoggedIn, fetchData])
+  }, [dispatch, isLoggedIn, fetchData, token, user, isFetching])
   useEffect(() => {
     checkStatus()
   }, [checkStatus])
