@@ -65,7 +65,6 @@ export default function AppointmentsPageView({
             px={{ base: "1rem", md: "1.6rem" }}
             py={{ base: "1rem", md: "1.4rem" }}
             gap="1rem"
-            rounded="2.4rem"
             alignItems="center"
             display="flex"
             onClick={() => toggleShowNewAppointmentModal(true)}

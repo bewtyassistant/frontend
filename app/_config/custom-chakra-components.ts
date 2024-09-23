@@ -36,11 +36,11 @@ export const BrandButton = defineStyleConfig({
   variants: {
     "sm": {
       fontSize: "1.6rem",
-      borderRadius: "1rem"
+      borderRadius: ".4rem"
     },
     "rounded-md": {
       fontSize: "1.9rem",
-      borderRadius: "1.2rem"
+      borderRadius: ".4rem"
     },
   }
 })

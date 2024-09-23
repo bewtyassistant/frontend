@@ -10,7 +10,7 @@ export default function NavLogoutButton(){
         w="40dvw"
         maxW="12.7rem"
         variant="filled"
-        borderRadius="2.4rem"
+        borderRadius=".4rem"
       >
         Logout
       </Button>
