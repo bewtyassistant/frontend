@@ -46,7 +46,6 @@ export default function AuthProvider({
         STORAGE_KEYS.BA_TOKEN
       )
       if (!tokenInStorage) {
-        toast.success("tis")
         setLoading(false)
         return dispatch(logout())
       }

@@ -1,68 +1,38 @@
-import useToggleShowNewAppointmentModal from "@/app/_hooks/useToggleShowNewAppointmentModal"
-import { useAppSelector } from "@/app/_redux/store"
-import {
-  Box,
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Flex,
-  Image,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Radio,
-  RadioGroup,
-  Text,
-  VStack,
-} from "@chakra-ui/react"
-import AppModal from "./AppModal"
-import { AppFormLabel, AppInput } from "../Auth/Inputs"
 import DownChevron from "@/app/_assets/DownChevron"
+import StarRating from "@/app/_assets/StarRating"
+import useAxios from "@/app/_hooks/useAxios"
+import { useAppSelector } from "@/app/_redux/store"
+import { debounce } from "@/app/_utils"
 import {
+  VStack,
+  Box,
+  RadioGroup,
+  Radio,
+  Flex,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  CheckboxGroup,
+  Checkbox,
+  Image,
+  Text,
+} from "@chakra-ui/react"
+import Store from "@/app/_types/Store"
+import {
+  useState,
+  useCallback,
   ChangeEvent,
   FormEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
   useMemo,
-  useState,
+  useEffect,
+  ReactNode,
 } from "react"
-import Store from "@/app/_types/Store"
-import useAxios from "@/app/_hooks/useAxios"
 import toast from "react-hot-toast"
-import { debounce } from "@/app/_utils"
-import StarRating from "@/app/_assets/StarRating"
+import { AppInput, AppFormLabel } from "../../Auth/Inputs"
 
-export default function NewAppointmentModal() {
-  const { showNewAppointmentModal } = useAppSelector((store) => store.ui)
-  const toggleShowNewAppointmentModal = useToggleShowNewAppointmentModal()
-
-  return (
-    <AppModal
-      isOpen={showNewAppointmentModal}
-      onClose={toggleShowNewAppointmentModal}
-      headerContent={<>Create a new appointment</>}
-      showModalCloseButton
-    >
-      <Box pt="3.2rem" pb={{ base: "13rem", md: "8.8rem" }}>
-        <Text
-          mb="3.2rem"
-          fontSize="1.6rem"
-          lineHeight="112%"
-          maxW="43.2rem"
-          mx="auto"
-        >
-          Create a new appointment by providing the below information and
-          we&apos;ll find you a match.
-        </Text>
-        <NewAppointmentForm
-          handleCancel={() => toggleShowNewAppointmentModal()}
-        />
-      </Box>
-    </AppModal>
-  )
-}
+const TODAY = new Date(Date.now())
 
 const services = [
   {
@@ -79,7 +49,14 @@ const services = [
   },
 ]
 
-function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
+export default function NewAppointmentForm({
+  handleCancel,
+  handleSubmit,
+}: {
+  handleCancel: () => void
+  handleSubmit: (data: { [x: string]: any }) => void
+}) {
+  const [errors, setErrors] = useState<{ [x: string]: string }>({})
   const { appointmentHistory } = useAppSelector((store) => store.appointments)
   const [servicesRequired, setServicesRequired] = useState<string[]>([])
   const [selectedVendor, setSelectedVendor] = useState<Store | null>(null)
@@ -101,17 +78,45 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      if (errors[e.target.name])
+        setErrors((prev) => {
+          let modified = { ...prev }
+          delete modified[e.target.name]
+          return modified
+        })
       setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     },
-    []
+    [errors]
   )
 
-  const handleSubmit: FormEventHandler = useCallback(
+  const onSubmit: FormEventHandler = useCallback(
     (e) => {
       e.preventDefault()
-      console.log(formData)
+      let vendor
+      if (vendorToUse.trim().length === 0)
+        return setErrors((prev) => ({
+          ...prev,
+          newVendor: "Please select a vendor to use",
+        }))
+      if (new Date(formData.appointmentDateAndTime).getTime() < Date.now())
+        return setErrors((prev) => ({
+          ...prev,
+          appointmentDateAndTime:
+            "The appointment date and time cannot be in the past.",
+        }))
+      if (vendorToUse === "new-vendor") vendor = selectedVendor
+      else
+        vendor = appointmentHistory.find(
+          (history) => history.vendor.name === formData.previouslyUsedVendor
+        )?.vendor
+      if (!vendor) return toast.error("Vendor not found!")
+      handleSubmit({
+        ...formData,
+        vendor,
+        servicesRequired,
+      })
     },
-    [formData]
+    [formData, vendorToUse, selectedVendor, servicesRequired]
   )
 
   const { fetchData, loading } = useAxios()
@@ -151,7 +156,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
 
   return (
     <VStack
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       alignItems="center"
       gap="2rem"
       as="form"
@@ -174,6 +179,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
         <DropDownInput
           label="Services required"
           value={servicesRequired.join(", ")}
+          isRequired
         >
           <ServicesDropdownList
             selectedValues={servicesRequired}
@@ -183,7 +189,7 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
                   return prev.includes(value) ? prev : [...prev, value]
                 })
               else {
-                setServicesRequired((prev) => prev.filter((it) => it === value))
+                setServicesRequired((prev) => prev.filter((it) => it !== value))
               }
             }}
           />
@@ -198,8 +204,11 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
           onChange,
           name: "appointmentDateAndTime",
           isRequired: true,
+          min: TODAY.toISOString().split("T")[0],
         }}
         labelProps={{ fontWeight: "400" }}
+        hasError={Boolean(errors.appointmentDateAndTime)}
+        errorDescription={errors.appointmentDateAndTime}
       />
       <AppInput
         label="Products to be used"
@@ -228,7 +237,11 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
           gap={{ base: ".8rem", md: "10%" }}
           w="full"
           value={vendorToUse}
-          onChange={setVendorToUse as any}
+          onChange={(val) => {
+            setVendorToUse(val as any)
+            if (val === "new-vendor")
+              setFormData((prev) => ({ ...prev, previouslyUsedVendor: "" }))
+          }}
         >
           <AppFormLabel
             display="flex"
@@ -281,8 +294,12 @@ function NewAppointmentForm({ handleCancel }: { handleCancel: () => void }) {
             <DropDownInput
               label="New vendor"
               value={selectedVendor?.name || ""}
-              hasError={!formData.location}
-              errorText="Please select a location above to see vendors"
+              hasError={Boolean(errors.vendorToUse) || !formData.location}
+              errorText={
+                errors.vendorToUse ||
+                "Please select a location above to see vendors"
+              }
+              isRequired
             >
               <NewVendorsDropdownList
                 vendors={newVendors}
@@ -337,12 +354,14 @@ function DropDownInput({
   label,
   hasError,
   errorText,
+  isRequired,
 }: {
   value: string
   children: ReactNode
   label: string
   hasError?: boolean
   errorText?: string
+  isRequired?: boolean
 }) {
   return (
     <Popover placement="bottom" matchWidth>
@@ -361,12 +380,14 @@ function DropDownInput({
           <AppInput
             label={label}
             inputProps={{
-              value: value,
+              defaultValue: value,
               placeholder: "Select services required",
               type: "text",
               name: "servicesRequired",
-              isReadOnly: true,
+              // isReadOnly: true,
               cursor: "default",
+              isRequired,
+              autoComplete: "off",
             }}
             // as="span"
             hasError={hasError}
@@ -485,7 +506,17 @@ function NewVendorsDropdownList({
                   overflow="hidden"
                   objectFit="cover"
                 />
-                {vendor.name}
+                <span>
+                  {vendor.name}
+                  <Text
+                    mt=".2rem"
+                    color="#BABEC4"
+                    fontSize="1rem"
+                    fontWeight="500"
+                  >
+                    {vendor.address}
+                  </Text>
+                </span>
               </Flex>
               <Flex gap=".4rem" alignItems="center" minW="6.4rem">
                 {getStars(vendor.rating || idx + 1)}

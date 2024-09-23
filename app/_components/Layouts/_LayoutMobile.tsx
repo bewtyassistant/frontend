@@ -3,7 +3,7 @@ import { ReactNode, useRef, useState } from "react"
 import MobileHeader from "./MobileHeader"
 import { Box, Flex } from "@chakra-ui/react"
 import MobileSideBar from "./MobileSideBar"
-import NewAppointmentModal from "../Modals/NewAppointmentModal"
+import NewAppointmentModal from "../Modals/NewAppointmentModal/NewAppointmentModal"
 
 export default function MobileLayout({
   children,

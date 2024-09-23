@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import DesktopHeader from "./DesktopHeader"
 import DesktopSideBar from "./DesktopSideBar"
 import { Box, Flex } from "@chakra-ui/react"
-import NewAppointmentModal from "../Modals/NewAppointmentModal"
+import NewAppointmentModal from "../Modals/NewAppointmentModal/NewAppointmentModal"
 
 export default function DesktopLayout({
   children,

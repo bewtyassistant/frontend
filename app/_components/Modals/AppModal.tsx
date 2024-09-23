@@ -13,16 +13,23 @@ export default function AppModal({
   onClose,
   headerContent,
   children,
-  showModalCloseButton
+  showModalCloseButton,
+  closeOnOutsideClick,
 }: {
   isOpen: boolean
   onClose: () => void
   headerContent: ReactNode | ReactNode[]
   children: ReactNode | ReactNode[]
   showModalCloseButton?: boolean
+  closeOnOutsideClick?: boolean
 }) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      isCentered
+      closeOnOverlayClick={closeOnOutsideClick}
+    >
       <ModalOverlay bg="#BA2762CC" />
       <ModalContent bg="white" w="full" maxW="64rem" rounded="0">
         <ModalHeader

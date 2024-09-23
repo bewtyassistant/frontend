@@ -9,7 +9,7 @@ export default function StarRating(){
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_1586_3031)">
+      <g clipPath="url(#clip0_1586_3031)">
         <path
           d="M5.73098 1.6731L7.06799 4.38175L10.0579 4.81877L7.89444 6.92598L8.40501 9.9029L5.73098 8.49665L3.05694 9.9029L3.56751 6.92598L1.40405 4.81877L4.39396 4.38175L5.73098 1.6731Z"
           stroke="#FCAA4B"

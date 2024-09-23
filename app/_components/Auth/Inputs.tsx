@@ -118,7 +118,7 @@ export function AppInput({
         </Text>
       )}
       {hasError && (
-        <Text color="red.main" fontSize="1.2rem">
+        <Text mt=".8rem" color="red.main" fontSize="1.2rem">
           {errorDescription}
         </Text>
       )}
