@@ -116,7 +116,14 @@ export default function NewAppointmentForm({
         servicesRequired,
       })
     },
-    [formData, vendorToUse, selectedVendor, servicesRequired]
+    [
+      formData,
+      vendorToUse,
+      selectedVendor,
+      servicesRequired,
+      appointmentHistory,
+      handleSubmit,
+    ]
   )
 
   const { fetchData, loading } = useAxios()
@@ -496,6 +503,7 @@ function NewVendorsDropdownList({
             >
               <Flex alignItems="center" gap=".5rem">
                 <Image
+                  alt=""
                   src={
                     vendor.logo?.secure_url ||
                     "http://acmelogos.com/images/logo-3.svg"

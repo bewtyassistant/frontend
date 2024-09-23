@@ -24,13 +24,13 @@ export default function NewAppointmentModal() {
     if (!isReviewStage) return
     if (Object.keys(formData).length < 6) return
     console.log(formData)
-    // const res = await fetchData({
-    //   url: "",
-    //   method: "post",
-    //   body: formData,
-    // })
-    // console.log(res)
-  }, [formData, fetchData])
+    const res = await fetchData({
+      url: "/",
+      method: "post",
+      body: formData,
+    })
+    console.log(res)
+  }, [formData, fetchData, isReviewStage])
 
   const handleCancel = useCallback(() => {
     setIsReviewStage(false)
