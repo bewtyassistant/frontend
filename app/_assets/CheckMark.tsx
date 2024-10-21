@@ -1,7 +1,4 @@
-
-
-
-export default function CheckMark(){
+export default function CheckMark({ fill }: { fill?: string }) {
   return (
     <svg
       width="18"
@@ -12,7 +9,7 @@ export default function CheckMark(){
     >
       <path
         d="M17 1L6 12L1 7"
-        stroke="#08CE34"
+        stroke={fill || "#08CE34"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
