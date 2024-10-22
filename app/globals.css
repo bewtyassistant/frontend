@@ -32,3 +32,6 @@ body{
 .styled-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #BA2762; /* Thumb color on hover */
 }
+.naira::before{
+  content: "₦"
+}

@@ -3,7 +3,14 @@ import PlusIcon from "@/app/_assets/PlusIcon"
 import { pageHeadingStyles } from "@/app/_components/Dashboard/WelcomeBackHeading"
 import BasicPageLayout from "@/app/_components/Layouts/BasicPageLayout"
 import MobileSearchHeader from "@/app/_components/Layouts/MobileSearchHeader"
-import { Button, Heading, Hide, HStack, Show } from "@chakra-ui/react"
+import ServicesList from "@/app/_components/Services/ServicesList"
+import {
+  Button,
+  Heading,
+  Hide,
+  HStack,
+  Show,
+} from "@chakra-ui/react"
 
 export default function VendorOverviewPage() {
   return (
@@ -37,6 +44,8 @@ export default function VendorOverviewPage() {
           </>
         </Button>
       </HStack>
+      {/* <MostBookedService serviceName={""} serviceImage={""} /> */}
+      <ServicesList />
     </BasicPageLayout>
   )
 }
