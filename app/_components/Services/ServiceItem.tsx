@@ -1,7 +1,11 @@
+"use client"
 import EditIcon from "@/app/_assets/EditIcon"
-import { Box, Flex, Text } from "@chakra-ui/react"
+import { Flex, Text } from "@chakra-ui/react"
+import { useState } from "react"
+import NewServiceForm from "./NewServiceForm"
 
 export default function ServiceItem() {
+  const [showEditModal, setShowEditModal] = useState(false)
   return (
     <>
       <Flex
@@ -14,11 +18,16 @@ export default function ServiceItem() {
           <Text as="span" className="naira">
             1000
           </Text>
-          <Text as="button">
+          <Text as="button" onClick={() => setShowEditModal(true)}>
             <EditIcon />
           </Text>
         </Text>
       </Flex>
+      <NewServiceForm
+        formState="edit"
+        isOpen={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+      />
     </>
   )
 }
