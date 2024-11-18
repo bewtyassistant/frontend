@@ -4,13 +4,20 @@ import MobileSearchHeader from "@/app/_components/Layouts/MobileSearchHeader"
 import MostBookedService from "@/app/_components/Services/MostBookedService"
 import ServicePageHeading from "@/app/_components/Services/ServicePageHeading"
 import ServicesList from "@/app/_components/Services/ServicesList"
+import { useAppSelector } from "@/app/_redux/store"
 
 export default function VendorOverviewPage() {
+  const { mostBookedService, loading } = useAppSelector((store) => store.store)
+
   return (
     <BasicPageLayout>
       <MobileSearchHeader />
       <ServicePageHeading />
-      <MostBookedService serviceName={""} serviceImage={""} />
+      <MostBookedService
+        loading={loading}
+        serviceName={mostBookedService?.name || ""}
+        serviceImage={mostBookedService?.displayImage?.secure_url || ""}
+      />
       <ServicesList />
     </BasicPageLayout>
   )

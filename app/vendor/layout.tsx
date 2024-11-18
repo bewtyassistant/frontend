@@ -11,7 +11,11 @@ import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
 import AuthProvider from "../_providers/auth"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../_redux/store"
-import { fetchStore, fetchStoreStats } from "../_redux/thunks/store.thunk"
+import {
+  fetchMostBookedService,
+  fetchStore,
+  fetchStoreStats,
+} from "../_redux/thunks/store.thunk"
 import { useRouter } from "next/navigation"
 import AppFooter from "../_components/AppFooter"
 import { fetchAppointments } from "../_redux/thunks/appoinments.thunk"
@@ -31,6 +35,10 @@ export default function RootLayout({
 
   useEffect(() => {
     if (store) dispatch(fetchAppointments(store._id))
+  }, [dispatch, store])
+
+  useEffect(() => {
+    if (store) dispatch(fetchMostBookedService())
   }, [dispatch, store])
 
   useEffect(() => {

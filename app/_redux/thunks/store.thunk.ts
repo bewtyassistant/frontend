@@ -24,3 +24,15 @@ export const fetchStoreStats = createAsyncThunk(
   }
 )
 
+export const fetchMostBookedService = createAsyncThunk(
+  "store/fetchMostBookedService",
+  async () => {
+    const res = await axiosFetcher({
+      url: STORE_URLS.getMostBookedService(),
+      method: "get",
+    })
+    console.log(res, "dsjfa;dsf")
+    return res
+  }
+)
+

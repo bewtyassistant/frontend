@@ -2,9 +2,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import Store from "../_types/Store"
-import { fetchStore, fetchStoreStats } from "./thunks/store.thunk"
+import {
+  fetchStore,
+  fetchStoreStats,
+  fetchMostBookedService,
+} from "./thunks/store.thunk"
 import { IStoreState } from "../_types/IStoreState"
 import {
+  FetchMostBookedServiceCaseHandlers,
   FetchStoreCaseHandlers,
   FetchStoreStatisticsCaseHandlers,
 } from "./builders.case.handlers/store.cases"
@@ -20,6 +25,7 @@ const initialState: IStoreState = {
   totalNumberOfProductsSold: 0,
   totalEarningsOnProducts: 0,
   totalNumberOfLocationsDeliveredTo: 0,
+  mostBookedService: null,
 }
 
 export const storeSlice = createSlice({
@@ -51,6 +57,18 @@ export const storeSlice = createSlice({
       .addCase(
         fetchStoreStats.rejected,
         FetchStoreStatisticsCaseHandlers.rejected
+      )
+      .addCase(
+        fetchMostBookedService.pending,
+        FetchMostBookedServiceCaseHandlers.pending
+      )
+      .addCase(
+        fetchMostBookedService.fulfilled,
+        FetchMostBookedServiceCaseHandlers.fulfilled
+      )
+      .addCase(
+        fetchMostBookedService.rejected,
+        FetchMostBookedServiceCaseHandlers.rejected
       )
   },
 })
