@@ -6,6 +6,7 @@ import {
   Flex,
   List,
   ListItem,
+  Portal,
   Spinner,
   Text,
   useOutsideClick,
@@ -16,9 +17,13 @@ import { AppInput } from "../Auth/Inputs"
 import DownChevron from "@/app/_assets/DownChevron"
 import { FormEventHandler, useCallback, useRef, useState } from "react"
 import useAxios from "@/app/_hooks/useAxios"
-import Service from "@/app/_types/Service"
+import Service, { VendorService } from "@/app/_types/Service"
 import { debounce } from "@/app/_utils"
 import toast from "react-hot-toast"
+import STORE_URLS from "@/app/_urls/store"
+import { useAppDispatch } from "@/app/_redux/store"
+import { updateServices } from "@/app/_redux/store.slice"
+import StatusNotification, { NOTIFICATION_STATUS } from "../StatusNotification"
 
 const STATE_OF_FORM_HEADING = {
   create: "Create a new service",
@@ -42,7 +47,7 @@ export default function NewServiceForm({
   formState:
     | keyof typeof STATE_OF_FORM_HEADING
     | keyof typeof STATE_OF_FORM_DESCRIPTION
-  service?: Service | null
+  service?: VendorService | null
 }) {
   return (
     <>
@@ -74,14 +79,15 @@ function ServiceForm({
 }: {
   isEdit: boolean
   handleClose: () => void
-  service?: Service | null
+  service?: VendorService | null
 }) {
+  const dispatch = useAppDispatch()
   const { fetchData } = useAxios()
   const [searchedServices, setSearchedServices] = useState<Service[]>([])
   const [selectedService, setSelectedService] = useState<Service | null>(
-    isEdit ? (service as Service) : null
+    isEdit ? (service?.service as Service) : null
   )
-  const [price, setPrice] = useState(isEdit ? service?.cost || "sd" : "")
+  const [price, setPrice] = useState(isEdit ? service?.price || "sd" : "")
   const [showOptions, setShowOptions] = useState(false)
   const [error, setError] = useState({ selectedService: "", price: "" })
   const [loading, setLoading] = useState(true)
@@ -122,7 +128,7 @@ function ServiceForm({
   })
 
   const handleSubmit: FormEventHandler = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault()
       if (!selectedService)
         return setError((prev) => ({
@@ -134,10 +140,35 @@ function ServiceForm({
           ...prev,
           price: "This field is required",
         }))
-
-      console.log(price, selectedService)
+      setLoading(true)
+      let res
+      if (isEdit) {
+        res = await fetchData({
+          url: STORE_URLS.editService(service?._id as string),
+          method: "put",
+          body: {
+            price,
+          },
+        })
+      } else {
+        res = await fetchData({
+          url: STORE_URLS.createService(),
+          method: "post",
+          body: {
+            price,
+            service: selectedService,
+          },
+        })
+      }
+      if (res.statusCode === 201 || 200) {
+        toast.success(res.message)
+        dispatch(updateServices(res.service))
+        handleClose()
+      } else {
+        toast.error(res.message || "Something went wrong. Please try again")
+      }
     },
-    [price, selectedService]
+    [price, selectedService, isEdit, handleClose, dispatch]
   )
   return (
     <>
@@ -161,7 +192,7 @@ function ServiceForm({
             inputProps={{
               type: "",
               onChange: (e) => handleChange(e.target.value),
-              value: isEdit ? service?.name || "" : search,
+              value: isEdit ? service?.service.name || "" : search,
               placeholder: "Search for a service",
               onFocus: () => !isEdit && setShowOptions(true),
               isReadOnly: isEdit,

@@ -89,3 +89,32 @@ export const FetchMostBookedServiceCaseHandlers: {
     state.loading = false
   },
 }
+
+export const FetchServices: {
+  pending: (state: IStoreState) => void
+  fulfilled: (
+    state: IStoreState,
+    action: PayloadAction<
+      {
+        message: string
+        statusCode: number
+        services: Service[]
+      } & IStoreState
+    >
+  ) => void
+  rejected: (state: IStoreState) => void
+} = {
+  pending: (state) => {
+    state.loading = true
+  },
+  fulfilled: (state, action) => {
+    if (
+      action.payload.statusCode === 200 &&
+      Array.isArray(action.payload.services)
+    )
+      state.services = action.payload.services
+  },
+  rejected: (state) => {
+    state.loading = false
+  },
+}

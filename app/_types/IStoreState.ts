@@ -1,4 +1,4 @@
-import Service from "./Service"
+import Service, { VendorService } from "./Service"
 import Store from "./Store"
 
 export interface IStoreMetrics {
@@ -16,5 +16,5 @@ export interface IStoreState extends IStoreMetrics {
   hasFetchedStore: boolean
   needsToCreateStore: boolean
   mostBookedService: Service | null
-} 
-
+  services: VendorService[]
+}

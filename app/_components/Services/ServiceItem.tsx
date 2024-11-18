@@ -3,8 +3,9 @@ import EditIcon from "@/app/_assets/EditIcon"
 import { Flex, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import NewServiceForm from "./NewServiceForm"
+import { VendorService } from "@/app/_types/Service"
 
-export default function ServiceItem() {
+export default function ServiceItem({ service }: { service: VendorService }) {
   const [showEditModal, setShowEditModal] = useState(false)
   return (
     <>
@@ -13,10 +14,10 @@ export default function ServiceItem() {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Text>Retouching of virgin hair with salon products</Text>
+        <Text>{service.service.name}</Text>
         <Text display="flex" alignItems="center" gap="1.6rem">
           <Text as="span" className="naira">
-            1000
+            {service.price}
           </Text>
           <Text as="button" onClick={() => setShowEditModal(true)}>
             <EditIcon />
@@ -25,19 +26,7 @@ export default function ServiceItem() {
       </Flex>
       <NewServiceForm
         formState="edit"
-        service={{
-          name: "Retouching",
-          _id: Math.random().toString(),
-          category: {
-            name: "",
-            _id: "",
-            type: "default",
-            category: "service",
-            id: "",
-          },
-          cost: 1200,
-          estimatedDurationInHours: 2,
-        }}
+        service={service}
         isOpen={showEditModal}
         handleClose={() => setShowEditModal(false)}
       />

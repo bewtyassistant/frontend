@@ -6,10 +6,12 @@ import {
   fetchStore,
   fetchStoreStats,
   fetchMostBookedService,
+  fetchServices,
 } from "./thunks/store.thunk"
 import { IStoreState } from "../_types/IStoreState"
 import {
   FetchMostBookedServiceCaseHandlers,
+  FetchServices,
   FetchStoreCaseHandlers,
   FetchStoreStatisticsCaseHandlers,
 } from "./builders.case.handlers/store.cases"
@@ -26,6 +28,7 @@ const initialState: IStoreState = {
   totalEarningsOnProducts: 0,
   totalNumberOfLocationsDeliveredTo: 0,
   mostBookedService: null,
+  services: [],
 }
 
 export const storeSlice = createSlice({
@@ -39,6 +42,16 @@ export const storeSlice = createSlice({
     },
     clearStore: (state) => {
       state = initialState
+    },
+    updateServices: (state, action) => {
+      const index = state.services.findIndex(
+        (item) => item._id === action.payload._id
+      )
+      if (index !== -1) {
+        state.services[index] = { ...state.services[index], ...action.payload }
+      } else {
+        state.services.push(action.payload)
+      }
     },
   },
   extraReducers: (builder) => {
@@ -70,8 +83,11 @@ export const storeSlice = createSlice({
         fetchMostBookedService.rejected,
         FetchMostBookedServiceCaseHandlers.rejected
       )
+      .addCase(fetchServices.pending, FetchServices.pending)
+      .addCase(fetchServices.fulfilled, FetchServices.fulfilled)
+      .addCase(fetchServices.rejected, FetchServices.rejected)
   },
 })
 
-export const { setUpStore, clearStore } = storeSlice.actions
+export const { setUpStore, clearStore, updateServices } = storeSlice.actions
 export const storeReducer = storeSlice.reducer

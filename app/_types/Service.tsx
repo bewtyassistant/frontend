@@ -14,3 +14,12 @@ export default interface Service {
     height: number
   }
 }
+
+export interface VendorService {
+  service: Service
+  price: number
+  additionalInfo: string
+  store: string
+  earliestBookingTime: string
+  _id: string
+}

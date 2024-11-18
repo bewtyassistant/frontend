@@ -15,6 +15,7 @@ import {
   fetchMostBookedService,
   fetchStore,
   fetchStoreStats,
+  fetchServices,
 } from "../_redux/thunks/store.thunk"
 import { useRouter } from "next/navigation"
 import AppFooter from "../_components/AppFooter"
@@ -35,6 +36,10 @@ export default function RootLayout({
 
   useEffect(() => {
     if (store) dispatch(fetchAppointments(store._id))
+  }, [dispatch, store])
+
+  useEffect(() => {
+    if (store) dispatch(fetchServices())
   }, [dispatch, store])
 
   useEffect(() => {
