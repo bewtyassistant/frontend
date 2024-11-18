@@ -46,10 +46,12 @@ export function AppInput({
   as,
   children,
   helperText,
+  containerProps
 }: {
   label: string
   inputProps: InputProps & SelectProps
   labelProps?: FormLabelProps
+  containerProps?: BoxProps
   inputRightAddon?: ReactNode
   inputLeftAddon?: ReactNode
   hasError?: boolean
@@ -72,7 +74,7 @@ export function AppInput({
     },
   }
   return (
-    <Box flexDir="column" w="full" maxW="40rem">
+    <Box flexDir="column" w="full" maxW="40rem" {...containerProps}>
       <AppFormLabel {...labelProps} htmlFor={otherInputProps.id}>
         {label}
       </AppFormLabel>

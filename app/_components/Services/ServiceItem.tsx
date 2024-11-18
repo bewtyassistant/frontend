@@ -25,6 +25,19 @@ export default function ServiceItem() {
       </Flex>
       <NewServiceForm
         formState="edit"
+        service={{
+          name: "Retouching",
+          _id: Math.random().toString(),
+          category: {
+            name: "",
+            _id: "",
+            type: "default",
+            category: "service",
+            id: "",
+          },
+          cost: 1200,
+          estimatedDurationInHours: 2,
+        }}
         isOpen={showEditModal}
         handleClose={() => setShowEditModal(false)}
       />
