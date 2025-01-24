@@ -37,7 +37,7 @@ export default function ServicesList({
                 fontSize={{ base: "1.4rem", md: "2rem" }}
                 mt="4rem"
               >
-                You haven't added any services. <br />
+                You haven&apos;t added any services. <br />
                 Services you add will appear here.
               </Text>
             )}

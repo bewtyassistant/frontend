@@ -483,6 +483,7 @@ function NewVendorsDropdownList({
                   height={{ base: "2.5rem", md: "4rem" }}
                   rounded="50%"
                   overflow="hidden"
+                  alt=""
                   objectFit="cover"
                 />
                 {vendor.name}

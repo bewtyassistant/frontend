@@ -94,18 +94,19 @@ function ServiceForm({
   const [search, setSearch] = useState("")
 
   const handleSearchForService = useCallback(
-    debounce(async (value: string) => {
-      if (value.trim().length === 0) return setLoading(false)
-      setLoading(true)
-      const res = await fetchData({
-        url: `/services?search=${value}`,
-        method: "get",
-      })
-      setLoading(false)
-      if (res.statusCode === 200 && Array.isArray(res.results))
-        setSearchedServices(res.results)
-      else toast.error(res.message || "something went wrong with your search")
-    }, 800),
+    () =>
+      debounce(async (value: string) => {
+        if (value.trim().length === 0) return setLoading(false)
+        setLoading(true)
+        const res = await fetchData({
+          url: `/services?search=${value}`,
+          method: "get",
+        })
+        setLoading(false)
+        if (res.statusCode === 200 && Array.isArray(res.results))
+          setSearchedServices(res.results)
+        else toast.error(res.message || "something went wrong with your search")
+      }, 800),
     [fetchData]
   )
 
@@ -118,7 +119,7 @@ function ServiceForm({
       setSearchedServices([])
       setShowOptions(false)
     }
-    handleSearchForService(value)
+    handleSearchForService()
   }
 
   const serviceInputBoxRef = useRef<HTMLDivElement | null>(null)
@@ -168,7 +169,7 @@ function ServiceForm({
         toast.error(res.message || "Something went wrong. Please try again")
       }
     },
-    [price, selectedService, isEdit, handleClose, dispatch]
+    [price, selectedService, isEdit, handleClose, dispatch, fetchData, service?._id]
   )
   return (
     <>

@@ -44,7 +44,7 @@ export default function DeleteServiceForm({
     console.log("Service Deleted successfully!")
     toggleShow(true)
     handleClose()
-  }, [service, handleClose])
+  }, [handleClose, toggleShow])
 
   return (
     <>
