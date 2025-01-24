@@ -5,6 +5,7 @@ import { Flex, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import NewServiceForm from "./NewServiceForm"
 import { VendorService } from "@/app/_types/Service"
+import DeleteServiceForm from "./DeleteServiceForm"
 
 export default function ServiceItem({ service }: { service: VendorService }) {
   const [showEditModal, setShowEditModal] = useState(false)
@@ -38,6 +39,11 @@ export default function ServiceItem({ service }: { service: VendorService }) {
         service={service}
         isOpen={showEditModal}
         handleClose={() => setShowEditModal(false)}
+      />
+      <DeleteServiceForm
+        service={service}
+        isOpen={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
       />
     </>
   )
