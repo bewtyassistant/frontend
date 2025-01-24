@@ -8,7 +8,6 @@ import ImageAndNameAndLastSeen from "../_components/ImageAndNameAndLastSeen"
 import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
 import { clientNavLinks } from "../_data/navLinks"
 import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
-import AuthProvider from "../_providers/auth"
 import AppFooter from "../_components/AppFooter"
 import { useEffect } from "react"
 import {
@@ -39,7 +38,7 @@ export default function RootLayout({
   }, [dispatch, user])
 
   return (
-    <AuthProvider>
+    <>
       <Show above="md">
         <DesktopLayout
           headerChildren={<DesktopLayoutChildren />}
@@ -62,6 +61,6 @@ export default function RootLayout({
         </MobileLayout>
       </Show>
       <AppFooter />
-    </AuthProvider>
+    </>
   )
 }

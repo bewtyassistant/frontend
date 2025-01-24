@@ -8,7 +8,6 @@ import ImageAndNameAndLastSeen from "../_components/ImageAndNameAndLastSeen"
 import MobileSideBarContent from "../_components/Layouts/MobileSidebarContent"
 import { serviceVendorNavLinks } from "../_data/navLinks"
 import NavLinksMapper from "../_components/Layouts/NavLinksMapper"
-import AuthProvider from "../_providers/auth"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../_redux/store"
 import {
@@ -56,7 +55,7 @@ export default function RootLayout({
   }, [dispatch, router, needsToCreateStore, store])
 
   return (
-    <AuthProvider>
+    <>
       <Show above="md">
         <DesktopLayout
           headerChildren={<DesktopLayoutChildren />}
@@ -79,6 +78,6 @@ export default function RootLayout({
         </MobileLayout>
       </Show>
       <AppFooter />
-    </AuthProvider>
+    </>
   )
 }
