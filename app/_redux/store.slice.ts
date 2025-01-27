@@ -53,6 +53,11 @@ export const storeSlice = createSlice({
         state.services.push(action.payload)
       }
     },
+    deleteService: (state, action) => {
+      state.services = state.services.filter(
+        (service) => service._id !== action.payload._id
+      )
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -89,5 +94,6 @@ export const storeSlice = createSlice({
   },
 })
 
-export const { setUpStore, clearStore, updateServices } = storeSlice.actions
+export const { setUpStore, clearStore, updateServices, deleteService } =
+  storeSlice.actions
 export const storeReducer = storeSlice.reducer

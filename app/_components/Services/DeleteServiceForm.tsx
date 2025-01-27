@@ -4,28 +4,19 @@ import {
   Box,
   Button,
   Flex,
-  List,
-  ListItem,
-  Portal,
-  Spinner,
   Text,
-  useOutsideClick,
-  VStack,
 } from "@chakra-ui/react"
 import AppModal from "../Modals/AppModal"
-import { AppInput } from "../Auth/Inputs"
-import DownChevron from "@/app/_assets/DownChevron"
-import { FormEventHandler, useCallback, useRef, useState } from "react"
+import { useCallback } from "react"
 import useAxios from "@/app/_hooks/useAxios"
-import Service, { VendorService } from "@/app/_types/Service"
-import { debounce } from "@/app/_utils"
+import { VendorService } from "@/app/_types/Service"
 import toast from "react-hot-toast"
-import STORE_URLS from "@/app/_urls/store"
 import { useAppDispatch } from "@/app/_redux/store"
-import { updateServices } from "@/app/_redux/store.slice"
-import StatusNotification, { NOTIFICATION_STATUS } from "../StatusNotification"
+import { deleteService } from "@/app/_redux/store.slice"
+import STORE_URLS from "@/app/_urls/store"
+import StatusNotification from "../StatusNotification"
 
-export default function DeleteServiceForm({
+export default function DeleteServiceFormModal({
   isOpen,
   handleClose,
   service,
@@ -40,12 +31,6 @@ export default function DeleteServiceForm({
     children: "Service deleted",
   })
 
-  const handleDelete = useCallback(() => {
-    console.log("Service Deleted successfully!")
-    toggleShow(true)
-    handleClose()
-  }, [handleClose, toggleShow])
-
   return (
     <>
       <StatusNotificationComponent />
@@ -55,46 +40,80 @@ export default function DeleteServiceForm({
         headerContent="Delete service"
         showModalCloseButton
       >
-        <Box px="2.4rem" w="full">
-          <Text
-            textAlign="center"
-            maxW="41.6rem"
-            fontSize="1.6rem"
-            mx="auto"
-            my="3.2rem"
-          >
-            Are you sure you want to delete this service?
-          </Text>
-          <Flex
-            w="full"
-            maxW="33.8rem"
-            gap=".8rem"
-            mt="5.7rem"
-            mb="3rem"
-            mx="auto"
-          >
-            <Button
-              type="submit"
-              variant="filled"
-              flexGrow="1"
-              flexShrink="0"
-              maxW="16.5rem"
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
-            <Button
-              variant="transparent"
-              flexGrow="1"
-              flexShrink="1"
-              maxW="16.5rem"
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-          </Flex>
-        </Box>
+        <DeleteServiceForm
+          toggleShowNotification={toggleShow}
+          service={service}
+          handleClose={handleClose}
+        />
       </AppModal>
     </>
+  )
+}
+
+function DeleteServiceForm({
+  handleClose,
+  service,
+  toggleShowNotification,
+}: {
+  handleClose: () => void
+  service?: VendorService | null
+  toggleShowNotification: (value: boolean) => void
+}) {
+  const { fetchData } = useAxios()
+  const dispatch = useAppDispatch()
+
+  const handleDelete = useCallback(async () => {
+    toggleShowNotification(true)
+    const res = await fetchData({
+      url: STORE_URLS.deleteService(service?._id as string),
+      method: "delete",
+    })
+    console.log("Service Deleted successfully!", res)
+    if (res.statusCode === 204) {
+      toggleShowNotification(true)
+      setTimeout(() => {
+        dispatch(deleteService(service))
+      }, 1200)
+      handleClose()
+    } else {
+      toast.error(
+        res.message || "Unable to delete service. Something went wrong!"
+      )
+    }
+  }, [handleClose, toggleShowNotification, dispatch, service, fetchData])
+
+  return (
+    <Box px="2.4rem" w="full">
+      <Text
+        textAlign="center"
+        maxW="41.6rem"
+        fontSize="1.6rem"
+        mx="auto"
+        my="3.2rem"
+      >
+        Are you sure you want to delete this service?
+      </Text>
+      <Flex w="full" maxW="33.8rem" gap=".8rem" mt="5.7rem" mb="3rem" mx="auto">
+        <Button
+          type="submit"
+          variant="filled"
+          flexGrow="1"
+          flexShrink="0"
+          maxW="16.5rem"
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+        <Button
+          variant="transparent"
+          flexGrow="1"
+          flexShrink="1"
+          maxW="16.5rem"
+          onClick={handleClose}
+        >
+          Cancel
+        </Button>
+      </Flex>
+    </Box>
   )
 }

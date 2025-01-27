@@ -8,5 +8,7 @@ const STORE_URLS = {
   createService: () => `/stores/me/services`,
   editService: (vendorServiceId: string) =>
     `/stores/me/services/${vendorServiceId}`,
+  deleteService: (vendorServiceId: string) =>
+    `/stores/me/services/${vendorServiceId}`,
 }
 export default STORE_URLS
