@@ -15,7 +15,7 @@ import {
 import AppModal from "../Modals/AppModal"
 import { AppInput } from "../Auth/Inputs"
 import DownChevron from "@/app/_assets/DownChevron"
-import { FormEventHandler, useCallback, useRef, useState } from "react"
+import { FormEventHandler, useCallback, useMemo, useRef, useState } from "react"
 import useAxios from "@/app/_hooks/useAxios"
 import Service, { VendorService } from "@/app/_types/Service"
 import { debounce } from "@/app/_utils"
@@ -93,21 +93,37 @@ function ServiceForm({
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
 
-  const handleSearchForService = useCallback(
+  const debouncedSearch = useMemo(
     () =>
       debounce(async (value: string) => {
-        if (value.trim().length === 0) return setLoading(false)
+        if (value.trim().length === 0) {
+          setLoading(false)
+          return
+        }
         setLoading(true)
-        const res = await fetchData({
-          url: `/services?search=${value}`,
-          method: "get",
-        })
-        setLoading(false)
-        if (res.statusCode === 200 && Array.isArray(res.results))
-          setSearchedServices(res.results)
-        else toast.error(res.message || "something went wrong with your search")
+        try {
+          const res = await fetchData({
+            url: `/services?search=${value}`,
+            method: "get",
+          })
+          if (res.statusCode === 200 && Array.isArray(res.results)) {
+            setSearchedServices(res.results)
+          } else {
+            toast.error(res.message || "Something went wrong with your search")
+          }
+        } catch (err) {
+          toast.error("An error occurred while searching.")
+        } finally {
+          setLoading(false)
+        }
       }, 800),
     [fetchData]
+  )
+  const handleSearchForService = useCallback(
+    (value: string) => {
+      debouncedSearch(value)
+    },
+    [debouncedSearch]
   )
 
   const handleChange = (value: string) => {
@@ -118,8 +134,9 @@ function ServiceForm({
     if (value.trim().length === 0) {
       setSearchedServices([])
       setShowOptions(false)
+      return
     }
-    handleSearchForService()
+    handleSearchForService(value)
   }
 
   const serviceInputBoxRef = useRef<HTMLDivElement | null>(null)
@@ -161,7 +178,8 @@ function ServiceForm({
           },
         })
       }
-      if (res.statusCode === 201 || 200) {
+      console.log(res)
+      if (res.statusCode === 201 || res.statusCode === 200) {
         toast.success(res.message)
         dispatch(updateServices(res.service))
         handleClose()
@@ -169,7 +187,15 @@ function ServiceForm({
         toast.error(res.message || "Something went wrong. Please try again")
       }
     },
-    [price, selectedService, isEdit, handleClose, dispatch, fetchData, service?._id]
+    [
+      price,
+      selectedService,
+      isEdit,
+      handleClose,
+      dispatch,
+      fetchData,
+      service?._id,
+    ]
   )
   return (
     <>
