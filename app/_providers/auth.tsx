@@ -59,22 +59,21 @@ export default function AuthProvider({
         dispatch(
           setAuth({
             user: res.user as User,
-            token: token as string,
+            token: tokenInStorage as string,
             isLoggedIn: true,
           })
         )
       } else {
-        toast.error("Your session has expired. Please login.")
-        await localforage.removeItem(STORAGE_KEYS.BA_TOKEN)
-        dispatch(logout())
+        throw new Error("Your session has expired. Please login")
       }
       setLoading(false)
     } catch (err) {
-      dispatch(logout())
       await localforage.removeItem(STORAGE_KEYS.BA_TOKEN)
+      dispatch(logout())
       setLoading(false)
     }
   }, [dispatch, isLoggedIn, fetchData, token, user, isFetching])
+
   useEffect(() => {
     checkStatus()
   }, [checkStatus])
