@@ -31,8 +31,8 @@ export const serviceVendorNavLinks = [
 export const clientNavLinks = [
   new NavLink("Overview", "/client", <OverviewIcon />),
   new NavLink("Appointments", "/client/appointments", <CalenderIcon />),
-  new NavLink("Services", "/client/services", <ServicesIcon />),
-  new NavLink("Price list", "/client/price-list", <ListIcon />),
+  // new NavLink("Services", "/client/services", <ServicesIcon />),
+  // new NavLink("Price list", "/client/price-list", <ListIcon />),
   new NavLink("Profile", "/client/profile", <PersonIcon />),
   new NavLink("Accounts", "/client/accounts", <DollarIcon />),
   new NavLink("Settings", "/client/settings", <SpannerIcon />),
