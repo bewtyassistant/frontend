@@ -49,8 +49,18 @@ export default function NewServiceForm({
     | keyof typeof STATE_OF_FORM_DESCRIPTION
   service?: VendorService | null
 }) {
+  const [statusMessage, setStatusMessage] = useState("")
+
+  const { StatusNotificationComponent, toggleShow: toggleShowStatus } =
+    StatusNotification({
+      timeToDisappearInMilliseconds: 180000,
+      status: "SUCCESS",
+      children: statusMessage,
+    })
+
   return (
     <>
+      <StatusNotificationComponent />
       <AppModal
         isOpen={isOpen}
         onClose={handleClose}
@@ -65,6 +75,8 @@ export default function NewServiceForm({
             isEdit={formState === "edit"}
             service={service}
             handleClose={handleClose}
+            toggleShowNotification={toggleShowStatus}
+            updateNotificationMessage={(msg: string) => setStatusMessage(msg)}
           />
         </Box>
       </AppModal>
@@ -76,10 +88,14 @@ function ServiceForm({
   isEdit,
   handleClose,
   service,
+  toggleShowNotification,
+  updateNotificationMessage,
 }: {
   isEdit: boolean
   handleClose: () => void
   service?: VendorService | null
+  toggleShowNotification: (status: boolean) => void
+  updateNotificationMessage: (msg: string) => void
 }) {
   const dispatch = useAppDispatch()
   const { fetchData } = useAxios()
@@ -178,9 +194,11 @@ function ServiceForm({
           },
         })
       }
-      console.log(res)
       if (res.statusCode === 201 || res.statusCode === 200) {
-        toast.success(res.message)
+        toggleShowNotification(true)
+        updateNotificationMessage(
+          res.statusCode === 201 ? "Service created!" : "Service edited"
+        )
         dispatch(updateServices(res.service))
         handleClose()
       } else {
@@ -195,8 +213,11 @@ function ServiceForm({
       dispatch,
       fetchData,
       service?._id,
+      toggleShowNotification,
+      updateNotificationMessage,
     ]
   )
+
   return (
     <>
       <VStack
