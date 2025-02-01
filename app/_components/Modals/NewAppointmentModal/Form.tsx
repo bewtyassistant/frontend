@@ -526,8 +526,8 @@ function NewVendorsDropdownList({
                   </Text>
                 </span>
               </Flex>
-              <Flex gap=".4rem" alignItems="center" minW="6.4rem">
-                {getStars(vendor.rating || idx + 1)}
+              <Flex gap=".4rem" alignItems="center" justifyContent="start" w="7.1rem">
+                {getStars(vendor.rating || (idx + 1) < 5 ? idx + 1 : 5)}
               </Flex>
             </AppFormLabel>
           ))}
