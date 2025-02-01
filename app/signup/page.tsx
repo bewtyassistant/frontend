@@ -1,6 +1,6 @@
 "use client"
 import { Box, Button, Flex, Link, Select, Text } from "@chakra-ui/react"
-import { AppInput, SubmitButton } from "../_components/Auth/Inputs"
+import { AppInput, PasswordInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
 import {
   ChangeEventHandler,
@@ -10,8 +10,6 @@ import {
 } from "react"
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
-import BackIcon from "../_assets/BackIcon"
-import BackButton from "../_components/BackButton"
 import DownChevron from "../_assets/DownChevron"
 import STORAGE_KEYS from "../STORAGE_KEYS"
 
@@ -30,6 +28,7 @@ export default function Signup() {
   const handleChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> =
     useCallback((e) => {
       const { name, value } = e.target
+      console.log(value, "djfak;kjdka;f")
       setErrors((prev) => ({ ...prev, [name]: "", fetch: "" }))
       setSignupData((prev) => ({ ...prev, [name]: value }))
     }, [])
@@ -74,6 +73,7 @@ export default function Signup() {
       }
       setLoading(true)
       const res = await signupUser(signupData)
+      console.log(res)
       if (res?.statusCode === 201) {
         sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, email)
         router.push("/verify-email")
@@ -118,6 +118,7 @@ export default function Signup() {
               color: signupData.accountType ? "dark.100" : "gray.300",
               name: "accountType",
               onChange: handleChange,
+              value: signupData.accountType,
             }}
             hasError={Boolean(errors.accountType)}
             errorDescription={errors.accountType}
@@ -125,8 +126,9 @@ export default function Signup() {
             inputRightAddon={<DownChevron />}
           >
             <>
-              <option>client</option>
-              <option>vendor</option>
+              <option value="">Select one</option>
+              <option value="client">client</option>
+              <option value="vendor">vendor</option>
             </>
           </AppInput>
           <AppInput
@@ -135,29 +137,32 @@ export default function Signup() {
               type: "email",
               placeholder: "**********",
               name: "email",
+              value: signupData.email,
               onChange: handleChange,
             }}
             hasError={Boolean(errors.email)}
             errorDescription={errors.email}
           />
-          <AppInput
+          <PasswordInput
             label={"Password"}
             inputProps={{
               type: "password",
               placeholder: "**********",
               name: "password",
               onChange: handleChange,
+              value: signupData.password,
             }}
             hasError={Boolean(errors.password)}
             errorDescription={errors.password}
           />
-          <AppInput
+          <PasswordInput
             label={"Re-type Password"}
             inputProps={{
               type: "password",
               placeholder: "**********",
               name: "confirmPassword",
               onChange: handleChange,
+              value: signupData.confirmPassword,
             }}
             hasError={Boolean(errors.confirmPassword)}
             errorDescription={errors.confirmPassword}
