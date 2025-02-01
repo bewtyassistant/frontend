@@ -73,7 +73,6 @@ export default function Signup() {
       }
       setLoading(true)
       const res = await signupUser(signupData)
-      console.log(res)
       if (res?.statusCode === 201) {
         sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, email)
         router.push("/verify-email")
