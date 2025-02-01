@@ -61,7 +61,7 @@ export default function StatusNotification({
     if (show)
       setTimeout(() => {
         setShow(false)
-        console.log(timeToDisappearInMilliseconds)
+        // console.log(timeToDisappearInMilliseconds)
       }, timeToDisappearInMilliseconds || 1500)
   }, [timeToDisappearInMilliseconds, show])
 

@@ -6,7 +6,6 @@ import {
   Flex,
   List,
   ListItem,
-  Portal,
   Spinner,
   Text,
   useOutsideClick,
@@ -23,7 +22,7 @@ import toast from "react-hot-toast"
 import STORE_URLS from "@/app/_urls/store"
 import { useAppDispatch } from "@/app/_redux/store"
 import { updateServices } from "@/app/_redux/store.slice"
-import StatusNotification, { NOTIFICATION_STATUS } from "../StatusNotification"
+import StatusNotification from "../StatusNotification"
 
 const STATE_OF_FORM_HEADING = {
   create: "Create a new service",
@@ -53,7 +52,7 @@ export default function NewServiceForm({
 
   const { StatusNotificationComponent, toggleShow: toggleShowStatus } =
     StatusNotification({
-      timeToDisappearInMilliseconds: 180000,
+      timeToDisappearInMilliseconds: 1800,
       status: "SUCCESS",
       children: statusMessage,
     })
