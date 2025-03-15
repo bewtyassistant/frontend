@@ -2,12 +2,9 @@ import DownChevron from "@/app/_assets/DownChevron"
 import StarRating from "@/app/_assets/StarRating"
 import useAxios from "@/app/_hooks/useAxios"
 import { useAppSelector } from "@/app/_redux/store"
-import { debounce } from "@/app/_utils"
 import {
   VStack,
   Box,
-  RadioGroup,
-  Radio,
   Flex,
   Button,
   Popover,
@@ -18,6 +15,8 @@ import {
   Checkbox,
   Image,
   Text,
+  List,
+  ListItem,
 } from "@chakra-ui/react"
 import Store from "@/app/_types/Store"
 import {
@@ -25,29 +24,16 @@ import {
   useCallback,
   ChangeEvent,
   FormEventHandler,
-  useMemo,
   useEffect,
   ReactNode,
 } from "react"
 import toast from "react-hot-toast"
 import { AppInput, AppFormLabel } from "../../Auth/Inputs"
+import Service from "@/app/_types/Service"
+import { ErrorTextDisplay } from "../../Auth/ErrorText"
+import _, { debounce } from "underscore"
 
 const TODAY = new Date(Date.now())
-
-const services = [
-  {
-    _id: "1",
-    name: "Retouching",
-  },
-  {
-    _id: "2",
-    name: "Weavon fixing",
-  },
-  {
-    _id: "3",
-    name: "Braiding",
-  },
-]
 
 export default function NewAppointmentForm({
   handleCancel,
@@ -56,14 +42,15 @@ export default function NewAppointmentForm({
   handleCancel: () => void
   handleSubmit: (data: { [x: string]: any }) => void
 }) {
+  const { fetchData } = useAxios()
+  const [errorMsg, setErrorMsg] = useState("")
   const [errors, setErrors] = useState<{ [x: string]: string }>({})
   const { appointmentHistory } = useAppSelector((store) => store.appointments)
   const [servicesRequired, setServicesRequired] = useState<string[]>([])
   const [selectedVendor, setSelectedVendor] = useState<Store | null>(null)
   const [newVendors, setNewVendors] = useState<Store[]>([])
-  const [supplementaryVendorsList, setSupplementaryVendorsList] = useState<
-    Store[]
-  >([])
+  const [services, setServices] = useState<Service[]>([])
+  const [idsOfServicesRequired, setServicesRequiredIds] = useState<string[]>([])
   const [formData, setFormData] = useState({
     location: "",
     appointmentDateAndTime: "",
@@ -90,9 +77,9 @@ export default function NewAppointmentForm({
   )
 
   const onSubmit: FormEventHandler = useCallback(
-    (e) => {
+    async (e) => {
+      setErrorMsg("")
       e.preventDefault()
-      let vendor
       if (vendorToUse.trim().length === 0)
         return setErrors((prev) => ({
           ...prev,
@@ -104,62 +91,74 @@ export default function NewAppointmentForm({
           appointmentDateAndTime:
             "The appointment date and time cannot be in the past.",
         }))
-      if (vendorToUse === "new-vendor") vendor = selectedVendor
-      else
-        vendor = appointmentHistory.find(
-          (history) => history.vendor.name === formData.previouslyUsedVendor
-        )?.vendor
-      if (!vendor) return toast.error("Vendor not found!")
       handleSubmit({
         ...formData,
-        vendor,
+        idsOfServicesRequired,
         servicesRequired,
+        vendor: selectedVendor,
       })
     },
+    [formData, vendorToUse, servicesRequired, appointmentHistory, handleSubmit, selectedVendor]
+  )
+
+  const [loading, setLoading] = useState(false)
+  const [searchCache, setSearchCache] = useState<{ [x: string]: Store[] }>({})
+  const findVendors = useCallback(
+    debounce(async () => {
+      if (formData.location && servicesRequired.length > 0 && vendorToUse) {
+        const cacheKey =
+          formData.location + vendorToUse + servicesRequired.join("")
+        if (loading) return
+        if (searchCache[cacheKey])
+          return setNewVendors(searchCache[cacheKey] as any)
+        setLoading(true)
+        const res = await fetchData({
+          url: `/stores/search?location=${formData.location}`,
+          method: "get",
+        })
+        if (res.statusCode === 200) {
+          setNewVendors(res.results)
+          setSearchCache((prev) => ({
+            ...prev,
+            [cacheKey]: res.results,
+          }))
+        } else
+          toast.error(
+            "Something went wrong with getting new vendors! Please try again"
+          )
+        setLoading(false)
+      }
+    }, 1500),
     [
-      formData,
+      formData.location,
       vendorToUse,
-      selectedVendor,
+      loading,
+      searchCache,
+      fetchData,
       servicesRequired,
-      appointmentHistory,
-      handleSubmit,
     ]
   )
 
-  const { fetchData, loading } = useAxios()
-  const [searchCache, setSearchCache] = useState<{ [x: string]: Store[] }>({})
-  const fetchNewVendors = useCallback(async () => {
-    const cacheKey = formData.location + vendorToUse
-    if (loading) return
-    if (searchCache[cacheKey])
-      return setNewVendors(searchCache[cacheKey] as any)
-    if (vendorToUse === "new-vendor" && formData.location) {
-      console.log("searching", cacheKey)
-      const res = await fetchData({
-        url: `/stores/search?location=${formData.location}`,
-        method: "get",
-      })
-      if (res.statusCode === 200) {
-        setNewVendors(res.results)
-        setSearchCache((prev) => ({
-          ...prev,
-          [cacheKey]: res.results,
-        }))
-      } else
-        toast.error(
-          "Something went wrong with getting new vendors! Please try again"
-        )
-    }
-  }, [formData.location, vendorToUse, loading, searchCache, fetchData])
+  useEffect(() => {
+    findVendors()
+  }, [findVendors])
 
-  const debouncedFetchNewVendors = useMemo(
-    () => debounce(fetchNewVendors, 800),
-    [fetchNewVendors]
-  )
+  const fetchServices = useCallback(async () => {
+    const res = await fetchData({
+      url: `/services`,
+      method: "get",
+    })
+    if (res.statusCode === 200) {
+      setServices(res.results)
+    } else
+      toast.error(
+        "Something went wrong with displaying services! Please try again"
+      )
+  }, [])
 
   useEffect(() => {
-    debouncedFetchNewVendors()
-  }, [debouncedFetchNewVendors])
+    fetchServices()
+  }, [fetchServices])
 
   return (
     <VStack
@@ -170,6 +169,7 @@ export default function NewAppointmentForm({
       mx="auto"
       w="full"
     >
+      <ErrorTextDisplay show={errorMsg.length > 0}>{errorMsg}</ErrorTextDisplay>
       <AppInput
         label="Location"
         inputProps={{
@@ -187,16 +187,28 @@ export default function NewAppointmentForm({
           label="Services required"
           value={servicesRequired.join(", ")}
           isRequired
+          readOnly
         >
           <ServicesDropdownList
             selectedValues={servicesRequired}
-            handleChange={(isChecked: boolean, value: string) => {
-              if (isChecked)
+            services={services}
+            handleChange={(
+              isChecked: boolean,
+              value: string,
+              serviceId: string
+            ) => {
+              if (isChecked) {
                 setServicesRequired((prev) => {
                   return prev.includes(value) ? prev : [...prev, value]
                 })
-              else {
+                setServicesRequiredIds((prev) => {
+                  return prev.includes(serviceId) ? prev : [...prev, serviceId]
+                })
+              } else {
                 setServicesRequired((prev) => prev.filter((it) => it !== value))
+                setServicesRequiredIds((prev) =>
+                  prev.filter((id) => id !== serviceId)
+                )
               }
             }}
           />
@@ -217,83 +229,60 @@ export default function NewAppointmentForm({
         hasError={Boolean(errors.appointmentDateAndTime)}
         errorDescription={errors.appointmentDateAndTime}
       />
-      <AppInput
-        label="Products to be used"
-        inputProps={{
-          value: formData.productsToBeUsed,
-          onChange,
-          name: "productsToBeUsed",
-          isRequired: true,
-        }}
-        labelProps={{ fontWeight: "400" }}
-        as="select"
-        inputRightAddon={<DownChevron />}
-      >
-        <option value="">Select products to be used</option>
-        <option value="salon">Salon products</option>
-        <option value="own">Own products</option>
-        <option value="salon-and-own">Own & Salon products</option>
-      </AppInput>
       <Box w="full" mx="auto" maxW="40rem">
-        <AppFormLabel mb="1rem" fontWeight="normal">
-          Choose vendor
-        </AppFormLabel>
-        <RadioGroup
-          display="flex"
-          justifyContent="start"
-          gap={{ base: ".8rem", md: "10%" }}
-          w="full"
-          value={vendorToUse}
-          onChange={(val) => {
-            setVendorToUse(val as any)
-            if (val === "new-vendor")
-              setFormData((prev) => ({ ...prev, previouslyUsedVendor: "" }))
-          }}
+        <DropDownInput
+          label="Vendor to use"
+          value={vendorToUse.split("-").join(" ")}
+          hasError={Boolean(errors.vendorToUse)}
+          errorText={
+            errors.vendorToUse ||
+            "Please select a location and services above to see vendors"
+          }
+          isRequired
         >
-          <AppFormLabel
-            display="flex"
-            alignItems="center"
-            gap="6px"
-            fontWeight="normal"
-          >
-            <Radio size="lg" name="vendor" value="previously-used-vendor" />
-            <span>Previously used vendor</span>
-          </AppFormLabel>
-          <AppFormLabel
-            display="flex"
-            alignItems="center"
-            gap="6px"
-            fontWeight="normal"
-          >
-            <Radio size="lg" name="vendor" value="new-vendor" />
-            <span>New vendor</span>
-          </AppFormLabel>
-        </RadioGroup>
+          <List>
+            <ListItem>
+              <Button
+                type="button"
+                bg="none"
+                w="full"
+                display="flex"
+                justifyContent="start"
+                onClick={() => setVendorToUse("previously-used-vendor")}
+              >
+                Previously used vendor
+              </Button>
+            </ListItem>
+            <ListItem>
+              <Button
+                type="button"
+                bg="none"
+                w="full"
+                display="flex"
+                justifyContent="start"
+                onClick={() => setVendorToUse("new-vendor")}
+              >
+                New vendor
+              </Button>
+            </ListItem>
+          </List>
+        </DropDownInput>
       </Box>
       {vendorToUse === "previously-used-vendor" && (
-        <AppInput
-          label="Previously used vendor"
-          inputProps={{
-            value: formData.previouslyUsedVendor,
-            onChange: (e) =>
-              setFormData((prev) => ({
-                ...prev,
-                [e.target.name]: e.target.value,
-              })),
-            name: "previouslyUsedVendor",
-            isRequired: true,
-          }}
-          labelProps={{ fontWeight: "400" }}
-          as="select"
-          inputRightAddon={<DownChevron />}
-        >
-          <option value="">Select previously used vendor</option>
-          {appointmentHistory.map((history) => (
-            <option key={history._id} value={history.vendor.name}>
-              {history.vendor.name}
-            </option>
-          ))}
-        </AppInput>
+        <Box w="full" mx="auto" maxW="40rem">
+          <DropDownInput
+            label="Previously used vendor"
+            value={formData?.previouslyUsedVendor || ""}
+            isRequired
+          >
+            <NewVendorsDropdownList
+              vendors={appointmentHistory.map((x) => x.vendor)}
+              handleSelect={(store: Store) => {
+                setSelectedVendor(store)
+              }}
+            />
+          </DropDownInput>
+        </Box>
       )}
       {vendorToUse === "new-vendor" && (
         <>
@@ -301,10 +290,13 @@ export default function NewAppointmentForm({
             <DropDownInput
               label="New vendor"
               value={selectedVendor?.name || ""}
+              readOnly
+              closeOnBlur
+              closeOnEsc
               hasError={Boolean(errors.vendorToUse) || !formData.location}
               errorText={
                 errors.vendorToUse ||
-                "Please select a location above to see vendors"
+                "Please select a location and services above to see vendors"
               }
               isRequired
             >
@@ -339,7 +331,11 @@ export default function NewAppointmentForm({
         gap=".8rem"
         mt={{ base: "1rem", md: "2.3rem" }}
       >
-        <Button type="submit" variant="filled" flexGrow="1">
+        <Button
+          type="submit"
+          variant="filled"
+          flexGrow="1"
+        >
           Proceed
         </Button>
         <Button
@@ -362,6 +358,9 @@ function DropDownInput({
   hasError,
   errorText,
   isRequired,
+  closeOnBlur,
+  closeOnEsc,
+  ...inputProps
 }: {
   value: string
   children: ReactNode
@@ -369,9 +368,17 @@ function DropDownInput({
   hasError?: boolean
   errorText?: string
   isRequired?: boolean
+  readOnly?: boolean
+  closeOnBlur?: boolean
+  closeOnEsc?: boolean
 }) {
   return (
-    <Popover placement="bottom" matchWidth>
+    <Popover
+      placement="bottom"
+      matchWidth
+      closeOnBlur={closeOnBlur}
+      closeOnEsc={closeOnEsc}
+    >
       <PopoverTrigger>
         <Button
           bg="transparent"
@@ -387,16 +394,16 @@ function DropDownInput({
           <AppInput
             label={label}
             inputProps={{
-              defaultValue: value,
+              value,
               placeholder: "Select services required",
               type: "text",
               name: "servicesRequired",
-              // isReadOnly: true,
+              isReadOnly: true,
               cursor: "default",
               isRequired,
               autoComplete: "off",
+              ...inputProps,
             }}
-            // as="span"
             hasError={hasError}
             errorDescription={errorText}
             inputRightAddon={<DownChevron />}
@@ -421,9 +428,11 @@ function DropDownInput({
 function ServicesDropdownList({
   selectedValues,
   handleChange,
+  services,
 }: {
   selectedValues: string[]
-  handleChange: (isChecked: boolean, value: string) => void
+  handleChange: (isChecked: boolean, value: string, serviceId: string) => void
+  services: Service[]
 }) {
   return (
     <>
@@ -452,7 +461,9 @@ function ServicesDropdownList({
               <Checkbox
                 size="lg"
                 name={service.name}
-                onChange={(e) => handleChange(e.target.checked, e.target.name)}
+                onChange={(e) =>
+                  handleChange(e.target.checked, e.target.name, service._id)
+                }
                 isChecked={selectedValues.includes(service.name)}
               />
             </AppFormLabel>
@@ -526,8 +537,13 @@ function NewVendorsDropdownList({
                   </Text>
                 </span>
               </Flex>
-              <Flex gap=".4rem" alignItems="center" justifyContent="start" w="7.1rem">
-                {getStars(vendor.rating || (idx + 1) < 5 ? idx + 1 : 5)}
+              <Flex
+                gap=".4rem"
+                alignItems="center"
+                justifyContent="start"
+                w="7.1rem"
+              >
+                {getStars(vendor.rating || idx + 1 < 5 ? idx + 1 : 5)}
               </Flex>
             </AppFormLabel>
           ))}

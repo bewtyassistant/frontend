@@ -51,7 +51,7 @@ export default function FormReviewStage({
             value={formData.location}
           />
           <FormReviewKeyValuePair
-            keyName="Service requirerd"
+            keyName="Service required"
             value={formData.servicesRequired?.join(", ") || ""}
           />
           <FormReviewKeyValuePair
@@ -77,10 +77,6 @@ export default function FormReviewStage({
               value={formData.vendor?.name}
             />
           )}
-          <FormReviewKeyValuePair
-            keyName="Products to be used"
-            value={formData.productsToBeUsed}
-          />
           <FormReviewKeyValuePair
             keyName="Note of importance"
             value={formData.note}

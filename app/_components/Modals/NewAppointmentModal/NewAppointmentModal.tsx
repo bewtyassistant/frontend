@@ -14,6 +14,7 @@ export default function NewAppointmentModal() {
   const { fetchData } = useAxios()
   const [isReviewStage, setIsReviewStage] = useState(false)
   const [formData, setFormData] = useState({})
+  const [loading, setLoading] = useState(false)
 
   const handleSubmitForReview = useCallback((data: {}) => {
     setIsReviewStage(true)

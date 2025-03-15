@@ -16,12 +16,7 @@ export default interface Appointment {
 export interface AppointmentHistory {
   _id: string
   client: string
-  vendor: {
-    _id: string
-    type: StoreType
-    name: string
-    id: string
-  }
+  vendor: Store
   type: StoreType
   id: string
 }
