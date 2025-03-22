@@ -6,12 +6,14 @@ import {
   fetchStore,
   fetchStoreStats,
   fetchMostBookedService,
-  fetchServices,
+  fetchStoreServices,
+  fetchAllServices,
 } from "./thunks/store.thunk"
 import { IStoreState } from "../_types/IStoreState"
 import {
   FetchMostBookedServiceCaseHandlers,
-  FetchServices,
+  FetchAllServices,
+  FetchStoreServices,
   FetchStoreCaseHandlers,
   FetchStoreStatisticsCaseHandlers,
 } from "./builders.case.handlers/store.cases"
@@ -28,7 +30,8 @@ const initialState: IStoreState = {
   totalEarningsOnProducts: 0,
   totalNumberOfLocationsDeliveredTo: 0,
   mostBookedService: null,
-  services: [],
+  storeServices: [],
+  allServices: [],
 }
 
 export const storeSlice = createSlice({
@@ -44,17 +47,20 @@ export const storeSlice = createSlice({
       state = initialState
     },
     updateServices: (state, action) => {
-      const index = state.services.findIndex(
+      const index = state.storeServices.findIndex(
         (item) => item._id === action.payload._id
       )
       if (index !== -1) {
-        state.services[index] = { ...state.services[index], ...action.payload }
+        state.storeServices[index] = {
+          ...state.storeServices[index],
+          ...action.payload,
+        }
       } else {
-        state.services.push(action.payload)
+        state.storeServices.push(action.payload)
       }
     },
     deleteService: (state, action) => {
-      state.services = state.services.filter(
+      state.storeServices = state.storeServices.filter(
         (service) => service._id !== action.payload._id
       )
     },
@@ -88,9 +94,12 @@ export const storeSlice = createSlice({
         fetchMostBookedService.rejected,
         FetchMostBookedServiceCaseHandlers.rejected
       )
-      .addCase(fetchServices.pending, FetchServices.pending)
-      .addCase(fetchServices.fulfilled, FetchServices.fulfilled)
-      .addCase(fetchServices.rejected, FetchServices.rejected)
+      .addCase(fetchStoreServices.pending, FetchStoreServices.pending)
+      .addCase(fetchStoreServices.fulfilled, FetchStoreServices.fulfilled)
+      .addCase(fetchStoreServices.rejected, FetchStoreServices.rejected)
+      .addCase(fetchAllServices.pending, FetchAllServices.pending)
+      .addCase(fetchAllServices.fulfilled, FetchAllServices.fulfilled)
+      .addCase(fetchAllServices.rejected, FetchAllServices.rejected)
   },
 })
 

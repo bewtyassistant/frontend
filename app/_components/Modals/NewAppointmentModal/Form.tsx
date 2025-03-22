@@ -1,7 +1,7 @@
 import DownChevron from "@/app/_assets/DownChevron"
 import StarRating from "@/app/_assets/StarRating"
 import useAxios from "@/app/_hooks/useAxios"
-import { useAppSelector } from "@/app/_redux/store"
+import { useAppDispatch, useAppSelector } from "@/app/_redux/store"
 import {
   VStack,
   Box,
@@ -26,12 +26,14 @@ import {
   FormEventHandler,
   useEffect,
   ReactNode,
+  useMemo,
 } from "react"
-import toast from "react-hot-toast"
+import toast, { LoaderIcon } from "react-hot-toast"
 import { AppInput, AppFormLabel } from "../../Auth/Inputs"
 import Service from "@/app/_types/Service"
 import { ErrorTextDisplay } from "../../Auth/ErrorText"
 import _, { debounce } from "underscore"
+import { fetchAllServices } from "@/app/_redux/thunks/store.thunk"
 
 const TODAY = new Date(Date.now())
 
@@ -42,26 +44,40 @@ export default function NewAppointmentForm({
   handleCancel: () => void
   handleSubmit: (data: { [x: string]: any }) => void
 }) {
+  const { allServices } = useAppSelector((store) => store.store)
+  const dispatch = useAppDispatch()
   const { fetchData } = useAxios()
   const [errorMsg, setErrorMsg] = useState("")
   const [errors, setErrors] = useState<{ [x: string]: string }>({})
   const { appointmentHistory } = useAppSelector((store) => store.appointments)
   const [servicesRequired, setServicesRequired] = useState<string[]>([])
   const [selectedVendor, setSelectedVendor] = useState<Store | null>(null)
-  const [newVendors, setNewVendors] = useState<Store[]>([])
-  const [services, setServices] = useState<Service[]>([])
+  const [vendors, setVendors] = useState<Store[]>([])
   const [idsOfServicesRequired, setServicesRequiredIds] = useState<string[]>([])
   const [formData, setFormData] = useState({
     location: "",
     appointmentDateAndTime: "",
     note: "",
-    productsToBeUsed: "",
-    previouslyUsedVendor: "",
-    newVendor: "",
   })
   const [vendorToUse, setVendorToUse] = useState<
     "previously-used-vendor" | "new-vendor" | ""
   >("")
+
+  const isProceedDisabled = useMemo(() => {
+    return (
+      !formData.location ||
+      !formData.appointmentDateAndTime ||
+      !vendorToUse ||
+      servicesRequired.length === 0 ||
+      !selectedVendor
+    )
+  }, [
+    formData.location,
+    formData.appointmentDateAndTime,
+    vendorToUse,
+    selectedVendor,
+    servicesRequired,
+  ])
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -98,7 +114,14 @@ export default function NewAppointmentForm({
         vendor: selectedVendor,
       })
     },
-    [formData, vendorToUse, servicesRequired, appointmentHistory, handleSubmit, selectedVendor]
+    [
+      formData,
+      vendorToUse,
+      servicesRequired,
+      appointmentHistory,
+      handleSubmit,
+      selectedVendor,
+    ]
   )
 
   const [loading, setLoading] = useState(false)
@@ -110,22 +133,33 @@ export default function NewAppointmentForm({
           formData.location + vendorToUse + servicesRequired.join("")
         if (loading) return
         if (searchCache[cacheKey])
-          return setNewVendors(searchCache[cacheKey] as any)
+          return setVendors(searchCache[cacheKey] as any)
         setLoading(true)
+        setErrors((prev) => ({ ...prev, selectedVendor: "" }))
         const res = await fetchData({
-          url: `/stores/search?location=${formData.location}`,
+          url: `/stores/search?location=${
+            formData.location
+          }&idsOfServicesRequired=${idsOfServicesRequired.join(
+            ","
+          )}&vendorToUse=${vendorToUse}`,
           method: "get",
         })
         if (res.statusCode === 200) {
-          setNewVendors(res.results)
+          setVendors(res.results)
           setSearchCache((prev) => ({
             ...prev,
             [cacheKey]: res.results,
           }))
-        } else
+          if (res.results.length === 0) setErrorMsg("No vendors found")
+        } else {
           toast.error(
-            "Something went wrong with getting new vendors! Please try again"
+            "Something went wrong with finding vendors! Please check your connection and try again"
           )
+          setSearchCache((prev) => ({
+            ...prev,
+            [cacheKey]: [],
+          }))
+        }
         setLoading(false)
       }
     }, 1500),
@@ -143,22 +177,28 @@ export default function NewAppointmentForm({
     findVendors()
   }, [findVendors])
 
-  const fetchServices = useCallback(async () => {
-    const res = await fetchData({
-      url: `/services`,
-      method: "get",
-    })
-    if (res.statusCode === 200) {
-      setServices(res.results)
-    } else
-      toast.error(
-        "Something went wrong with displaying services! Please try again"
-      )
-  }, [])
+  useEffect(() => {
+    if (allServices.length === 0) dispatch(fetchAllServices())
+  }, [dispatch, allServices])
+
+  const updateVendorToUse = useCallback(
+    (selection: typeof vendorToUse) => {
+      setVendorToUse(selection)
+      setSelectedVendor(null)
+      setVendors([])
+      setErrorMsg("")
+    },
+    [searchCache, servicesRequired, formData]
+  )
 
   useEffect(() => {
-    fetchServices()
-  }, [fetchServices])
+    const cacheKey = formData.location + vendorToUse + servicesRequired.join("")
+    const cache = searchCache[cacheKey]
+    if (cache && cache.length === 0) setErrorMsg("No vendors found")
+    else if (cache && cache.length > 0) {
+      setErrorMsg("")
+    }
+  }, [searchCache, vendorToUse, formData, loading])
 
   return (
     <VStack
@@ -191,7 +231,7 @@ export default function NewAppointmentForm({
         >
           <ServicesDropdownList
             selectedValues={servicesRequired}
-            services={services}
+            services={allServices}
             handleChange={(
               isChecked: boolean,
               value: string,
@@ -248,7 +288,7 @@ export default function NewAppointmentForm({
                 w="full"
                 display="flex"
                 justifyContent="start"
-                onClick={() => setVendorToUse("previously-used-vendor")}
+                onClick={() => updateVendorToUse("previously-used-vendor")}
               >
                 Previously used vendor
               </Button>
@@ -260,7 +300,7 @@ export default function NewAppointmentForm({
                 w="full"
                 display="flex"
                 justifyContent="start"
-                onClick={() => setVendorToUse("new-vendor")}
+                onClick={() => updateVendorToUse("new-vendor")}
               >
                 New vendor
               </Button>
@@ -268,40 +308,25 @@ export default function NewAppointmentForm({
           </List>
         </DropDownInput>
       </Box>
-      {vendorToUse === "previously-used-vendor" && (
-        <Box w="full" mx="auto" maxW="40rem">
-          <DropDownInput
-            label="Previously used vendor"
-            value={formData?.previouslyUsedVendor || ""}
-            isRequired
-          >
-            <NewVendorsDropdownList
-              vendors={appointmentHistory.map((x) => x.vendor)}
-              handleSelect={(store: Store) => {
-                setSelectedVendor(store)
-              }}
-            />
-          </DropDownInput>
-        </Box>
-      )}
-      {vendorToUse === "new-vendor" && (
+      {vendorToUse && (
         <>
           <Box w="full" mx="auto" maxW="40rem">
             <DropDownInput
-              label="New vendor"
+              label={vendorToUse.split("-").join(" ")}
               value={selectedVendor?.name || ""}
               readOnly
               closeOnBlur
               closeOnEsc
-              hasError={Boolean(errors.vendorToUse) || !formData.location}
+              hasError={Boolean(errors.selectedVendor) || !formData.location}
               errorText={
-                errors.vendorToUse ||
+                errors.selectedVendor ||
                 "Please select a location and services above to see vendors"
               }
               isRequired
             >
               <NewVendorsDropdownList
-                vendors={newVendors}
+                isLoading={loading}
+                vendors={vendors}
                 handleSelect={(store: Store) => {
                   setSelectedVendor(store)
                 }}
@@ -335,6 +360,7 @@ export default function NewAppointmentForm({
           type="submit"
           variant="filled"
           flexGrow="1"
+          isDisabled={isProceedDisabled}
         >
           Proceed
         </Button>
@@ -395,9 +421,7 @@ function DropDownInput({
             label={label}
             inputProps={{
               value,
-              placeholder: "Select services required",
               type: "text",
-              name: "servicesRequired",
               isReadOnly: true,
               cursor: "default",
               isRequired,
@@ -407,7 +431,7 @@ function DropDownInput({
             hasError={hasError}
             errorDescription={errorText}
             inputRightAddon={<DownChevron />}
-            labelProps={{ fontWeight: "400" }}
+            labelProps={{ fontWeight: "400", textTransform: "capitalize" }}
           />
         </Button>
       </PopoverTrigger>
@@ -477,15 +501,24 @@ function ServicesDropdownList({
 function NewVendorsDropdownList({
   vendors,
   handleSelect,
+  isLoading,
 }: {
   vendors: Store[]
   handleSelect: (store: Store) => void
+  isLoading: boolean
 }) {
   const getStars = useCallback((rating: number) => {
     const stars = new Array(rating)
     stars.fill(1)
     return stars.map((star, idx) => <StarRating key={star + idx} />)
   }, [])
+
+  if (isLoading)
+    return (
+      <Flex justifyContent="center" alignItems="center">
+        <LoaderIcon />
+      </Flex>
+    )
   return (
     <>
       <Flex

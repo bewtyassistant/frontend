@@ -28,18 +28,26 @@ export const fetchMostBookedService = createAsyncThunk(
       url: STORE_URLS.getMostBookedService(),
       method: "get",
     })
-    console.log(res, "dsjfa;dsf")
     return res
   }
 )
-export const fetchServices = createAsyncThunk(
-  "store/fetchServices",
+export const fetchStoreServices = createAsyncThunk(
+  "store/fetchStoreServices",
+  async () => {
+    const res = await axiosFetcher({
+      url: STORE_URLS.getStoreServices(),
+      method: "get",
+    })
+    return res
+  }
+)
+export const fetchAllServices = createAsyncThunk(
+  "store/fetchAllServices",
   async () => {
     const res = await axiosFetcher({
       url: STORE_URLS.getServices(),
       method: "get",
     })
-    console.log(res, "dsjfa;dsf")
     return res
   }
 )

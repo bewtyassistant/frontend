@@ -4,7 +4,8 @@ const STORE_URLS = {
   get: () => `/stores/me`,
   getStats: () => `/stores/me/stats`,
   getMostBookedService: () => `/stores/me/stats/most-booked-service`,
-  getServices: () => `/stores/me/services`,
+  getStoreServices: () => `/stores/me/services`,
+  getServices: () => `/services`,
   createService: () => `/stores/me/services`,
   editService: (vendorServiceId: string) =>
     `/stores/me/services/${vendorServiceId}`,

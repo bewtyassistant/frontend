@@ -1,6 +1,6 @@
 import STORAGE_KEYS from "@/app/STORAGE_KEYS"
 import { IStoreState } from "@/app/_types/IStoreState"
-import Service from "@/app/_types/Service"
+import Service, { VendorService } from "@/app/_types/Service"
 import Store from "@/app/_types/Store"
 import { PayloadAction } from "@reduxjs/toolkit"
 
@@ -90,7 +90,7 @@ export const FetchMostBookedServiceCaseHandlers: {
   },
 }
 
-export const FetchServices: {
+export const FetchStoreServices: {
   pending: (state: IStoreState) => void
   fulfilled: (
     state: IStoreState,
@@ -98,7 +98,7 @@ export const FetchServices: {
       {
         message: string
         statusCode: number
-        services: Service[]
+        services: VendorService[]
       } & IStoreState
     >
   ) => void
@@ -112,7 +112,36 @@ export const FetchServices: {
       action.payload.statusCode === 200 &&
       Array.isArray(action.payload.services)
     )
-      state.services = action.payload.services
+      state.storeServices = action.payload.services
+  },
+  rejected: (state) => {
+    state.loading = false
+  },
+}
+
+export const FetchAllServices: {
+  pending: (state: IStoreState) => void
+  fulfilled: (
+    state: IStoreState,
+    action: PayloadAction<
+      {
+        message: string
+        statusCode: number
+        results: Service[]
+      } & IStoreState
+    >
+  ) => void
+  rejected: (state: IStoreState) => void
+} = {
+  pending: (state) => {
+    state.loading = true
+  },
+  fulfilled: (state, action) => {
+    if (
+      action.payload.statusCode === 200 &&
+      Array.isArray(action.payload.results)
+    )
+      state.allServices = action.payload.results
   },
   rejected: (state) => {
     state.loading = false

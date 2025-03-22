@@ -16,5 +16,6 @@ export interface IStoreState extends IStoreMetrics {
   hasFetchedStore: boolean
   needsToCreateStore: boolean
   mostBookedService: Service | null
-  services: VendorService[]
+  storeServices: VendorService[]
+  allServices: Service[]
 }
