@@ -1,4 +1,4 @@
-import Appointment, { AppointmentHistory } from "./Appointment"
+import Appointment, { AppointmentHistory, AppointmentRequest } from "./Appointment"
 
 export interface IAppointmentsState {
   appointments: Appointment[]
@@ -6,5 +6,6 @@ export interface IAppointmentsState {
   hasFetchedPreviouslyUsedStylists: boolean
   hasFetchedAppointments: boolean
   appointmentHistory: AppointmentHistory[]
+  appointmentRequests: AppointmentRequest[]
 }
 

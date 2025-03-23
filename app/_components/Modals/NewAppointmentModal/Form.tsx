@@ -112,6 +112,7 @@ export default function NewAppointmentForm({
         idsOfServicesRequired,
         servicesRequired,
         vendor: selectedVendor,
+        vendorToUse
       })
     },
     [

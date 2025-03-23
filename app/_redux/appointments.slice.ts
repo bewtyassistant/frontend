@@ -1,5 +1,5 @@
 "use client"
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
   fetchAppointments,
   fetchPreviouslyUsedStylists,
@@ -9,6 +9,7 @@ import {
   FetchAppointmentsCaseHandlers,
   FetchPreviouslyUsedStylistsCaseHandlers,
 } from "./builders.case.handlers/appointments.cases"
+import { AppointmentRequest } from "../_types/Appointment"
 
 const initialState: IAppointmentsState = {
   appointments: [],
@@ -16,6 +17,7 @@ const initialState: IAppointmentsState = {
   hasFetchedAppointments: false,
   hasFetchedPreviouslyUsedStylists: false,
   appointmentHistory: [],
+  appointmentRequests: [],
 }
 
 export const appointmentsSlice = createSlice({
@@ -24,6 +26,12 @@ export const appointmentsSlice = createSlice({
   reducers: {
     clearAppointments: (state) => {
       state = initialState
+    },
+    addNewAppointmentRequest: (
+      state,
+      action: PayloadAction<AppointmentRequest>
+    ) => {
+      state.appointmentRequests = [...state.appointmentRequests, action.payload]
     },
   },
   extraReducers: (builder) => {
@@ -52,5 +60,6 @@ export const appointmentsSlice = createSlice({
   },
 })
 
-export const { clearAppointments } = appointmentsSlice.actions
+export const { clearAppointments, addNewAppointmentRequest } =
+  appointmentsSlice.actions
 export const appointmentsReducer = appointmentsSlice.reducer

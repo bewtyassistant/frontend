@@ -13,6 +13,17 @@ export default interface Appointment {
   isRescheduled: boolean
 }
 
+export interface AppointmentRequest {
+  servicesRequired: (string | Service)[]
+  appointmentDateAndTime: string
+  client: string | User
+  vendor: string | Store
+  location: string
+  note: string
+  vendorToUse: "previously-used-vendor" | "new-vendor"
+  status: "pending" | "accepted" | "rejected"
+}
+
 export interface AppointmentHistory {
   _id: string
   client: string

@@ -1,7 +1,5 @@
-
 import Appointment, { AppointmentHistory } from "@/app/_types/Appointment"
 import { IAppointmentsState } from "@/app/_types/IAppointmentsState"
-import Store from "@/app/_types/Store"
 import { PayloadAction } from "@reduxjs/toolkit"
 
 export const FetchAppointmentsCaseHandlers: {

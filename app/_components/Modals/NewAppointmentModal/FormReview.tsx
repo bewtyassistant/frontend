@@ -11,17 +11,22 @@ import {
 import { KeyValuePair } from "../../Dashboard/NextBookService"
 import { ReactNode } from "react"
 import EditIcon from "@/app/_assets/EditIcon"
+import { ErrorTextDisplay } from "../../Auth/ErrorText"
 
 export default function FormReviewStage({
   handleCancel,
   handleSubmit,
   handleEditForm,
   formData,
+  loading,
+  errorMsg,
 }: {
   handleCancel: () => void
   handleSubmit: (data: { [x: string]: any }) => void
   handleEditForm: () => void
   formData: { [x: string]: any }
+  loading: boolean
+  errorMsg: string
 }) {
   return (
     <>
@@ -45,7 +50,10 @@ export default function FormReviewStage({
             <EditIcon />
           </IconButton>
         </Heading>
-        <VStack alignItems="start" gap="1.6rem">
+        <ErrorTextDisplay show={errorMsg.length > 0}>
+          {errorMsg}
+        </ErrorTextDisplay>
+        <VStack alignItems="start" gap="1.6rem" mt="2rem">
           <FormReviewKeyValuePair
             keyName="Location"
             value={formData.location}
@@ -94,6 +102,7 @@ export default function FormReviewStage({
             flexGrow="1"
             maxW="16.5rem"
             type="button"
+            isLoading={loading}
             onClick={() => handleSubmit(formData)}
           >
             Request
