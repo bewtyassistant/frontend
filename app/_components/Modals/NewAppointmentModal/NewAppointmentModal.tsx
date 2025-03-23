@@ -69,7 +69,15 @@ export default function NewAppointmentModal() {
       )
     }
     setLoading(false)
-  }, [formData, fetchData, dispatch, toggleShow])
+  }, [
+    formData,
+    fetchData,
+    dispatch,
+    toggleShow,
+    stage,
+    toggleShowNewAppointmentModal,
+    loading,
+  ])
 
   const handleCancel = useCallback(() => {
     setStage(0)

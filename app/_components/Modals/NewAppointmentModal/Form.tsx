@@ -112,7 +112,7 @@ export default function NewAppointmentForm({
         idsOfServicesRequired,
         servicesRequired,
         vendor: selectedVendor,
-        vendorToUse
+        vendorToUse,
       })
     },
     [
@@ -122,6 +122,7 @@ export default function NewAppointmentForm({
       appointmentHistory,
       handleSubmit,
       selectedVendor,
+      idsOfServicesRequired,
     ]
   )
 
@@ -182,15 +183,12 @@ export default function NewAppointmentForm({
     if (allServices.length === 0) dispatch(fetchAllServices())
   }, [dispatch, allServices])
 
-  const updateVendorToUse = useCallback(
-    (selection: typeof vendorToUse) => {
-      setVendorToUse(selection)
-      setSelectedVendor(null)
-      setVendors([])
-      setErrorMsg("")
-    },
-    [searchCache, servicesRequired, formData]
-  )
+  const updateVendorToUse = useCallback((selection: typeof vendorToUse) => {
+    setVendorToUse(selection)
+    setSelectedVendor(null)
+    setVendors([])
+    setErrorMsg("")
+  }, [])
 
   useEffect(() => {
     const cacheKey = formData.location + vendorToUse + servicesRequired.join("")
@@ -199,7 +197,7 @@ export default function NewAppointmentForm({
     else if (cache && cache.length > 0) {
       setErrorMsg("")
     }
-  }, [searchCache, vendorToUse, formData, loading])
+  }, [searchCache, vendorToUse, formData, loading, servicesRequired])
 
   return (
     <VStack

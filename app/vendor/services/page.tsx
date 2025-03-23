@@ -7,7 +7,7 @@ import ServicesList from "@/app/_components/Services/ServicesList"
 import { useAppSelector } from "@/app/_redux/store"
 
 export default function VendorOverviewPage() {
-  const { mostBookedService, loading, services } = useAppSelector(
+  const { mostBookedService, loading, storeServices } = useAppSelector(
     (store) => store.store
   )
 
@@ -20,7 +20,7 @@ export default function VendorOverviewPage() {
         serviceName={mostBookedService?.name || ""}
         serviceImage={mostBookedService?.displayImage?.secure_url || ""}
       />
-      <ServicesList loading={loading} services={services} />
+      <ServicesList loading={loading} services={storeServices} />
     </BasicPageLayout>
   )
 }
