@@ -38,7 +38,7 @@ export default function formatAppointmentsListAsTableData(
       formatTime(appointment.bookedDate),
       joinListOfObjectsWithStringValueAtKey(appointment.services, "name"),
       requiredProducts || "---",
-      formatNumber(appointment.totalPrice || 0),
+      formatNumber(appointment.totalCost || 0),
       ...statusAndManagement,
     ]
     return tableData

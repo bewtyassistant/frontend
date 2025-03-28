@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation"
 import AppFooter from "../_components/AppFooter"
 import { fetchAppointments } from "../_redux/thunks/appoinments.thunk"
 import { fetchOrders } from "../_redux/thunks/orders.thunk"
+import AppointmentRescheduleConfirmationModal from "../_components/Modals/AppointmentRescheduleAcceptOrRejectModal"
 
 export default function RootLayout({
   children,
@@ -77,6 +78,7 @@ export default function RootLayout({
           {children}
         </MobileLayout>
       </Show>
+      <AppointmentRescheduleConfirmationModal />
       <AppFooter />
     </>
   )

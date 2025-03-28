@@ -1,18 +1,7 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Text,
-  VStack,
-} from "@chakra-ui/react"
+import { Box, Button, Flex, Text, VStack } from "@chakra-ui/react"
 import Appointment from "../_types/Appointment"
 import Status from "../_types/Status"
-import {
-  FormEventHandler,
-  ReactNode,
-  useCallback,
-  useState,
-} from "react"
+import { FormEventHandler, ReactNode, useCallback, useState } from "react"
 import { AppInput, CustomSelect } from "./Auth/Inputs"
 import { KeyValuePair } from "./Dashboard/NextBookService"
 import { useAppSelector } from "../_redux/store"
@@ -77,7 +66,7 @@ export default function ManageAppointmentTriggerAndModal({
         isOpen={showManageModal}
         onClose={() => {}}
         headerContent={
-          hasProceeded
+          hasProceeded === true
             ? headerContent[selectedOption as keyof typeof headerContent]
             : "Manage appointment"
         }
