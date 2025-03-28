@@ -17,6 +17,7 @@ import {
 import { fetchOrders } from "../_redux/thunks/orders.thunk"
 import { useAppDispatch, useAppSelector } from "../_redux/store"
 import AppointmentRescheduleConfirmationModal from "../_components/Modals/AppointmentRescheduleAcceptOrRejectModal"
+import AppointmentNotAcceptedModal from "../_components/Modals/AppointmentNotAcceptedModal"
 
 export default function RootLayout({
   children,
@@ -62,6 +63,7 @@ export default function RootLayout({
         </MobileLayout>
       </Show>
       <AppointmentRescheduleConfirmationModal />
+      <AppointmentNotAcceptedModal />
       <AppFooter />
     </>
   )
