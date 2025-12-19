@@ -64,26 +64,18 @@ export default function page() {
           <SubmitButton
             as={Link}
             href="/signup"
-            bg="brand.main"
-            color="white"
-            border="1px solid"
-            borderColor="white"
+            variant="primary"
             maxW="40rem"
             w="85dvw"
-            _hover={{ textDecor: "none", bg: "white", color: "brand.main" }}
           >
             Create an account
           </SubmitButton>
           <SubmitButton
             as={Link}
             href="/login"
-            bg="white"
-            color="brand.main"
+            variant="secondary"
             maxW="40rem"
             w="85dvw"
-            border="1px solid"
-            borderColor="brand.main"
-            _hover={{ textDecor: "none", bg: "brand.400" }}
           >
             Sign in
           </SubmitButton>
