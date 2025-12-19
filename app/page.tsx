@@ -63,25 +63,21 @@ export default function page() {
         >
           <SubmitButton
             as={Link}
-            href="/login"
-            bg="white"
-            color="brand.main"
+            href="/signup"
+            variant="primary"
             maxW="40rem"
             w="85dvw"
-            _hover={{ textDecor: "none", bg: "brand.400" }}
           >
-            Login
+            Create an account
           </SubmitButton>
           <SubmitButton
             as={Link}
-            href="/signup"
-            bg="white"
-            color="brand.main"
+            href="/login"
+            variant="secondary"
             maxW="40rem"
             w="85dvw"
-            _hover={{ textDecor: "none", bg: "brand.400" }}
           >
-            Create an account
+            Sign in
           </SubmitButton>
         </Flex>
       </Flex>
