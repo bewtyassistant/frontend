@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <>
       <AuthLayout
-        headingText="Service Vendor"
+        headingText="Service Provider"
         subHeadingText="Set up your shop and start providing beauty services"
         gap={"3rem"}
         showBackButton

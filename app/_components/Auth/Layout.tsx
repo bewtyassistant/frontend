@@ -69,7 +69,7 @@ export default function AuthLayout({
           pb={{ base: "3.2rem" }}
           px="3rem"
           color="dark.100"
-          justifyContent="center"
+          justifyContent={{ base: "center", lg: "flex-start" }}
           alignItems="center"
           flexDir="column"
           gap={gap || { base: "3rem", lg: "10rem" }}

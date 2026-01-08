@@ -162,7 +162,7 @@ export default function VerifyEmail() {
           text={successText}
           show={success}
           buttonHref={nextPathAfterSuccess}
-          buttonText="Let's Go!"
+          buttonText="Next"
           onButtonClick={() => {
             router.push(nextPathAfterSuccess)
             if (

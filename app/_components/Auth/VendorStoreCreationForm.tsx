@@ -218,11 +218,12 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
         />
         <SubmitButton
           isLoading={loading}
+          variant="primary"
           loadingText="Creating your store"
           type="submit"
           mt="3rem"
         >
-          Next
+          Go to dashboard
         </SubmitButton>
       </Flex>
     </>
