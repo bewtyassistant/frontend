@@ -110,10 +110,9 @@ export default function Signup() {
         </Text>
         <Flex flexDir="column" gap="2.4rem" mb="4rem">
           <AppInput
-            label={"Signup as"}
+            label={"Signup as a"}
             inputProps={{
               placeholder: "Select account type",
-              textTransform: "capitalize",
               color: signupData.accountType ? "dark.100" : "gray.300",
               name: "accountType",
               onChange: handleChange,
@@ -126,15 +125,16 @@ export default function Signup() {
           >
             <>
               <option value="">Select one</option>
-              <option value="client">client</option>
-              <option value="vendor">vendor</option>
+              <option value="client">Client - I want to be pampered</option>
+              <option value="vendor">Vendor - I sell beauty products only</option>
+              <option value="service">Service provider - I offer beauty services</option>
             </>
           </AppInput>
           <AppInput
             label={"Email"}
             inputProps={{
               type: "email",
-              placeholder: "**********",
+              placeholder: "youremail.com",
               name: "email",
               value: signupData.email,
               onChange: handleChange,
@@ -169,10 +169,12 @@ export default function Signup() {
         </Flex>
         <SubmitButton
           type="submit"
+          variant="primary"
+          _hover={{ bg: "brand.400" }}
           isLoading={loading}
           loadingText={"Creating your account..."}
         >
-          Sign Up
+          Create account
         </SubmitButton>
         <Text textAlign="center" color="gray.400" fontSize="1.6rem" mt=".8rem">
           Already have an account?{" "}
@@ -184,6 +186,7 @@ export default function Signup() {
           fontWeight="500"
           mt={{ base: "6rem", lg: "8rem" }}
           textAlign="center"
+          textColor="gray.400"
         >
           By creating an account, you are agreeing to our
           <Link href="#" color="brand.main">
