@@ -69,17 +69,18 @@ export default function AuthLayout({
           pb={{ base: "3.2rem" }}
           px="3rem"
           color="dark.100"
-          justifyContent="center"
+          justifyContent={{ base: "center", lg: "flex-start" }}
           alignItems="center"
           flexDir="column"
           gap={gap || { base: "3rem", lg: "10rem" }}
         >
-          <Flex gap=".8rem" flexDir="column" textAlign="center" w="full" maxW="40rem">
-          {showBackButton && (
-            <Box mr="auto" mb="4rem">
+           {showBackButton && ( <Box mr="auto" mb="4rem" w="full" display="flex" alignItems="center" color="brand.main" fontSize="1.4rem" fontWeight="500" _hover={{ opacity: 0.8 }} > <BackButton /> </Box> )}
+          <Flex gap=".4rem" flexDir="column" textAlign="center" w="full" maxW="40rem">
+          {/* {showBackButton && (
+            <Box mr="auto"  mb="4rem">
               <BackButton />
             </Box>
-          )}
+          )} */}
             <Heading
               letterSpacing={{ base: "-.5px", md: "unset" }}
               fontSize={{ base: "4xl", lg: "6xl" }}

@@ -17,5 +17,12 @@ export default interface User {
 
 export enum AccountTypes  {
   CLIENT = "client",
-  VENDOR = "vendor"
+  VENDOR = "vendor",
+  SERVICEPROVIDER = "service_provider"
+}
+
+export type SignupPayload = {
+  email: string
+  password: string
+  accountType: string
 }

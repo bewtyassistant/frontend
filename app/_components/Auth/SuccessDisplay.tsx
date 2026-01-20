@@ -34,6 +34,7 @@ export default function SuccessDisplay({
       <SubmitButton
         type="button"
         href={buttonHref || "/login"}
+        variant="primary"
         onClickCapture={(e) => {
           if (typeof onButtonClick === "function") {
             e.preventDefault()

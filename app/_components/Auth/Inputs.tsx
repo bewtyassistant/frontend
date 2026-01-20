@@ -1,6 +1,6 @@
 import Eye from "@/app/_assets/Eye"
+import EyeClosed from "@/app/_assets/EyeClosed"
 import {
-  As,
   Box,
   BoxProps,
   Button,
@@ -174,7 +174,7 @@ export function PasswordInput({
           zIndex="4"
           onClick={() => setShowPassword((prev) => !prev)}
         >
-          <Eye />
+          {showPassword ? <Eye /> : <EyeClosed />}
         </InputRightAddon>
       }
     />

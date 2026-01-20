@@ -1,5 +1,5 @@
 "use client"
-import { Flex, useToast } from "@chakra-ui/react"
+import { Flex, useToast, Button, ButtonGroup, Text } from "@chakra-ui/react"
 import { AppInput, SubmitButton } from "../_components/Auth/Inputs"
 import AuthLayout from "../_components/Auth/Layout"
 import {
@@ -8,6 +8,7 @@ import {
   useCallback,
   useState,
 } from "react"
+import Link from "next/link"
 import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
 import STORAGE_KEYS from "../STORAGE_KEYS"
@@ -85,6 +86,7 @@ export default function ForgotPassword() {
             hasError={error}
           />
         </Flex>
+        <Flex flexDir="column" gap="2.4rem">
         <SubmitButton
           type="submit"
           loadingText="Sending code..."
@@ -92,6 +94,40 @@ export default function ForgotPassword() {
         >
           Send reset code
         </SubmitButton>
+
+        <button
+          style={{
+            alignItems: "center",
+            appearance: "none",
+            backgroundColor: "rgba(255, 255, 255, 1)",
+            backgroundImage: "none",
+            borderRadius: "4px",
+            border: "1px solid rgba(186, 39, 98, 1)",
+            boxSizing: "border-box",
+            color: "rgb(186, 39, 98)",
+            cursor: "pointer",
+            display: "flex",
+            fontSize: "16px",
+            fontWeight: "600",
+            height: "55.1875px",
+            justifyContent: "center",
+            padding: "18px 16px",
+            position: "relative",
+            textAlign: "center",
+            transition: "background-color 0.2s, border-color 0.2s, color 0.2s",
+            userSelect: "none",
+            width: "400px",
+            WebkitFontSmoothing: "antialiased",
+          }}
+
+        >
+          <Link href="/" color="brand.main">
+            <Text>
+              cancel
+            </Text>
+          </Link>
+        </button>
+        </Flex>
       </Flex>
     </AuthLayout>
   )
