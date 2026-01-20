@@ -126,7 +126,7 @@ export default function Signup() {
             inputRightAddon={<DownChevron />}
           >
             <>
-              <option value="">Select one</option>
+              <option value="">Select account type</option>
               <option value="client">Client - I want to be pampered</option>
               <option value="vendor">Vendor - I sell beauty products only</option>
               <option value="service_provider">Service provider - I offer beauty services</option>
@@ -148,7 +148,6 @@ export default function Signup() {
             label={"Password"}
             inputProps={{
               type: "password",
-              placeholder: "**********",
               name: "password",
               onChange: handleChange,
               value: signupData.password,
@@ -160,7 +159,6 @@ export default function Signup() {
             label={"Re-type Password"}
             inputProps={{
               type: "password",
-              placeholder: "**********",
               name: "confirmPassword",
               onChange: handleChange,
               value: signupData.confirmPassword,
