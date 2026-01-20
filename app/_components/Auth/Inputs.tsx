@@ -143,15 +143,17 @@ export function SubmitButton({
 export function PasswordInput({
   label,
   inputProps,
+  revealedPlaceholder = "Hello@bewtyassistant2",
   errorDescription,
   hasError,
 }: {
   label: string
   inputProps: InputProps & SelectProps
+  revealedPlaceholder?: string
   errorDescription: string
   hasError?: boolean
 }) {
-  const { type, ...rest } = inputProps
+  const { type, placeholder, ...rest } = inputProps
   const [showPassword, setShowPassword] = useState(false)
   return (
     <AppInput
@@ -159,7 +161,9 @@ export function PasswordInput({
       inputProps={{
         ...rest,
         type: showPassword ? "text" : type,
-        placeholder: "**********",
+        placeholder: showPassword
+          ? revealedPlaceholder
+          : placeholder ?? "**********",
         borderRight: 0,
         w: "100%",
       }}
