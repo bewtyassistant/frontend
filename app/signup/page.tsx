@@ -12,6 +12,7 @@ import useAxios from "../_hooks/useAxios"
 import { useRouter } from "next/navigation"
 import DownChevron from "../_assets/DownChevron"
 import STORAGE_KEYS from "../STORAGE_KEYS"
+import { SignupPayload } from "../_types/User"
 
 export default function Signup() {
   const router = useRouter()
@@ -34,7 +35,7 @@ export default function Signup() {
     }, [])
 
   const signupUser = useCallback(
-    async (body: typeof signupData) => {
+    async (body: SignupPayload) => {
       try {
         return await fetchData({ url: "/users", method: "post", body })
       } catch (err) {
@@ -72,7 +73,8 @@ export default function Signup() {
         return
       }
       setLoading(true)
-      const res = await signupUser(signupData)
+      const { confirmPassword: _, ...payload } = signupData
+      const res = await signupUser(payload)
       if (res?.statusCode === 201) {
         sessionStorage.setItem(STORAGE_KEYS.BA_USER_EMAIL, email)
         router.push("/verify-email")
@@ -127,7 +129,7 @@ export default function Signup() {
               <option value="">Select one</option>
               <option value="client">Client - I want to be pampered</option>
               <option value="vendor">Vendor - I sell beauty products only</option>
-              <option value="service">Service provider - I offer beauty services</option>
+              <option value="service_provider">Service provider - I offer beauty services</option>
             </>
           </AppInput>
           <AppInput
