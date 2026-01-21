@@ -8,9 +8,8 @@ export default function Page() {
     <>
       <AuthLayout
         headingText="Service Provider"
-        subHeadingText="Set up your shop and start providing beauty services"
+        subHeadingText="Provide verifyable information about your store"
         gap={"3rem"}
-        showBackButton
       >
         <VendorStoreCreationForm type={StoreType.service} />
       </AuthLayout>
