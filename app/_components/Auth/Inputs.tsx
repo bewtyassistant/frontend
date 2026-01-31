@@ -179,7 +179,7 @@ export function PasswordInput({
           zIndex="4"
           onClick={() => setShowPassword((prev) => !prev)}
         >
-          {showPassword ? <Eye /> : <EyeClosed />}
+           {showPassword ? <Eye /> : <EyeClosed />}
         </InputRightAddon>
       }
     />
