@@ -58,16 +58,22 @@ export default function ForgotPassword() {
     [email, fetchData, router, toast]
   )
 
+  const handleCancel = useCallback(() => {
+    router.push("/login")
+  }, [router])
+
+
   return (
     <AuthLayout
       headingText="Forgot your password?"
       subHeadingText="Enter your email address and we'll send you a reset code"
+      showBackButton
     >
       <Flex
         alignItems="stretch"
         w="full"
         maxW="40rem"
-        gap="8rem"
+        gap={{ base: "12.1rem", md: "16.6rem" }}
         flexDir="column"
         as="form"
         pt="2rem"
@@ -91,42 +97,18 @@ export default function ForgotPassword() {
           type="submit"
           loadingText="Sending code..."
           isLoading={loading}
+          fontWeight="500"
         >
-          Send reset code
+          send reset code
         </SubmitButton>
-
-        <button
-          style={{
-            alignItems: "center",
-            appearance: "none",
-            backgroundColor: "rgba(255, 255, 255, 1)",
-            backgroundImage: "none",
-            borderRadius: "4px",
-            border: "1px solid rgba(186, 39, 98, 1)",
-            boxSizing: "border-box",
-            color: "rgb(186, 39, 98)",
-            cursor: "pointer",
-            display: "flex",
-            fontSize: "16px",
-            fontWeight: "600",
-            height: "55.1875px",
-            justifyContent: "center",
-            padding: "18px 16px",
-            position: "relative",
-            textAlign: "center",
-            transition: "background-color 0.2s, border-color 0.2s, color 0.2s",
-            userSelect: "none",
-            width: "400px",
-            WebkitFontSmoothing: "antialiased",
-          }}
-
+        <SubmitButton
+          type="button"
+          fontWeight="500"
+          variant="secondary"
+          onClick={handleCancel}
         >
-          <Link href="/" color="brand.main">
-            <Text>
-              cancel
-            </Text>
-          </Link>
-        </button>
+          cancel
+        </SubmitButton>
         </Flex>
       </Flex>
     </AuthLayout>
