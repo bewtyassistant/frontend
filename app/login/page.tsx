@@ -87,7 +87,7 @@ export default function Login() {
         as="form"
         onSubmit={handleSubmit}
       >
-        <Flex flexDir="column" gap="2.4rem" mb="10rem">
+        <Flex flexDir="column" gap="2.4rem" mb={{ base: "2.2rem", md: "8.4rem" }}>
           <AppInput
             label={"Email"}
             inputProps={{
@@ -124,7 +124,7 @@ export default function Login() {
         >
           Login
         </SubmitButton>
-        <Text textAlign="center" color="gray.400" fontSize="1.6rem" mt=".8rem">
+        <Text textAlign="center" color="gray.400" fontSize="1.6rem" mt={{ base: "4.0rem", md: "3.2rem" }}>
           Don&apos;t have an account?{" "}
           <Link href="/signup" color="brand.main">
             Sign Up
