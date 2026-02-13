@@ -29,9 +29,9 @@ export default function ResetPassword() {
     },
   })
   useEffect(() => {
-    if (sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) === null) {
-      router.push("/")
-    }
+    // if (sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) === null) {
+    //   router.push("/")
+    // }
   }, [router])
   const { fetchData } = useAxios()
   const [failedAttempts, setFailedAttempts] = useState(0)
@@ -126,7 +126,7 @@ export default function ResetPassword() {
   return (
     <AuthLayout
       headingText={headingText.heading}
-      subHeadingText={headingText.subHeading}
+     // subHeadingText={headingText.subHeading}
     >
       <Flex
         alignItems="stretch"
@@ -158,6 +158,7 @@ export default function ResetPassword() {
             setFetchError("")
           }}
         />
+        
         <SuccessDisplay
           text="Password reset successful. You can now login with your new password."
           show={isValidPasswordResetCode === true && success === true}

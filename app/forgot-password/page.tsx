@@ -61,7 +61,7 @@ export default function ForgotPassword() {
   return (
     <AuthLayout
       headingText="Forgot your password?"
-      subHeadingText="Enter your email address and we'll send you a reset code"
+      subHeadingText="Enter your email address and we’ll send you a reset code"
     >
       <Flex
         alignItems="stretch"
@@ -95,38 +95,13 @@ export default function ForgotPassword() {
           Send reset code
         </SubmitButton>
 
-        <button
-          style={{
-            alignItems: "center",
-            appearance: "none",
-            backgroundColor: "rgba(255, 255, 255, 1)",
-            backgroundImage: "none",
-            borderRadius: "4px",
-            border: "1px solid rgba(186, 39, 98, 1)",
-            boxSizing: "border-box",
-            color: "rgb(186, 39, 98)",
-            cursor: "pointer",
-            display: "flex",
-            fontSize: "16px",
-            fontWeight: "600",
-            height: "55.1875px",
-            justifyContent: "center",
-            padding: "18px 16px",
-            position: "relative",
-            textAlign: "center",
-            transition: "background-color 0.2s, border-color 0.2s, color 0.2s",
-            userSelect: "none",
-            width: "400px",
-            WebkitFontSmoothing: "antialiased",
-          }}
-
-        >
+        <SubmitButton variant="secondary" type="button">
           <Link href="/" color="brand.main">
             <Text>
               cancel
             </Text>
           </Link>
-        </button>
+        </SubmitButton>
         </Flex>
       </Flex>
     </AuthLayout>
