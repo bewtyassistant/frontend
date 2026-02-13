@@ -29,9 +29,9 @@ export default function ResetPassword() {
     },
   })
   useEffect(() => {
-    // if (sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) === null) {
-    //   router.push("/")
-    // }
+    if (sessionStorage.getItem(STORAGE_KEYS.BA_USER_EMAIL) === null) {
+      router.push("/")
+    }
   }, [router])
   const { fetchData } = useAxios()
   const [failedAttempts, setFailedAttempts] = useState(0)
