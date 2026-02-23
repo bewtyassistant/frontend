@@ -162,6 +162,7 @@ export default function ResetPassword() {
         <SuccessDisplay
           text="Password reset successful. You can now login with your new password."
           show={isValidPasswordResetCode === true && success === true}
+          buttonText="Login"
         />
       </Flex>
     </AuthLayout>
