@@ -126,7 +126,7 @@ export default function ResetPassword() {
   return (
     <AuthLayout
       headingText={headingText.heading}
-     // subHeadingText={headingText.subHeading}
+      subHeadingText={headingText.subHeading}
     >
       <Flex
         alignItems="stretch"

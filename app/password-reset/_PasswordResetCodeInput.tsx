@@ -65,9 +65,7 @@ export default function PasswordResetCodeInput({
         <ErrorTextDisplay
           show={hasError || errorMsg.length > 0 || submissionError.length > 0}
         >
-          <Text whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" fontSize={15}>
           {errorMsg || submissionError}
-          </Text>
         </ErrorTextDisplay>
       </Box>
       <Flex flexDir="column" alignItems="stretch" w="full" gap="2rem" >
@@ -77,9 +75,10 @@ export default function PasswordResetCodeInput({
           type="submit"
           onClick={handleSubmitClick}
         >
-          Submit
+          Reset
         </SubmitButton>
         {hasError && (
+          <>
           <SubmitButton
             variant="transparent"
             as={Link}
@@ -88,8 +87,10 @@ export default function PasswordResetCodeInput({
           >
             Resend Code
           </SubmitButton>
-
-          
+          <Flex justifyContent="center" mt="28px">
+            <Text as={Link} color="red.main" href="#">Contact support</Text>
+          </Flex>
+          </> 
         )}
       </Flex>
     </>
