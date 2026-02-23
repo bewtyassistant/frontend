@@ -58,16 +58,22 @@ export default function ForgotPassword() {
     [email, fetchData, router, toast]
   )
 
+  const handleCancel = useCallback(() => {
+    router.push("/login")
+  }, [router])
+
+
   return (
     <AuthLayout
       headingText="Forgot your password?"
-      subHeadingText="Enter your email address and we’ll send you a reset code"
+      subHeadingText="Enter your email address and we'll send you a reset code"
+      showBackButton
     >
       <Flex
         alignItems="stretch"
         w="full"
         maxW="40rem"
-        gap="8rem"
+        gap={{ base: "12.1rem", md: "16.6rem" }}
         flexDir="column"
         as="form"
         pt="2rem"
@@ -91,16 +97,17 @@ export default function ForgotPassword() {
           type="submit"
           loadingText="Sending code..."
           isLoading={loading}
+          fontWeight="500"
         >
-          Send reset code
+          send reset code
         </SubmitButton>
-
-        <SubmitButton variant="secondary" type="button">
-          <Link href="/" color="brand.main">
-            <Text>
-              cancel
-            </Text>
-          </Link>
+        <SubmitButton
+          type="button"
+          fontWeight="500"
+          variant="secondary"
+          onClick={handleCancel}
+        >
+          cancel
         </SubmitButton>
         </Flex>
       </Flex>
