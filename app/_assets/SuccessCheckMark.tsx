@@ -7,32 +7,14 @@ export default function SuccessCheckMark() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Outer circle border */}
-      <circle
-        cx="100"
-        cy="100"
-        r="98"
-        stroke="#08CE34"
-        strokeWidth="4"
-        fill="none" 
-      />
-
-      {/* Inner green circle */}
-      <circle
-        cx="100"
-        cy="100"
-        r="90"
-        fill="#08CE34"
-      />
-
-      
+      <rect width="200" height="200" rx="100" fill="#00E66F" />
       <path
-        d="M130 75 L95 125 L70 100"
+        d="M133.333 75L87.4998 120.833L66.6665 100"
         stroke="white"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
     </svg>
-  )
+  );
 }

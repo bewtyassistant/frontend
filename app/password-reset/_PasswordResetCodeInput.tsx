@@ -68,16 +68,17 @@ export default function PasswordResetCodeInput({
           {errorMsg || submissionError}
         </ErrorTextDisplay>
       </Box>
-      <Flex flexDir="column" alignItems="stretch" w="full" gap="2rem">
+      <Flex flexDir="column" alignItems="stretch" w="full" gap="2rem" >
         <SubmitButton
           isLoading={loading}
           loadingText="Verifying code..."
           type="submit"
           onClick={handleSubmitClick}
         >
-          Submit
+          Reset
         </SubmitButton>
         {hasError && (
+          <>
           <SubmitButton
             variant="transparent"
             as={Link}
@@ -86,6 +87,10 @@ export default function PasswordResetCodeInput({
           >
             Resend Code
           </SubmitButton>
+          <Flex justifyContent="center" mt="28px">
+            <Text as={Link} color="red.main" href="#">Contact support</Text>
+          </Flex>
+          </> 
         )}
       </Flex>
     </>
