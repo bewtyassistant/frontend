@@ -41,12 +41,8 @@ export default function SuccessDisplay({
       <SubmitButton
         as={Link}
         href={buttonHref || "/login"}
-        type="button"
-        variant="solid"
-        colorScheme="pink" 
-        
-        size="lg"
-        w={{ base: "full", md: "20rem" }}
+        type="submit"
+        variant="primary"
         onClickCapture={(e) => {
           if (typeof onButtonClick === "function") {
             e.preventDefault()
