@@ -1,5 +1,5 @@
 import SuccessCheckMark from "@/app/_assets/SuccessCheckMark"
-import { Flex, Text, Heading } from "@chakra-ui/react"
+import { Flex, Text } from "@chakra-ui/react"
 import Link from "next/link"
 import { SubmitButton } from "./Inputs"
 import { ReactNode } from "react"
@@ -34,29 +34,15 @@ export default function SuccessDisplay({
       px={{ base: "2rem", md: "0" }}
       gap="3rem"
     >
-      {/* Heading
-      <Heading fontSize={{ base: "2xl", md: "3xl" }} fontWeight="medium">
-        Verification successful
-      </Heading> */}
-
-     
       <SuccessCheckMark />
-
-    
       <Text color="gray.500" fontSize={{ base: "md", md: "lg" }} maxW="28rem">
         {text}
-      </Text>
-
-      
+      </Text>      
       <SubmitButton
         as={Link}
         href={buttonHref || "/login"}
-        type="button"
-        variant="solid"
-        colorScheme="pink" 
-        
-        size="lg"
-        w={{ base: "full", md: "20rem" }}
+        type="submit"
+        variant="primary"
         onClickCapture={(e) => {
           if (typeof onButtonClick === "function") {
             e.preventDefault()

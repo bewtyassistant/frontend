@@ -115,7 +115,6 @@ export default function Signup() {
             label={"Signup as a"}
             inputProps={{
               placeholder: "Select account type",
-              color: signupData.accountType ? "dark.100" : "gray.300",
               name: "accountType",
               onChange: handleChange,
               value: signupData.accountType,
@@ -126,7 +125,7 @@ export default function Signup() {
             inputRightAddon={<DownChevron />}
           >
             <>
-              <option value="">Select account type</option>
+              <option value="" disabled>Select account type</option>
               <option value="client">Client - I want to be pampered</option>
               <option value="vendor">Vendor - I sell beauty products only</option>
               <option value="service_provider">Service provider - I offer beauty services</option>
