@@ -1,5 +1,5 @@
-import Eye from "@/app/_assets/Eye"
-import EyeClosed from "@/app/_assets/EyeClosed"
+import Eye from "@/app/_assets/Eye";
+import EyeClosed from "@/app/_assets/EyeClosed";
 import {
   As,
   Box,
@@ -17,11 +17,11 @@ import {
   PinInputProps,
   SelectProps,
   Text,
-} from "@chakra-ui/react"
-import { InputGroup, FormLabel, Input } from "@chakra-ui/react"
-import { ReactNode, useMemo, useState } from "react"
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
-import DownChevron from "@/app/_assets/DownChevron"
+} from "@chakra-ui/react";
+import { InputGroup, FormLabel, Input } from "@chakra-ui/react";
+import { ReactNode, useMemo, useState } from "react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import DownChevron from "@/app/_assets/DownChevron";
 
 export function AppFormLabel({ children, ...otherProps }: FormLabelProps) {
   return (
@@ -34,7 +34,7 @@ export function AppFormLabel({ children, ...otherProps }: FormLabelProps) {
     >
       {children}
     </FormLabel>
-  )
+  );
 }
 export function AppInput({
   label,
@@ -47,21 +47,21 @@ export function AppInput({
   as,
   children,
   helperText,
-  containerProps
+  containerProps,
 }: {
-  label: string
-  inputProps: InputProps & SelectProps
-  labelProps?: FormLabelProps
-  containerProps?: BoxProps
-  inputRightAddon?: ReactNode
-  inputLeftAddon?: ReactNode
-  hasError?: boolean
-  errorDescription?: string
-  as?: As
-  children?: ReactNode | ReactNode[]
-  helperText?: string
+  label: string;
+  inputProps: InputProps & SelectProps;
+  labelProps?: FormLabelProps;
+  containerProps?: BoxProps;
+  inputRightAddon?: ReactNode;
+  inputLeftAddon?: ReactNode;
+  hasError?: boolean;
+  errorDescription?: string;
+  as?: As;
+  children?: ReactNode | ReactNode[];
+  helperText?: string;
 }) {
-  const { ...otherInputProps } = inputProps
+  const { ...otherInputProps } = inputProps;
 
   const inputGroupProps = {
     _focus: {
@@ -73,7 +73,7 @@ export function AppInput({
       boxShadow: "none",
       borderColor: "dark.100",
     },
-  }
+  };
   return (
     <Box flexDir="column" w="full" maxW="40rem" {...containerProps}>
       <AppFormLabel {...labelProps} htmlFor={otherInputProps.id}>
@@ -84,7 +84,6 @@ export function AppInput({
         border="1px solid"
         borderColor={hasError ? "red" : "gray.300"}
         alignItems="center"
-        px="1.3rem"
         pos="relative"
       >
         {inputLeftAddon}
@@ -94,8 +93,17 @@ export function AppInput({
           fontSize="1.6rem"
           lineHeight="normal"
           rounded=".2rem"
+          px="2.3rem"
           py="1.1rem"
-          color={inputProps.value ? "dark.100" : "gray.300"}
+          sx={{
+            color: inputProps.value ? "dark.100" : "gray.300",
+            "& option": {
+              color: "black",
+            },
+            "& option:disabled": {
+              color: "#A0AEC0", // gray
+            },
+          }}
           as={as}
           w="full"
           pos="relative"
@@ -126,7 +134,7 @@ export function AppInput({
         </Text>
       )}
     </Box>
-  )
+  );
 }
 
 export function SubmitButton({
@@ -138,7 +146,7 @@ export function SubmitButton({
     <Button variant={variant || "filled"} {...props}>
       {children}
     </Button>
-  )
+  );
 }
 
 export function PasswordInput({
@@ -148,14 +156,14 @@ export function PasswordInput({
   errorDescription,
   hasError,
 }: {
-  label: string
-  inputProps: InputProps & SelectProps
-  revealedPlaceholder?: string
-  errorDescription: string
-  hasError?: boolean
+  label: string;
+  inputProps: InputProps & SelectProps;
+  revealedPlaceholder?: string;
+  errorDescription: string;
+  hasError?: boolean;
 }) {
-  const { type, placeholder, ...rest } = inputProps
-  const [showPassword, setShowPassword] = useState(false)
+  const { type, placeholder, ...rest } = inputProps;
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <AppInput
       label={label}
@@ -164,7 +172,7 @@ export function PasswordInput({
         type: showPassword ? "text" : type,
         placeholder: showPassword
           ? revealedPlaceholder
-          : placeholder ?? "**********",
+          : (placeholder ?? "**********"),
         borderRight: 0,
         w: "100%",
       }}
@@ -183,25 +191,25 @@ export function PasswordInput({
         </InputRightAddon>
       }
     />
-  )
+  );
 }
 
 interface CustomPinInputProps extends PinInputProps {
-  children: undefined
+  children: undefined;
 }
 export function CustomPinInput({
   pinInputFieldProps,
   pinInputProps,
   fieldsCount,
 }: {
-  pinInputProps: CustomPinInputProps
-  pinInputFieldProps: PinInputFieldProps
-  fieldsCount: number
+  pinInputProps: CustomPinInputProps;
+  pinInputFieldProps: PinInputFieldProps;
+  fieldsCount: number;
 }) {
   const fieldsArray = useMemo(
     () => new Array(fieldsCount).fill(null).map((_, idx) => idx),
-    [fieldsCount]
-  )
+    [fieldsCount],
+  );
   return (
     <PinInput placeholder="" focusBorderColor="brand.400" {...pinInputProps}>
       {fieldsArray.map((field) => (
@@ -215,7 +223,7 @@ export function CustomPinInput({
         />
       ))}
     </PinInput>
-  )
+  );
 }
 
 export function AuthCustomSelect({
@@ -226,16 +234,16 @@ export function AuthCustomSelect({
   placeholderProps,
 }: {
   options: {
-    displayValue: string
-    value: any
-  }[]
-  handleSelect: (value: any) => void
-  placeholder: any
+    displayValue: string;
+    value: any;
+  }[];
+  handleSelect: (value: any) => void;
+  placeholder: any;
   selectedOptions?: {
-    displayValue: string
-    value: any
-  }[]
-  placeholderProps?: BoxProps
+    displayValue: string;
+    value: any;
+  }[];
+  placeholderProps?: BoxProps;
 }) {
   return (
     <Flex flexDir="column" w="full" maxW="40rem">
@@ -280,7 +288,7 @@ export function AuthCustomSelect({
               onClick={() => handleSelect(option.value)}
               bg={
                 selectedOptions.some(
-                  (it) => it.displayValue === option.displayValue
+                  (it) => it.displayValue === option.displayValue,
                 )
                   ? "brand.10"
                   : ""
@@ -292,7 +300,7 @@ export function AuthCustomSelect({
         </MenuList>
       </Menu>
     </Flex>
-  )
+  );
 }
 
 export function CustomSelect({
@@ -303,16 +311,16 @@ export function CustomSelect({
   selectedOption,
 }: {
   options: {
-    displayValue: string
-    value: any
-  }[]
-  handleSelect: (value: any) => void
-  placeholder: any
+    displayValue: string;
+    value: any;
+  }[];
+  handleSelect: (value: any) => void;
+  placeholder: any;
   selectedOption?: {
-    displayValue: string
-    value: any
-  }
-  placeholderProps?: BoxProps
+    displayValue: string;
+    value: any;
+  };
+  placeholderProps?: BoxProps;
 }) {
   return (
     <Flex flexDir="column" w="full" maxW="40rem">
@@ -368,5 +376,5 @@ export function CustomSelect({
         </MenuList>
       </Menu>
     </Flex>
-  )
+  );
 }

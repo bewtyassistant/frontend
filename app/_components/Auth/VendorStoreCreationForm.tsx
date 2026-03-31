@@ -128,10 +128,15 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
           errorDescription={errors.name}
           label={"Store name"}
           inputProps={{
+            placeholder: "Bewty Assistant stores",
             type: "text",
             value: storeData.name,
             name: "name",
+            fontSize: "1.4rem",
             onChange: (e) => handleChange("name", e.target.value),
+          }}
+          labelProps={{
+            fontWeight: 400,
           }}
         />
         <AppInput
@@ -139,81 +144,100 @@ export default function VendorStoreCreationForm({ type }: { type: StoreType }) {
           errorDescription={errors.phoneNumber}
           label={"Phone number"}
           inputProps={{
+            placeholder: "0801234567",
             type: "tel",
             value: storeData.phoneNumber,
             name: "phoneNumber",
+            fontSize: "1.4rem",
             onChange: (e) => handleChange("phoneNumber", e.target.value),
+          }}
+          labelProps={{
+            fontWeight: 400,
           }}
         />
         <AppInput
           hasError={Boolean(errors.address)}
           errorDescription={errors.address}
-          label={"Shop address"}
+          label={"Store address/ House address (vendors without stores)"}
           inputProps={{
+            placeholder: "No2  Liverpool street,",
             type: "text",
             value: storeData.address,
             name: "address",
+            fontSize: "1.4rem",
             onChange: (e) => handleChange("address", e.target.value),
           }}
+          labelProps={{
+            fontWeight: 400,
+          }}
         />
-        <Flex gap="1rem" flexWrap={{ base: "wrap", sm: "nowrap" }}>
-          <AppInput
-            hasError={Boolean(errors.state)}
-            errorDescription={errors.state}
-            label={"State"}
-            inputProps={{
-              maxW: { base: "19.5rem", sm: "unset" },
-              value: storeData.state,
-              name: "state",
-              onChange: (e) => {
-                handleChange("state", e.target.value)
-                handleChange("city", "")
-              },
-            }}
-            as="select"
-            inputRightAddon={<DownChevron />}
-          >
-            <option value=""></option>
-            {statesInNigeria.map((state) => (
-              <option value={state.name} key={state.name}>
-                {state.name}
-              </option>
-            ))}
-          </AppInput>
-          <AppInput
-            hasError={Boolean(errors.city)}
-            errorDescription={errors.city}
-            label={"City"}
-            inputProps={{
-              maxW: { base: "19.5rem", sm: "unset" },
-              value: storeData.city,
-              name: "city",
-              onChange: (e) => handleChange("city", e.target.value),
-            }}
-            as="select"
-            inputRightAddon={<DownChevron />}
-          >
-            <option value=""></option>
-            {(
-              citiesInNigeria[
-                storeData.state as keyof typeof citiesInNigeria
-              ] || []
-            ).map((city) => (
-              <option value={city} key={city}>
-                {city}
-              </option>
-            ))}
-          </AppInput>
-        </Flex>
+        <AppInput
+          hasError={Boolean(errors.state)}
+          errorDescription={errors.state}
+          label={"State"}
+          inputProps={{
+            maxW: { base: "19.5rem", sm: "unset" },
+            value: storeData.state,
+            name: "state",
+            onChange: (e) => {
+              handleChange("state", e.target.value)
+              handleChange("city", "")
+            },
+          }}
+          as="select"
+          inputRightAddon={<DownChevron />}
+          labelProps={{
+            fontWeight: 400,
+          }}
+        >
+          <option value="">Bewty state</option>
+          {statesInNigeria.map((state) => (
+            <option value={state.name} key={state.name}>
+              {state.name}
+            </option>
+          ))}
+        </AppInput>
+        <AppInput
+          hasError={Boolean(errors.city)}
+          errorDescription={errors.city}
+          label={"City"}
+          inputProps={{
+            maxW: { base: "19.5rem", sm: "unset" },
+            value: storeData.city,
+            name: "city",
+            onChange: (e) => handleChange("city", e.target.value),
+          }}
+          as="select"
+          inputRightAddon={<DownChevron />}
+          labelProps={{
+            fontWeight: 400,
+          }}
+        >
+          <option value="">Bewty state</option>
+          {(
+            citiesInNigeria[
+              storeData.state as keyof typeof citiesInNigeria
+            ] || []
+          ).map((city) => (
+            <option value={city} key={city}>
+              {city}
+            </option>
+          ))}
+        </AppInput>
         <AppInput
           hasError={Boolean(errors.nearestLandmark)}
           errorDescription={errors.nearestLandmark}
           label={"Landmark closest to store"}
           inputProps={{
+            placeholder: "Opposite green building by the juction",
             type: "text",
             value: storeData.nearestLandmark,
             name: "nearestLandmark",
+            fontSize: "1.4rem",
             onChange: (e) => handleChange("nearestLandmark", e.target.value),
+          }}
+          labelProps={{
+            fontWeight: 400,
           }}
         />
         <SubmitButton

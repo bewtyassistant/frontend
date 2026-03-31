@@ -158,9 +158,11 @@ export default function ResetPassword() {
             setFetchError("")
           }}
         />
+        
         <SuccessDisplay
           text="Password reset successful. You can now login with your new password."
           show={isValidPasswordResetCode === true && success === true}
+          buttonText="Login"
         />
       </Flex>
     </AuthLayout>

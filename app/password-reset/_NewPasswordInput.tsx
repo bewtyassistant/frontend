@@ -45,6 +45,7 @@ export default function NewPasswordInput({
         <PasswordInput
           label={"Password"}
           inputProps={{
+            type: "password",
             placeholder: "**********",
             value: newPassword.password,
             onChange: handleChange as any,
@@ -56,6 +57,7 @@ export default function NewPasswordInput({
         <PasswordInput
           label={"Re-type password"}
           inputProps={{
+            type: "password",
             placeholder: "**********",
             value: newPassword.confirmPassword,
             name: "confirmPassword",
@@ -71,7 +73,7 @@ export default function NewPasswordInput({
         loadingText="Please wait..."
         isLoading={loading}
       >
-        Reset password
+        Change password
       </SubmitButton>
     </>
   )
